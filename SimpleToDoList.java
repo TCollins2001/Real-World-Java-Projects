@@ -30,7 +30,6 @@ public class SimpleToDoList {
     static void listTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
             System.out.println("No Tasks Yet!");
-            return;
         } else {
             System.out.println("Your Tasks!");
             for (int i = 0; i < tasks.size(); i++) {
@@ -42,6 +41,17 @@ public class SimpleToDoList {
     public static void main(String[] args) {
         List<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("1. Add Task");
+            System.out.println("2. View Task List");
+            System.out.println("3. Exit");
+
+            System.out.println();
+
+            System.out.println("Enter Choice: ");
+            String userChoice = scanner.nextLine().trim();
+        }
     }
 }
 
