@@ -38,7 +38,7 @@ public class SimpleToDoList {
         }
     }
 
-    static void removeTask(List<Task> tasks, Scanner scanner) {
+    static void removeTasks(List<Task> tasks, Scanner scanner) {
         if (tasks.isEmpty()) {
             System.out.println("No Tasks To Remove!");
             return;
@@ -46,25 +46,26 @@ public class SimpleToDoList {
 
         listTasks(tasks);
         System.out.println();
-        System.out.println("Enter The Task Number You Want To Remove: ");
+        System.out.println("Enter Task Number You Want To Remove: ");
         String removedInput = scanner.nextLine().trim();
 
-        /* converting user string to int */
+        /* convert string to index */
 
-       int index;
+        int index;
 
-       try {
-           index = Integer.parseInt(removedInput) - 1;
-       } catch (NumberFormatException e) {
-           System.out.println("Entry Was Not A Number. Try Again.");
-           return;
-       }
+        try {
+            index = Integer.parseInt(removedInput) - 1;
+        } catch (NumberFormatException e) {
+            System.out.println("Entry Was Not A Number. Try Again.");
+            return;
+        }
 
-       if (index < 0 || index > tasks.size()) {
-           System.out.println("Number Does Not Exist On List. Try Again.");
-           return;
-       }
-       Task removed = tasks.remove(index);
+        if (index < 0 || index > tasks.size()) {
+            System.out.println("Number Not On Task List. Try Again.");
+            return;
+        }
+
+        Task removed = tasks.remove(index);
         System.out.println("Task \"" + removed + "\" Removed!");
     }
 
@@ -94,7 +95,7 @@ public class SimpleToDoList {
                     listTasks(tasks);
                     break;
                 case "3":
-                    removeTask(tasks, scanner);
+                    removeTasks(tasks, scanner);
                     break;
                 case "4":
                     System.out.println("Exited :)");
