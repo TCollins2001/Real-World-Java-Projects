@@ -11,6 +11,11 @@ class Bank {
 
 public class BankAccount {
 
+    static void viewBalance (Bank bank) {
+        System.out.printf("Your Balance: $%.2f", bank.userBalance);
+
+    }
+
     static void makeDeposit(Bank bank, Scanner scanner) {
 
         while (true) {
@@ -60,6 +65,8 @@ public class BankAccount {
 
            switch (userChoice) {
                case "1":
+                   viewBalance(bank);
+                   break;
                case "2":
                    makeDeposit(bank, scanner);
                    break;
