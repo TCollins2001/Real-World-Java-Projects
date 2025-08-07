@@ -8,15 +8,36 @@ public class SimpleCalculator {
 
         System.out.println();
 
-        System.out.println("Enter First Number: ");
+        System.out.print("Enter First Number: ");
         int userInputOne = scanner.nextInt();
 
         System.out.println();
 
-        System.out.println("Enter First Number: ");
+        System.out.print("Enter Second Number: ");
         int userInputTwo = scanner.nextInt();
 
-        System.out.println("Enter +, -, *, or /: ");
+        System.out.println();
+
+        System.out.print("Enter +, -, *, or /: ");
         String operator = scanner.next();
+
+        System.out.println();
+
+        switch (operator) {
+            case "+":
+                System.out.println("= " + (userInputOne + userInputTwo));
+                break;
+            case "-":
+                System.out.println("= " + (userInputOne - userInputTwo));
+                break;
+            case "*":
+                System.out.println("= " + (userInputOne * userInputTwo));
+                break;
+            case "/":
+                System.out.println("= " + (userInputOne / userInputTwo));
+                break;
+            default:
+                System.out.println("Invalid Input. No Result Available.");
+        }
     }
 }
