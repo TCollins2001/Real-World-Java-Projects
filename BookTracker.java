@@ -35,9 +35,26 @@ public class BookTracker {
         bookList.add(new Book("Harry Potter and the Sorcerer's Stone"));
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println();
         System.out.println("1. View Book List");
         System.out.println("2. Exit");
 
         System.out.println();
+
+        System.out.print("Enter Number Choice: ");
+        String userChoice = scanner.nextLine().trim();
+
+        switch (userChoice) {
+            case "1":
+                listBooks(bookList);
+                break;
+            case "2":
+                System.out.println();
+                System.out.println("Exited :)");
+                scanner.close();
+                return;
+            default:
+                System.out.println("Invalid Entry. Try Again.");
+        }
     }
 }
