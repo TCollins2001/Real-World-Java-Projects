@@ -25,40 +25,50 @@ public class BookTracker {
         }
     }
 
-        static void borrowBooks(List<Book> bookList, Scanner scanner) {
+    static void borrowBooks(List<Book> bookList, Scanner scanner) {
 
-            while (true) {
-                listBooks(bookList);
-                System.out.println();
-                System.out.print("Enter Book Title: ");
-                String userBorrowed = scanner.nextLine().trim();
+        while (true) {
+            listBooks(bookList);
+            System.out.println();
+            System.out.print("Enter Book Title: ");
+            String userBorrowed = scanner.nextLine().trim();
 
-                System.out.println();
+            System.out.println();
 
-                if (userBorrowed.isEmpty()) {
-                    System.out.println("Empty Entry. Try Again.");
-                    return;
-                }
+            if (userBorrowed.isEmpty()) {
+                System.out.println("Empty Entry. Try Again.");
+                return;
+            }
 
-                boolean bookFound = false;
+            boolean bookFound = false;
 
-                Iterator<Book> iterator = bookList.iterator();
+            Iterator<Book> iterator = bookList.iterator();
 
-                while (iterator.hasNext()) {
-                    Book book = iterator.next();
-                        if (book.bookTitle.equalsIgnoreCase(userBorrowed)) {
-                            bookFound = true;
-                            System.out.println("You Borrowed " + book.bookTitle + "!");
-                            iterator.remove();
-                            break;
-                        }
-                    }
-
-                if (!bookFound) {
+            while (iterator.hasNext()) {
+                Book book = iterator.next();
+                if (book.bookTitle.equalsIgnoreCase(userBorrowed)) {
+                    bookFound = true;
+                    System.out.println("You Borrowed " + book.bookTitle + "!");
+                    iterator.remove();
                     break;
                 }
             }
+
+            if (!bookFound) {
+                System.out.println("Book Already Borrowed!");
+                break;
+            }
+
+            System.out.println();
+            System.out.println("Want To Borrow Another? (Y/N): ");
+            char userYN = scanner.next().trim().toUpperCase().charAt(0);
+            scanner.nextLine();
+
+            if (userYN != 'Y') {
+                break;
+            }
         }
+    }
 
     public static void main(String[] args) {
         List<Book> bookList = new ArrayList<>();
@@ -68,30 +78,32 @@ public class BookTracker {
         bookList.add(new Book("Harry Potter and the Sorcerer's Stone"));
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println();
-        System.out.println("1. View Book List");
-        System.out.println("2. Borrow Book");
-        System.out.println("3. Exit");
 
-        System.out.println();
+        while (true) {
+            System.out.println();
+            System.out.println("1. View Book List");
+            System.out.println("2. Borrow Book");
+            System.out.println("3. Exit");
 
-        System.out.print("Enter Number Choice: ");
-        String userChoice = scanner.nextLine().trim();
+            System.out.println();
 
-        switch (userChoice) {
-            case "1":
-                listBooks(bookList);
-                break;
-            case "2":
-                borrowBooks(bookList, scanner);
-                break;
-            case "3":
-                System.out.println();
-                System.out.println("Exited :)");
-                scanner.close();
-                return;
-            default:
-                System.out.println("Invalid Entry. Try Again.");
+            System.out.print("Enter Number Choice: ");
+            String userChoice = scanner.nextLine().trim();
+            switch (userChoice) {
+                case "1":
+                    listBooks(bookList);
+                    break;
+                case "2":
+                    borrowBooks(bookList, scanner);
+                    break;
+                case "3":
+                    System.out.println();
+                    System.out.println("Exited :)");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid Entry. Try Again.");
+            }
         }
     }
 }
