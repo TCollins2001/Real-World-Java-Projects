@@ -25,7 +25,40 @@ public class BookTracker {
         }
     }
 
+        static void borrowBooks(List<Book> bookList, Scanner scanner) {
 
+            while (true) {
+                listBooks(bookList);
+                System.out.println();
+                System.out.print("Enter Book Title: ");
+                String userBorrowed = scanner.nextLine().trim();
+
+                System.out.println();
+
+                if (userBorrowed.isEmpty()) {
+                    System.out.println("Empty Entry. Try Again.");
+                    return;
+                }
+
+                boolean bookFound = false;
+
+                Iterator<Book> iterator = bookList.iterator();
+
+                while (iterator.hasNext()) {
+                    Book book = iterator.next();
+                        if (book.bookTitle.equalsIgnoreCase(userBorrowed)) {
+                            bookFound = true;
+                            System.out.println("You Borrowed " + book.bookTitle + "!");
+                            iterator.remove();
+                            break;
+                        }
+                    }
+
+                if (!bookFound) {
+                    break;
+                }
+            }
+        }
 
     public static void main(String[] args) {
         List<Book> bookList = new ArrayList<>();
@@ -37,7 +70,8 @@ public class BookTracker {
 
         System.out.println();
         System.out.println("1. View Book List");
-        System.out.println("2. Exit");
+        System.out.println("2. Borrow Book");
+        System.out.println("3. Exit");
 
         System.out.println();
 
@@ -49,6 +83,9 @@ public class BookTracker {
                 listBooks(bookList);
                 break;
             case "2":
+                borrowBooks(bookList, scanner);
+                break;
+            case "3":
                 System.out.println();
                 System.out.println("Exited :)");
                 scanner.close();
