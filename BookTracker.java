@@ -56,11 +56,10 @@ public class BookTracker {
 
             if (!bookFound) {
                 System.out.println("Book Already Borrowed!");
-                break;
             }
 
             System.out.println();
-            System.out.println("Want To Borrow Another? (Y/N): ");
+            System.out.print("Want To Borrow Another? (Y/N): ");
             char userYN = scanner.next().trim().toUpperCase().charAt(0);
             scanner.nextLine();
 
