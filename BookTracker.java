@@ -26,7 +26,6 @@ public class BookTracker {
     }
 
     static void borrowBooks(List<Book> bookList, Scanner scanner) {
-
         while (true) {
             listBooks(bookList);
             System.out.println();
@@ -55,7 +54,7 @@ public class BookTracker {
             }
 
             if (!bookFound) {
-                System.out.println("Book Already Borrowed!");
+                System.out.println("Book Was Not Found.");
             }
 
             System.out.println();
