@@ -69,12 +69,30 @@ public class BookTracker {
         }
     }
 
+    static void returnBooks (List<Book> bookList, Scanner scanner) {
+        System.out.println();
+        System.out.print("Enter Book Title: ");
+        String userReturned = scanner.nextLine().trim();
+
+        if (userReturned.isEmpty()) {
+            System.out.println("Empty Entry. Try Again.");
+            return;
+        }
+
+        Book returnedBook = new Book(userReturned);
+        bookList.add(returnedBook);
+        bookList.sort(Comparator.comparing(b -> b.bookTitle.toLowerCase()));
+
+        System.out.println();
+        System.out.println("You Returned " + returnedBook + "!");
+    }
+
     public static void main(String[] args) {
         List<Book> bookList = new ArrayList<>();
-        bookList.add(new Book("The Lord of the Rings"));
-        bookList.add(new Book("The Da Vinci Code"));
-        bookList.add(new Book("To Kill a Mockingbird"));
         bookList.add(new Book("Harry Potter and the Sorcerer's Stone"));
+        bookList.add(new Book("The Da Vinci Code"));
+        bookList.add(new Book("The Lord of the Rings"));
+        bookList.add(new Book("To Kill a Mockingbird"));
         Scanner scanner = new Scanner(System.in);
 
 
@@ -82,7 +100,8 @@ public class BookTracker {
             System.out.println();
             System.out.println("1. View Book List");
             System.out.println("2. Borrow Book");
-            System.out.println("3. Exit");
+            System.out.println("3. Return Book");
+            System.out.println("4. Exit");
 
             System.out.println();
 
@@ -96,11 +115,15 @@ public class BookTracker {
                     borrowBooks(bookList, scanner);
                     break;
                 case "3":
+                    returnBooks(bookList, scanner);
+                    break;
+                case "4":
                     System.out.println();
                     System.out.println("Exited :)");
                     scanner.close();
                     return;
                 default:
+                    System.out.println();
                     System.out.println("Invalid Entry. Try Again.");
             }
         }
