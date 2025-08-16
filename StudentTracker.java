@@ -55,6 +55,7 @@ public class StudentTracker {
                     System.out.println();
                     System.out.println("Entry Empty. Try Again.");
                 }
+
             } catch (NumberFormatException e) {
                 System.out.println("Entry Not A Number. Try Again.");
             }
