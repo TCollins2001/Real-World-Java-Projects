@@ -70,6 +70,23 @@ public class StudentTracker {
             }
         }
 
+        static void classAverage(List<Student> studentList) {
+            System.out.println();
+
+            if (studentList.isEmpty()) {
+                System.out.println("No Students Or Grades Added Yet");
+            } else {
+                double sum = 0;
+                for (Student student : studentList) {
+                    sum += student.grades;
+                }
+                double classAverage = sum / studentList.size();
+                System.out.printf("Class Average = %.2f%%", classAverage);
+
+                System.out.println();
+            }
+        }
+
     public static void main(String[] args) {
         List<Student> studentList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -78,7 +95,8 @@ public class StudentTracker {
             System.out.println();
             System.out.println("1. View Student List");
             System.out.println("2. Add Student");
-            System.out.println("3. Exit");
+            System.out.println("3. Class Average");
+            System.out.println("4. Exit");
             System.out.println();
             System.out.print("Enter Choice: ");
             String userChoice = scanner.nextLine().trim();
@@ -91,6 +109,9 @@ public class StudentTracker {
                     addStudent(studentList, scanner);
                     break;
                 case "3":
+                    classAverage(studentList);
+                    break;
+                case "4":
                     System.out.println();
                     System.out.println("Exited :)");
                     scanner.close();
@@ -111,9 +132,5 @@ Student Grade Tracker:
 Store students’ names and grades.
 
 Calculate average, highest, and lowest grade.
-
-Optional: Letter grades (A, B, C…).
-
-Concepts: arrays/lists, loops, calculations.
 
 */
