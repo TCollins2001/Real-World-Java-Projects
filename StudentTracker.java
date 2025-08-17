@@ -18,20 +18,6 @@ class Student {
 
 public class StudentTracker {
 
-    static void viewStudentList(List<Student> studentList) {
-        System.out.println();
-        if (studentList.isEmpty()) {
-            System.out.println("No Students Added Yet.");
-        } else {
-            System.out.println("Student List");
-            System.out.println("-------------");
-            studentList.sort(Comparator.comparing(s -> s.name));
-            for (int i = 0; i < studentList.size(); i++) {
-                System.out.println((i + 1) + ". " + studentList.get(i));
-            }
-        }
-    }
-
     static void addStudent(List<Student> studentList, Scanner scanner) {
         while (true) {
             System.out.println();
@@ -59,18 +45,32 @@ public class StudentTracker {
                 System.out.println("Entry Not A Number. Try Again.");
             }
 
-                System.out.println();
-                System.out.print("Do You Want To Add Another Name? (Y/N): ");
-                char userYN = scanner.next().toUpperCase().charAt(0);
-                scanner.nextLine();
+            System.out.println();
+            System.out.print("Do You Want To Add Another Name? (Y/N): ");
+            char userYN = scanner.next().toUpperCase().charAt(0);
+            scanner.nextLine();
 
-                if (userYN != 'Y') {
-                    return;
-                }
+            if (userYN != 'Y') {
+                return;
             }
         }
+    }
 
-        static void classAverage(List<Student> studentList) {
+    static void viewStudentList(List<Student> studentList) {
+        System.out.println();
+        if (studentList.isEmpty()) {
+            System.out.println("No Students Added Yet.");
+        } else {
+            System.out.println("Student List");
+            System.out.println("-------------");
+            studentList.sort(Comparator.comparing(s -> s.name));
+            for (int i = 0; i < studentList.size(); i++) {
+                System.out.println((i + 1) + ". " + studentList.get(i));
+            }
+        }
+    }
+
+        static void viewClassAverage(List<Student> studentList) {
             System.out.println();
 
             if (studentList.isEmpty()) {
@@ -87,31 +87,50 @@ public class StudentTracker {
             }
         }
 
+        static void viewHighestLowestGrades(List<Student> studentList) {
+            System.out.println();
+
+            if (studentList.isEmpty()) {
+                System.out.println("No Students Or Grades Added Yet");
+            } else {
+                Student highestGrade = Collections.max(studentList, Comparator.comparingDouble(s -> s.grades));
+                Student lowestGrade = Collections.min(studentList, Comparator.comparingDouble(s -> s.grades));
+
+                System.out.println("Highest Grade = " + highestGrade);
+                System.out.println();
+                System.out.println("Lowest Grade = " + lowestGrade);
+            }
+        }
+
     public static void main(String[] args) {
         List<Student> studentList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.println();
-            System.out.println("1. View Student List");
-            System.out.println("2. Add Student");
-            System.out.println("3. Class Average");
-            System.out.println("4. Exit");
+            System.out.println("1. Add Student");
+            System.out.println("2. View Student List");
+            System.out.println("3. View Class Average");
+            System.out.println("4. View Highest And Lowest");
+            System.out.println("5. Exit");
             System.out.println();
             System.out.print("Enter Choice: ");
             String userChoice = scanner.nextLine().trim();
 
             switch (userChoice) {
                 case "1":
-                    viewStudentList(studentList);
-                    break;
-                case "2":
                     addStudent(studentList, scanner);
                     break;
+                case "2":
+                    viewStudentList(studentList);
+                    break;
                 case "3":
-                    classAverage(studentList);
+                    viewClassAverage(studentList);
                     break;
                 case "4":
+                    viewHighestLowestGrades(studentList);
+                    break;
+                case "5":
                     System.out.println();
                     System.out.println("Exited :)");
                     scanner.close();
