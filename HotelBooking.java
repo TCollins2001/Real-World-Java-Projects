@@ -1,13 +1,13 @@
 import java.util.*;
 
-class Management {
+class RoomManagement {
 
     int roomNum;
     String roomType;
     String pricePerNight;
     boolean isAvailable;
 
-    Management(int roomNum, String roomType, String pricePerNight) {
+    RoomManagement(int roomNum, String roomType, String pricePerNight) {
 
         this.roomNum = roomNum;
         this.roomType = roomType;
@@ -24,7 +24,7 @@ class Management {
 
 public class HotelBooking {
 
-    static void viewRooms(List<Management> roomList) {
+    static void viewRooms(List<RoomManagement> roomList) {
         System.out.println();
         System.out.println("List Of Rooms: ");
         System.out.println("---------------");
@@ -33,7 +33,7 @@ public class HotelBooking {
         }
     }
 
-    static void bookRooms(List<Management> roomList, Scanner scanner) {
+    static void bookRooms(List<RoomManagement> roomList, Scanner scanner) {
 
         while (true) {
             viewRooms(roomList);
@@ -47,7 +47,7 @@ public class HotelBooking {
                 return;
             }
 
-            Management selectedRoom = roomList.get(userRoomChoice - 1);
+            RoomManagement selectedRoom = roomList.get(userRoomChoice - 1);
 
             if (selectedRoom.isAvailable) {
                 selectedRoom.isAvailable = false;
@@ -68,11 +68,11 @@ public class HotelBooking {
     }
 
     public static void main(String[] args) {
-        List<Management> roomList = new ArrayList<>();
-        roomList.add(new Management(100, "Single", "$100"));
-        roomList.add(new Management(101, "Single", "$100"));
-        roomList.add(new Management(102, "Double", "$150"));
-        roomList.add(new Management(103, "Suite", "$250"));
+        List<RoomManagement> roomList = new ArrayList<>();
+        roomList.add(new RoomManagement(100, "Single", "$100"));
+        roomList.add(new RoomManagement(101, "Single", "$100"));
+        roomList.add(new RoomManagement(102, "Double", "$150"));
+        roomList.add(new RoomManagement(103, "Suite", "$250"));
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
