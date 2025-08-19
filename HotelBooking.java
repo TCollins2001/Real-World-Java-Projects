@@ -22,6 +22,21 @@ class RoomManagement {
     }
 }
 
+class BookManagement {
+    String name;
+    RoomManagement room;
+    String checkIn;
+    String checkOut;
+    double totalPrice;
+
+    BookManagement(String name, String checkIn, String checkOut, double totalPrice) {
+        this.name = name;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.totalPrice = totalPrice;
+    }
+}
+
 public class HotelBooking {
 
     static void viewRooms(List<RoomManagement> roomList) {
