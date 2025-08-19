@@ -36,7 +36,6 @@ public class HotelBooking {
     static void bookRooms(List<Management> roomList, Scanner scanner) {
 
         while (true) {
-            System.out.println();
             viewRooms(roomList);
             System.out.println();
             System.out.print("Enter Number Choice Of Room: ");
@@ -60,6 +59,7 @@ public class HotelBooking {
             System.out.println();
             System.out.print("Do You Wanna Book Another? (Y/N): ");
             char userYN = scanner.next().trim().toUpperCase().charAt(0);
+            scanner.nextLine();
 
             if (userYN != 'Y') {
                 break;
@@ -75,7 +75,31 @@ public class HotelBooking {
         roomList.add(new Management(103, "Suite", "$250"));
         Scanner scanner = new Scanner(System.in);
 
-        bookRooms(roomList, scanner);
+        while (true) {
+            System.out.println();
+            System.out.println("1. View Rooms");
+            System.out.println("2. Book Rooms");
+            System.out.println("3. Exit");
+            System.out.println();
+            System.out.print("Enter Number Choice: ");
+            String userChoice = scanner.nextLine().trim();
+
+            switch (userChoice) {
+                case "1":
+                    viewRooms(roomList);
+                    break;
+                case "2":
+                    bookRooms(roomList, scanner);
+                    break;
+                case "3":
+                    System.out.println();
+                    System.out.println("Exited :)");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid Number Choice. Try Again.");
+            }
+        }
     }
 }
 
