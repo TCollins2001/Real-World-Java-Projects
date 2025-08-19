@@ -33,6 +33,40 @@ public class HotelBooking {
         }
     }
 
+    static void bookRooms(List<Management> roomList, Scanner scanner) {
+
+        while (true) {
+            System.out.println();
+            viewRooms(roomList);
+            System.out.println();
+            System.out.print("Enter Number Choice Of Room: ");
+            int userRoomChoice = scanner.nextInt();
+            System.out.println();
+
+            if (userRoomChoice < 1 || userRoomChoice > roomList.size()) {
+                System.out.println("Invalid Choice. Try Again.");
+                return;
+            }
+
+            Management selectedRoom = roomList.get(userRoomChoice - 1);
+
+            if (selectedRoom.isAvailable) {
+                selectedRoom.isAvailable = false;
+                System.out.println("Congratulations! You've Booked Room " + selectedRoom.roomNum + "!");
+            } else {
+                System.out.println("Room Already Booked And Currently Unavailable!");
+            }
+
+            System.out.println();
+            System.out.print("Do You Wanna Book Another? (Y/N): ");
+            char userYN = scanner.next().trim().toUpperCase().charAt(0);
+
+            if (userYN != 'Y') {
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         List<Management> roomList = new ArrayList<>();
         roomList.add(new Management(100, "Single", "$100"));
@@ -41,7 +75,7 @@ public class HotelBooking {
         roomList.add(new Management(103, "Suite", "$250"));
         Scanner scanner = new Scanner(System.in);
 
-        viewRooms(roomList);
+        bookRooms(roomList, scanner);
     }
 }
 
