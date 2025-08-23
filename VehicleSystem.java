@@ -69,7 +69,14 @@ class Car extends Vehicle {
     @Override
     public String detailsDisplay() {
         return super.detailsDisplay() + "\n" +
-                "Number of Doors: " + "\n" +
+                "Number of Doors: " + numDoors + "\n" +
                 "Electric?: " + isElectric;
+    }
+}
+
+public class VehicleSystem {
+    public static void main(String[] args) {
+        Vehicle v = new Car(4, true, "Ford", "Mustang", 2015);
+        System.out.println(v.detailsDisplay());
     }
 }
