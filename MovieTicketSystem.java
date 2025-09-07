@@ -34,7 +34,7 @@ class CustomerInfo {
     public String toString() {
         return "Name: " + name + "\n" +
                 "Movie: " + movie + "\n" +
-                "Time: " + times;
+                "Time: " + times + "\n";
     }
 }
 
@@ -50,97 +50,130 @@ class MovieTicketSystem {
     }
 
     static void selectMovie(List<MovieDetails> gList, List<CustomerInfo> cInfoList, Scanner scanner) {
-        System.out.println();
-        System.out.println("Genre List: ");
-        System.out.println("-----------");
-        for (int i = 0; i < gList.size(); i++) {
-            System.out.println((i+1) + ". " + gList.get(i));
-        }
 
-        System.out.println();
-
-        System.out.print("Enter Genre Choice By Number: ");
-        int userGenre = scanner.nextInt();
-        scanner.nextLine();
-
-        MovieDetails selectedGenre = gList.get(userGenre - 1);
-
-        if (selectedGenre.genre.isEmpty()) {
+        while (true) {
             System.out.println();
-            System.out.println("Empty Entry. Try Again.");
-        } else {
-            System.out.println();
-            System.out.println(selectedGenre.genre + " " + "Movie List: ");
-            System.out.println("--------------------");
-            for (int i = 0; i < selectedGenre.mvList.size(); i++) {
-                System.out.println((i+1) + ". " + selectedGenre.mvList.get(i));
+            System.out.println("Genre List: ");
+            System.out.println("-----------");
+            for (int i = 0; i < gList.size(); i++) {
+                System.out.println((i + 1) + ". " + gList.get(i));
             }
-        }
 
-        System.out.println();
-
-        System.out.print("Enter Movie Choice By Number: ");
-        int userMovie = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userMovie < 1 || userMovie > selectedGenre.mvList.size()) {
             System.out.println();
-            System.out.println("Invalid Choice. Try Again.");
-            return;
-        }
 
-        String selectedMovie = selectedGenre.mvList.get(userMovie - 1);
+            System.out.print("Enter Genre Choice By Number: ");
+            int userGenre = scanner.nextInt();
+            scanner.nextLine();
 
-        List<String> viewShows = selectedGenre.showTimes.get(userMovie - 1);
+            MovieDetails selectedGenre = gList.get(userGenre - 1);
 
-        System.out.println();
-        System.out.println("Movie Times: ");
-        System.out.println("--------------");
-        for (int i = 0; i < viewShows.size(); i++) {
-            System.out.println((i+1) + ". " + viewShows.get(i));
-        }
+            if (selectedGenre.genre.isEmpty()) {
+                System.out.println();
+                System.out.println("Empty Entry. Try Again.");
+            } else {
+                System.out.println();
+                System.out.println(selectedGenre.genre + " " + "Movie List: ");
+                System.out.println("--------------------");
+                for (int i = 0; i < selectedGenre.mvList.size(); i++) {
+                    System.out.println((i + 1) + ". " + selectedGenre.mvList.get(i));
+                }
+            }
 
-        System.out.println();
-        System.out.print("Enter Movie Time By Number: ");
-        int userTime = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userTime < 1 || userTime > viewShows.size()) {
             System.out.println();
-            System.out.println("Invalid Choice. Try Again.");
-            return;
-        }
 
-        String selectedShowTime = viewShows.get(userTime - 1);
+            System.out.print("Enter Movie Choice By Number: ");
+            int userMovie = scanner.nextInt();
+            scanner.nextLine();
 
-        if (selectedShowTime.isEmpty()) {
+            if (userMovie < 1 || userMovie > selectedGenre.mvList.size()) {
+                System.out.println();
+                System.out.println("Invalid Choice. Try Again.");
+                return;
+            }
+
+            String selectedMovie = selectedGenre.mvList.get(userMovie - 1);
+
+            List<String> viewShows = selectedGenre.showTimes.get(userMovie - 1);
+
             System.out.println();
-            System.out.println("Empty Entry. Try Again.");
-            return;
-        }
+            System.out.println("Movie Times: ");
+            System.out.println("--------------");
+            for (int i = 0; i < viewShows.size(); i++) {
+                System.out.println((i + 1) + ". " + viewShows.get(i));
+            }
 
-        System.out.println();
-        System.out.print("Enter Your Name: ");
-        String userName = scanner.nextLine().trim();
+            System.out.println();
+            System.out.print("Enter Movie Time By Number: ");
+            int userTime = scanner.nextInt();
+            scanner.nextLine();
 
-        if (selectedMovie.isEmpty() || userName.isEmpty()) {
+            if (userTime < 1 || userTime > viewShows.size()) {
+                System.out.println();
+                System.out.println("Invalid Choice. Try Again.");
+                return;
+            }
+
+            String selectedShowTime = viewShows.get(userTime - 1);
+
+            if (selectedShowTime.isEmpty()) {
+                System.out.println();
+                System.out.println("Empty Entry. Try Again.");
+                return;
+            }
+
             System.out.println();
-            System.out.println("Empty Entry. Try Again.");
-        } else {
-            System.out.println();
-            cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime));
-            System.out.println("Congratulations " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
-                    "Are You Sure?");
+            System.out.print("Enter Your Name: ");
+            String userName = scanner.nextLine().trim();
+
+            if (selectedMovie.isEmpty() || userName.isEmpty()) {
+                System.out.println();
+                System.out.println("Empty Entry. Try Again.");
+            } else {
+                System.out.println();
+                cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime));
+                System.out.println("Congratulations " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
+                        "Add Another? (Y/N): ");
+                char userYN = scanner.next().charAt(0);
+                scanner.nextLine();
+
+                if (userYN != 'Y') {
+                    return;
+                }
+            }
         }
     }
 
     static void viewBookingInfo(List<CustomerInfo> cInfoList) {
-        System.out.println();
-        System.out.println("Your Movie Booking Information: ");
-        System.out.println("--------------------------------");
-        for (CustomerInfo c : cInfoList) {
-            System.out.println(c);
+
+        if (cInfoList.isEmpty()) {
+            System.out.println();
+            System.out.println("You Haven't Booked Any Movies Yet.");
+        } else {
+            System.out.println();
+            System.out.println("Your Movie Booking Information: ");
+            System.out.println("--------------------------------");
+            for (int i = 0; i < cInfoList.size(); i++) {
+                System.out.println((i+1) + ". " + cInfoList.get(i));
+            }
         }
+    }
+
+    static void cancelBooking(List<CustomerInfo> cInfoList, Scanner scanner) {
+
+        if (cInfoList.isEmpty()) {
+            System.out.println();
+            System.out.println("You Haven't Booked Any Movies Yet.");
+        } else {
+            viewBookingInfo(cInfoList);
+            System.out.println();
+            System.out.print("Enter Chosen Cancellation By Number: ");
+            int userCancellation = scanner.nextInt();
+            scanner.nextLine();
+            CustomerInfo selectedCancel = cInfoList.remove(userCancellation - 1);
+            System.out.println();
+            System.out.println("You Have Successfully Canceled Booking: " + "\n" + selectedCancel);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -189,11 +222,13 @@ class MovieTicketSystem {
                     viewBookingInfo(cInfoList);
                     break;
                 case "4":
+                    cancelBooking(cInfoList, scanner);
                     break;
                 case "5":
                     System.out.println();
                     System.out.println("Exited :)");
-                    break;
+                    scanner.close();
+                    return;
                 default:
                     System.out.println();
                     System.out.println("Invalid Number Choice. Try Again.");
