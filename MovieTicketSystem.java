@@ -22,16 +22,19 @@ class CustomerInfo {
 
     String name;
     String movie;
+    String times;
 
-    CustomerInfo(String name, String movie) {
+    CustomerInfo(String name, String movie, String times) {
         this.name = name;
         this.movie = movie;
+        this.times = times;
     }
 
     @Override
     public String toString() {
         return "Name: " + name + "\n" +
-                "Movie: " + movie;
+                "Movie: " + movie + "\n" +
+                "Time: " + times;
     }
 }
 
@@ -88,19 +91,33 @@ class MovieTicketSystem {
 
         String selectedMovie = selectedGenre.mvList.get(userMovie - 1);
 
-        List<String> selectedShow = selectedGenre.showTimes.get(userMovie - 1);
+        List<String> viewShows = selectedGenre.showTimes.get(userMovie - 1);
 
         System.out.println();
         System.out.println("Movie Times: ");
         System.out.println("--------------");
-        for (int i = 0; i < selectedShow.size(); i++) {
-            System.out.println((i+1) + ". " + selectedShow.get(i));
+        for (int i = 0; i < viewShows.size(); i++) {
+            System.out.println((i+1) + ". " + viewShows.get(i));
         }
 
         System.out.println();
         System.out.print("Enter Movie Time By Number: ");
         int userTime = scanner.nextInt();
         scanner.nextLine();
+
+        if (userTime < 1 || userTime > viewShows.size()) {
+            System.out.println();
+            System.out.println("Invalid Choice. Try Again.");
+            return;
+        }
+
+        String selectedShowTime = viewShows.get(userTime - 1);
+
+        if (selectedShowTime.isEmpty()) {
+            System.out.println();
+            System.out.println("Empty Entry. Try Again.");
+            return;
+        }
 
         System.out.println();
         System.out.print("Enter Your Name: ");
@@ -111,7 +128,7 @@ class MovieTicketSystem {
             System.out.println("Empty Entry. Try Again.");
         } else {
             System.out.println();
-            cInfoList.add(new CustomerInfo(userName, selectedMovie));
+            cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime));
             System.out.println("Congratulations " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
                     "Are You Sure?");
         }
