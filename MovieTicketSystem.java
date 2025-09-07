@@ -1,10 +1,13 @@
 import java.util.*;
 
-class Genre {
-    String genre;
+class MovieDetails {
 
-    Genre(String genre) {
+    String genre;
+    List<String> mvList;
+
+    MovieDetails(String genre, List<String> mvList) {
         this.genre = genre;
+        this.mvList = mvList;
     }
 
     @Override
@@ -13,72 +16,12 @@ class Genre {
     }
 }
 
-class Movie {
-    String title;
-
-    Movie(String title) {
-        this.title = title;
-    }
-
-    @Override
-    public String toString() {
-        return title;
-    }
-}
-
-class ShowTime {
-    String startTime;
-    int availableSeats;
-
-    ShowTime(String startTime, int availableSeats) {
-        this.startTime = startTime;
-        this.availableSeats = availableSeats;
-    }
-
-    @Override
-    public String toString() {
-        return startTime + availableSeats;
-    }
-}
-
 class MovieTicketSystem {
 
-    static void selectGenre(List<Genre> gList, List<Movie> mvList, Scanner scanner) {
-        System.out.println();
-        System.out.println("Choose Genre: ");
-        System.out.println("-------------");
-        for (int i = 0; i < gList.size(); i++) {
-            System.out.println((i+1) + ". " + gList.get(i));
-        }
-
-        System.out.println();
-
-        System.out.print("Enter Genre Choice By Number: ");
-        int userGenre = scanner.nextInt();
-        scanner.nextLine();
-
-        Genre selectedGenre = gList.get(userGenre - 1);
-
-        if (selectedGenre.genre.isEmpty()) {
-            System.out.println("Empty Entry. Try Again.");
-        }
-
-    }
-
-    public static void main(String[]args) {
-        List<Genre> gList = new ArrayList<>();
-        gList.add(new Genre("Horror"));
-        gList.add(new Genre("Comedy"));
-        gList.add(new Genre("Romance"));
-
-        List<Movie> mvList = new ArrayList<>();
-        mvList.add(new Movie("Halloween"));
-        mvList.add(new Movie("Dumb & Dumber"));
-        mvList.add(new Movie("Me Before You"));
-
-        Scanner scanner = new Scanner(System.in);
-
-        selectGenre(gList, mvList, scanner);
-
+    public static void main(String[] args) {
+        List<MovieDetails> gList = new ArrayList<>();
+        gList.add(new MovieDetails("Horror", Arrays.asList("IT", "Halloween", "At Dawn")));
+        gList.add(new MovieDetails("Comedy", Arrays.asList("Dumb & Dumber", "Shazam!", "Brides Maids")));
+        gList.add(new MovieDetails("Romance", Arrays.asList("Me Before You", "Our Story", "The Notebook")));
     }
 }
