@@ -16,6 +16,19 @@ class MovieDetails {
     }
 }
 
+class ShowTime {
+
+    String times;
+    int availableSeats;
+}
+
+class CustomerInfo {
+
+    String name;
+    int numOfTickets;
+    boolean isConfirmed;
+}
+
 class MovieTicketSystem {
 
     static void selectMovie(List<MovieDetails> gList, Scanner scanner) {
@@ -70,6 +83,32 @@ class MovieTicketSystem {
 
         Scanner scanner = new Scanner(System.in);
 
-        selectMovie(gList, scanner);
+        while (true) {
+            System.out.println();
+            System.out.println("1. View Movie Selection");
+            System.out.println("2. Book Movie Tickets");
+            System.out.println("3. View Booking Information");
+            System.out.println("4. Cancel Movie Booking");
+            System.out.println("5. Exit");
+            System.out.println();
+            System.out.println("Enter Choice By Number: ");
+            String userChoice = scanner.nextLine().trim();
+
+            switch (userChoice) {
+                case "1":
+                    break;
+                case "2":
+                    selectMovie(gList, scanner);
+                    break;
+                case "3":
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    break;
+                default:
+                    System.out.println("Invalid Number Choice. Try Again.");
+            }
+        }
     }
 }
