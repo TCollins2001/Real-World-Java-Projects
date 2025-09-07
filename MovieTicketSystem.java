@@ -31,6 +31,15 @@ class CustomerInfo {
 
 class MovieTicketSystem {
 
+    static void viewSelection(List<MovieDetails> gList) {
+        System.out.println();
+        System.out.println("Full Movie List: ");
+        System.out.println("--------------------------------------------------");
+        for (MovieDetails m : gList) {
+            System.out.println(m + ": " + "\n" + m.mvList);
+        }
+    }
+
     static void selectMovie(List<MovieDetails> gList, Scanner scanner) {
         System.out.println();
         System.out.println("Genre List: ");
@@ -91,11 +100,12 @@ class MovieTicketSystem {
             System.out.println("4. Cancel Movie Booking");
             System.out.println("5. Exit");
             System.out.println();
-            System.out.println("Enter Choice By Number: ");
+            System.out.print("Enter Choice By Number: ");
             String userChoice = scanner.nextLine().trim();
 
             switch (userChoice) {
                 case "1":
+                    viewSelection(gList);
                     break;
                 case "2":
                     selectMovie(gList, scanner);
