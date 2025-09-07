@@ -65,6 +65,11 @@ class MovieTicketSystem {
             int userGenre = scanner.nextInt();
             scanner.nextLine();
 
+            if (userGenre < 1 || userGenre > gList.size()) {
+                System.out.println("Invalid Entry. Try Again.");
+                return;
+            }
+
             MovieDetails selectedGenre = gList.get(userGenre - 1);
 
             if (selectedGenre.genre.isEmpty()) {
@@ -131,7 +136,7 @@ class MovieTicketSystem {
             } else {
                 System.out.println();
                 cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime));
-                System.out.println("Congratulations " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
+                System.out.print("Congratulations, " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
                         "Add Another? (Y/N): ");
                 char userYN = scanner.next().charAt(0);
                 scanner.nextLine();
