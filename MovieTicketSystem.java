@@ -39,11 +39,26 @@ class MovieTicketSystem {
             System.out.println("Empty Entry. Try Again.");
         } else {
             System.out.println();
-            System.out.println("Movie List: ");
-            System.out.println("-----------");
+            System.out.println(selectedGenre.genre + " " + "Movie List: ");
+            System.out.println("--------------------");
             for (int i = 0; i < selectedGenre.mvList.size(); i++) {
                 System.out.println((i+1) + ". " + selectedGenre.mvList.get(i));
             }
+        }
+
+        System.out.println();
+        System.out.print("Enter Movie Choice By Number: ");
+        int userMovie = scanner.nextInt();
+        scanner.nextLine();
+
+        String selectedMovie = selectedGenre.mvList.get(userMovie - 1);
+
+        if (selectedMovie.isEmpty()) {
+            System.out.println();
+            System.out.println("Empty Entry. Try Again.");
+        } else {
+            System.out.println();
+            System.out.println("You Have Selected: " + selectedMovie + " (" + selectedGenre + ")");
         }
     }
 
