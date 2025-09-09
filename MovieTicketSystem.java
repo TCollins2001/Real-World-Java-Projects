@@ -5,11 +5,13 @@ class MovieDetails {
     String genre;
     List<String> mvList;
     List<List<String>> showTimes;
+    List<String> availableSeats;
 
-    MovieDetails(String genre, List<String> mvList, List<List<String>> showTimes) {
+    MovieDetails(String genre, List<String> mvList, List<List<String>> showTimes, List<String> availableSeats) {
         this.genre = genre;
         this.mvList = mvList;
         this.showTimes = showTimes;
+        this.availableSeats = availableSeats;
     }
 
     @Override
@@ -23,18 +25,21 @@ class CustomerInfo {
     String name;
     String movie;
     String times;
+    String seats;
 
-    CustomerInfo(String name, String movie, String times) {
+    CustomerInfo(String name, String movie, String times, String seats) {
         this.name = name;
         this.movie = movie;
         this.times = times;
+        this.seats = seats;
     }
 
     @Override
     public String toString() {
         return "Name: " + name + "\n" +
                 "Movie: " + movie + "\n" +
-                "Time: " + times + "\n";
+                "Time: " + times + "\n" +
+                "Seats: " + seats;
     }
 }
 
@@ -127,6 +132,29 @@ class MovieTicketSystem {
             }
 
             System.out.println();
+            System.out.println("Available Seats: ");
+            System.out.println("-----------------");
+            for (int i = 0; i < selectedGenre.availableSeats.size(); i++) {
+                System.out.println((i+1) + ". " + selectedGenre.availableSeats.get(i));
+            }
+
+            System.out.println();
+            System.out.print("Enter Chosen Seat By Number: ");
+            int userSeat = scanner.nextInt();
+            scanner.nextLine();
+
+            String selectedSeat = selectedGenre.availableSeats.remove(userSeat - 1);
+
+            if (userSeat < 1 || userSeat > selectedGenre.availableSeats.size()) {
+                System.out.println("Invalid Choice. Try Again.");
+            }
+
+            if (selectedSeat.isEmpty()) {
+                System.out.println("Empty Entry. Try Again.");
+                return;
+            }
+
+            System.out.println();
             System.out.print("Enter Your Name: ");
             String userName = scanner.nextLine().trim();
 
@@ -135,7 +163,7 @@ class MovieTicketSystem {
                 System.out.println("Empty Entry. Try Again.");
             } else {
                 System.out.println();
-                cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime));
+                cInfoList.add(new CustomerInfo(userName, selectedMovie, selectedShowTime, selectedSeat));
                 System.out.print("Congratulations, " + userName + "! You Have Selected: " + selectedMovie + " (" + selectedGenre + ")!" + "\n" + "\n" +
                         "Add Another? (Y/N): ");
                 char userYN = scanner.next().charAt(0);
@@ -183,23 +211,36 @@ class MovieTicketSystem {
 
     public static void main(String[] args) {
         List<MovieDetails> gList = new ArrayList<>();
+
+        List<String> seatList = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "A4", "A5"));
+
+        List<String> seatListB = new ArrayList<>(Arrays.asList("B1", "B2", "B3", "B4", "B5"));
+
+        List<String> seatListC = new ArrayList<>(Arrays.asList("C1", "C2", "C3", "C4", "C5"));
+
         gList.add(new MovieDetails("Horror", Arrays.asList("IT", "Halloween", "At Dawn"), Arrays.asList(
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM")
-        )));
+        ),
+                seatList
+        ));
 
 
         gList.add(new MovieDetails("Comedy", Arrays.asList("Dumb & Dumber", "Shazam!", "Brides Maids"), Arrays.asList(
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM")
-        )));
+        ),
+                seatListB
+                ));
         gList.add(new MovieDetails("Romance", Arrays.asList("Me Before You", "Our Story", "The Notebook"), Arrays.asList(
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM"),
                 Arrays.asList("2PM-4PM", "6PM-8PM", "9PM-11PM")
-        )));
+        ),
+                seatListC
+        ));
 
         List<CustomerInfo> cInfoList = new ArrayList<>();
 
