@@ -145,7 +145,14 @@ class RestaurantOrderingSystem {
         }
     }
 
-    static void submitOrder(Scanner scanner) {
+    static void submitOrder(List<CustomerInformation> cInfoList, Scanner scanner) {
+
+        if (cInfoList.isEmpty()) {
+            System.out.println();
+            System.out.println("No Orders Yet.");
+            return;
+        }
+
         if (selectedItems.isEmpty()) {
             System.out.println();
             System.out.println("No Orders Yet.");
@@ -175,7 +182,17 @@ class RestaurantOrderingSystem {
                     break;
                 case 'C':
                     System.out.println();
-                    System.out.print("Enter Order Number To Cancel: ");
+                    System.out.print("Are You Sure You Would Like To Cancel Your Order? (Y/N): ");
+                    char userCancel = scanner.next().toUpperCase().charAt(0);
+                    scanner.nextLine();
+
+                    if (userCancel != 'Y') {
+                        break;
+                    } else {
+                        cInfoList.clear();
+                        System.out.println();
+                        System.out.println("Your Order Has Been Canceled.");
+                    }
                     break;
                 case 'R':
                     System.out.println();
@@ -243,10 +260,12 @@ class RestaurantOrderingSystem {
                     reviewOrder(cInfoList);
                     break;
                 case "3":
-                    submitOrder(scanner);
+                    submitOrder(cInfoList, scanner);
                     break;
                 case "4":
-                    break;
+                    System.out.println();
+                    System.out.println("Exited :)");
+                    return;
                 default:
                     System.out.println();
                     System.out.println("Invalid Choice. Try Again.");
