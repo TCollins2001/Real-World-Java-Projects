@@ -45,6 +45,12 @@ class Item {
 }
 
 class RestaurantOrderingSystem {
+
+    static void orderNow(List<CustomerInformation> cInfoList, Scanner scanner) {
+        System.out.println();
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
