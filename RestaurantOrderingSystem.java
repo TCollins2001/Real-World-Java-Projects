@@ -1,20 +1,22 @@
-import java.sql.SQLOutput;
 import java.util.*;
 
 class CustomerInformation {
 
     String name;
     String contact;
+    List<Item> items;
 
-    CustomerInformation(String name, String contact) {
+    CustomerInformation(String name, String contact, List<Item> items) {
         this.name = name;
         this.contact = contact;
+        this.items = items;
     }
 
     @Override
     public String toString() {
         return "Name: " + name + "\n" +
-                "Contact: " + contact + "\n";
+                "Contact: " + contact + "\n" +
+                "Ordered Items: " + items + "\n";
     }
 }
 
@@ -52,6 +54,8 @@ class Item {
 
 class RestaurantOrderingSystem {
 
+    static List<Item> selectedItems = new ArrayList<>();
+
     static void orderNow(List<CustomerInformation> cInfoList, List<OrderItem> itemList, Scanner scanner) {
         System.out.println();
         System.out.println("Choose Category: ");
@@ -75,10 +79,12 @@ class RestaurantOrderingSystem {
 
         System.out.println();
         System.out.println("List Of " + selectedCategory);
+        System.out.println("--------------------------------");
         for (int i = 0; i < selectedCategory.item.size(); i++) {
-            System.out.println((i+1) + ". " + selectedCategory.item.size());
+            System.out.println((i+1) + ". " + selectedCategory.item.get(i));
         }
 
+        System.out.println();
         System.out.print("Enter Item Number: ");
         int userItem = scanner.nextInt();
         scanner.nextLine();
@@ -90,6 +96,24 @@ class RestaurantOrderingSystem {
         }
 
         Item selectedItem = selectedCategory.item.get(userItem - 1);
+        selectedItems.add(selectedItem);
+
+        System.out.println();
+        System.out.print("Enter Name: ");
+        String userName = scanner.nextLine().trim();
+        System.out.println();
+        System.out.print("Enter Contact: ");
+        String userContact = scanner.nextLine().trim();
+
+        if (userName.isEmpty() || userContact.isEmpty()) {
+            System.out.println();
+            System.out.println("Invalid Choice. Try Again.");
+        } else {
+            System.out.println();
+            System.out.println("Congratulations " + userName + "! You Have Successfully Made Your Order!");
+        }
+
+        cInfoList.add(new CustomerInformation(userName, userContact, selectedItems));
 
     }
 
