@@ -118,6 +118,21 @@ class RestaurantOrderingSystem {
     }
 
 
+    static void reviewOrder() {
+
+        if (selectedItems.isEmpty()) {
+            System.out.println();
+            System.out.println("No Orders Yet.");
+        } else {
+            System.out.println();
+            System.out.println("Your Order Summary: ");
+            System.out.println("---------------------");
+            for (int i = 0; i < selectedItems.size(); i++) {
+                System.out.println((i + 1) + ". " + selectedItems.get(i));
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -159,6 +174,7 @@ class RestaurantOrderingSystem {
                     orderNow(cInfoList, itemList, scanner);
                     break;
                 case "2":
+                    reviewOrder();
                     break;
                 case "3":
                     break;
