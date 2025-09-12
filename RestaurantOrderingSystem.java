@@ -102,7 +102,7 @@ class RestaurantOrderingSystem {
 
             System.out.println();
             System.out.print("Add Another Item? (Y/N): ");
-            char userYN = scanner.next().charAt(0);
+            char userYN = scanner.next().toUpperCase().charAt(0);
             scanner.nextLine();
 
             if (userYN != 'Y') {
@@ -145,7 +145,7 @@ class RestaurantOrderingSystem {
         }
     }
 
-    static void submitOrder() {
+    static void submitOrder(Scanner scanner) {
         if (selectedItems.isEmpty()) {
             System.out.println();
             System.out.println("No Orders Yet.");
@@ -156,6 +156,46 @@ class RestaurantOrderingSystem {
             for (int i = 0; i < selectedItems.size(); i++) {
                 System.out.println((i + 1) + ". " + selectedItems.get(i));
             }
+
+            System.out.println();
+            System.out.print("Would You Like To Submit Order, Cancel Order, or Remove Items? (S/C/R): ");
+            char userSOR = scanner.next().toUpperCase().charAt(0);
+            scanner.nextLine();
+
+            switch (userSOR) {
+                case 'S':
+                    System.out.println();
+                    double total = 0;
+                    for (Item i : selectedItems) {
+                        total += i.price;
+                    }
+                    System.out.println("Your Total: $" + String.format("%.2f", total));
+                    System.out.println();
+                    System.out.println("Submitted! Thank You!");
+                    break;
+                case 'C':
+                    System.out.println();
+                    break;
+                case 'R':
+                    System.out.println();
+                    System.out.print("Enter Item Number To Cancel: ");
+                    int userCancel = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (userCancel < 1 || userCancel > selectedItems.size()) {
+                        System.out.println();
+                        System.out.println("Invalid Choice. Try Again.");
+                    } else {
+                        System.out.println();
+                        Item selectedCancel = selectedItems.remove(userCancel - 1);
+                        System.out.println(selectedCancel + " Successfully Canceled!");
+                    }
+                    break;
+                default:
+                    System.out.println();
+                    System.out.println("Invalid Choice. Try Again.");
+            }
+
         }
     }
 
@@ -202,7 +242,7 @@ class RestaurantOrderingSystem {
                     reviewOrder(cInfoList);
                     break;
                 case "3":
-                    submitOrder();
+                    submitOrder(scanner);
                     break;
                 case "4":
                     break;
