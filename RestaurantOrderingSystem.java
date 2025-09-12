@@ -20,7 +20,12 @@ class CustomerInformation {
 class OrderItem {
 
     String category;
+    List<Item> item;
 
+    OrderItem(String category, List<Item> item) {
+        this.category = category;
+        this.item = item;
+    }
 }
 
 class Item {
@@ -44,6 +49,26 @@ class RestaurantOrderingSystem {
         Scanner scanner = new Scanner(System.in);
 
         List<CustomerInformation> cInfoList = new ArrayList<>();
+
+        List<OrderItem> itemList = new ArrayList<>();
+
+        itemList.add(new OrderItem("Food", Arrays.asList(
+                new Item("Burger", 7.00),
+                new Item("Chicken Tenders", 5.00),
+                new Item("French Fries", 3.00)
+        )));
+
+        itemList.add(new OrderItem("Drinks", Arrays.asList(
+                new Item("Pepsi", 2.00),
+                new Item("Coke", 2.00),
+                new Item("Lemonade", 1.50)
+        )));
+
+        itemList.add(new OrderItem("Desserts", Arrays.asList(
+                new Item("Chocolate Chip Cookies", 3.00),
+                new Item("Banana Split", 5.00),
+                new Item("Cinnamon Rolls", 3.00)
+        )));
 
         while (true) {
             System.out.println();
