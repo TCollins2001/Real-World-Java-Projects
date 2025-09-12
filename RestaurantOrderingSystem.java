@@ -73,6 +73,24 @@ class RestaurantOrderingSystem {
 
         OrderItem selectedCategory = itemList.get(userCategory - 1);
 
+        System.out.println();
+        System.out.println("List Of " + selectedCategory);
+        for (int i = 0; i < selectedCategory.item.size(); i++) {
+            System.out.println((i+1) + ". " + selectedCategory.item.size());
+        }
+
+        System.out.print("Enter Item Number: ");
+        int userItem = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userItem < 1 || userItem > selectedCategory.item.size()) {
+            System.out.println();
+            System.out.println("Invalid Choice. Try Again.");
+            return;
+        }
+
+        Item selectedItem = selectedCategory.item.get(userItem - 1);
+
     }
 
 
