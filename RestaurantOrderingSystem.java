@@ -57,46 +57,58 @@ class RestaurantOrderingSystem {
     static List<Item> selectedItems = new ArrayList<>();
 
     static void orderNow(List<CustomerInformation> cInfoList, List<OrderItem> itemList, Scanner scanner) {
-        System.out.println();
-        System.out.println("Choose Category: ");
-        System.out.println("-----------------");
-        for (int i = 0; i < itemList.size(); i++) {
-            System.out.println((i+1) + ". " + itemList.get(i));
-        }
 
-        System.out.println();
-        System.out.print("Enter Category Number: ");
-        int userCategory = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userCategory < 1 || userCategory > itemList.size()) {
+        while (true) {
             System.out.println();
-            System.out.println("Invalid Choice. Try Again.");
-            return;
-        }
+            System.out.println("Choose Category: ");
+            System.out.println("-----------------");
+            for (int i = 0; i < itemList.size(); i++) {
+                System.out.println((i + 1) + ". " + itemList.get(i));
+            }
 
-        OrderItem selectedCategory = itemList.get(userCategory - 1);
-
-        System.out.println();
-        System.out.println("List Of " + selectedCategory);
-        System.out.println("--------------------------------");
-        for (int i = 0; i < selectedCategory.item.size(); i++) {
-            System.out.println((i+1) + ". " + selectedCategory.item.get(i));
-        }
-
-        System.out.println();
-        System.out.print("Enter Item Number: ");
-        int userItem = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userItem < 1 || userItem > selectedCategory.item.size()) {
             System.out.println();
-            System.out.println("Invalid Choice. Try Again.");
-            return;
-        }
+            System.out.print("Enter Category Number: ");
+            int userCategory = scanner.nextInt();
+            scanner.nextLine();
 
-        Item selectedItem = selectedCategory.item.get(userItem - 1);
-        selectedItems.add(selectedItem);
+            if (userCategory < 1 || userCategory > itemList.size()) {
+                System.out.println();
+                System.out.println("Invalid Choice. Try Again.");
+                return;
+            }
+
+            OrderItem selectedCategory = itemList.get(userCategory - 1);
+
+            System.out.println();
+            System.out.println("List Of " + selectedCategory);
+            System.out.println("--------------------------------");
+            for (int i = 0; i < selectedCategory.item.size(); i++) {
+                System.out.println((i + 1) + ". " + selectedCategory.item.get(i));
+            }
+
+            System.out.println();
+            System.out.print("Enter Item Number: ");
+            int userItem = scanner.nextInt();
+            scanner.nextLine();
+
+            if (userItem < 1 || userItem > selectedCategory.item.size()) {
+                System.out.println();
+                System.out.println("Invalid Choice. Try Again.");
+                return;
+            }
+
+            Item selectedItem = selectedCategory.item.get(userItem - 1);
+            selectedItems.add(selectedItem);
+
+            System.out.println();
+            System.out.print("Add Another Item? (Y/N): ");
+            char userYN = scanner.next().charAt(0);
+            scanner.nextLine();
+
+            if (userYN != 'Y') {
+                break;
+            }
+        }
 
         System.out.println();
         System.out.print("Enter Name: ");
@@ -118,8 +130,22 @@ class RestaurantOrderingSystem {
     }
 
 
-    static void reviewOrder() {
 
+    static void reviewOrder(List<CustomerInformation> cInfoList) {
+        if (cInfoList.isEmpty()) {
+            System.out.println();
+            System.out.println("No Orders Yet.");
+        } else {
+            System.out.println();
+            System.out.println("Order Review: ");
+            System.out.println("---------------------");
+            for (CustomerInformation c : cInfoList) {
+                System.out.println(c);
+            }
+        }
+    }
+
+    static void submitOrder() {
         if (selectedItems.isEmpty()) {
             System.out.println();
             System.out.println("No Orders Yet.");
@@ -132,7 +158,6 @@ class RestaurantOrderingSystem {
             }
         }
     }
-
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -174,9 +199,10 @@ class RestaurantOrderingSystem {
                     orderNow(cInfoList, itemList, scanner);
                     break;
                 case "2":
-                    reviewOrder();
+                    reviewOrder(cInfoList);
                     break;
                 case "3":
+                    submitOrder();
                     break;
                 case "4":
                     break;
