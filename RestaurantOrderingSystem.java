@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.*;
 
 class CustomerInformation {
@@ -26,6 +27,11 @@ class OrderItem {
         this.category = category;
         this.item = item;
     }
+
+    @Override
+    public String toString() {
+        return category;
+    }
 }
 
 class Item {
@@ -46,10 +52,30 @@ class Item {
 
 class RestaurantOrderingSystem {
 
-    static void orderNow(List<CustomerInformation> cInfoList, Scanner scanner) {
+    static void orderNow(List<CustomerInformation> cInfoList, List<OrderItem> itemList, Scanner scanner) {
         System.out.println();
+        System.out.println("Choose Category: ");
+        System.out.println("-----------------");
+        for (int i = 0; i < itemList.size(); i++) {
+            System.out.println((i+1) + ". " + itemList.get(i));
+        }
+
         System.out.println();
+        System.out.print("Enter Category Number: ");
+        int userCategory = scanner.nextInt();
+        scanner.nextLine();
+
+        if (userCategory < 1 || userCategory > itemList.size()) {
+            System.out.println();
+            System.out.println("Invalid Choice. Try Again.");
+            return;
+        }
+
+        OrderItem selectedCategory = itemList.get(userCategory - 1);
+
     }
+
+
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -88,6 +114,7 @@ class RestaurantOrderingSystem {
 
             switch(userChoice) {
                 case "1":
+                    orderNow(cInfoList, itemList, scanner);
                     break;
                 case "2":
                     break;
