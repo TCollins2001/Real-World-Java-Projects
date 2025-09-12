@@ -179,15 +179,15 @@ class RestaurantOrderingSystem {
                 case 'R':
                     System.out.println();
                     System.out.print("Enter Item Number To Cancel: ");
-                    int userCancel = scanner.nextInt();
+                    int userRemove = scanner.nextInt();
                     scanner.nextLine();
 
-                    if (userCancel < 1 || userCancel > selectedItems.size()) {
+                    if (userRemove < 1 || userRemove > selectedItems.size()) {
                         System.out.println();
                         System.out.println("Invalid Choice. Try Again.");
                     } else {
                         System.out.println();
-                        Item selectedCancel = selectedItems.remove(userCancel - 1);
+                        Item selectedCancel = selectedItems.remove(userRemove - 1);
                         System.out.println(selectedCancel + " Successfully Canceled!");
                     }
                     break;
