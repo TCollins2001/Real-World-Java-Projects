@@ -175,10 +175,11 @@ class RestaurantOrderingSystem {
                     break;
                 case 'C':
                     System.out.println();
+                    System.out.print("Enter Order Number To Cancel: ");
                     break;
                 case 'R':
                     System.out.println();
-                    System.out.print("Enter Item Number To Cancel: ");
+                    System.out.print("Enter Item Number To remove: ");
                     int userRemove = scanner.nextInt();
                     scanner.nextLine();
 
@@ -188,7 +189,7 @@ class RestaurantOrderingSystem {
                     } else {
                         System.out.println();
                         Item selectedCancel = selectedItems.remove(userRemove - 1);
-                        System.out.println(selectedCancel + " Successfully Canceled!");
+                        System.out.println(selectedCancel + " Successfully Removed!");
                     }
                     break;
                 default:
