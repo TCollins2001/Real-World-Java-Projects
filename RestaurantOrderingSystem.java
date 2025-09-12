@@ -179,7 +179,7 @@ class RestaurantOrderingSystem {
                     break;
                 case 'R':
                     System.out.println();
-                    System.out.print("Enter Item Number To remove: ");
+                    System.out.print("Enter Item Number To Remove: ");
                     int userRemove = scanner.nextInt();
                     scanner.nextLine();
 
