@@ -18,7 +18,6 @@ class FoodItem {
 class GroceryListApp {
 
     static void viewList(List<FoodItem> foodItemsList) {
-
         if (foodItemsList.isEmpty()) {
             System.out.println();
             System.out.println("No Items Yet.");
@@ -41,7 +40,6 @@ class GroceryListApp {
         int userQuantity = scanner.nextInt();
         scanner.nextLine();
 
-
         if (userItem.isEmpty()) {
             System.out.println();
             System.out.println("Empty Entry. Try Again.");
@@ -61,6 +59,34 @@ class GroceryListApp {
 
     }
 
+    static void removeItem(List<FoodItem> foodItemsList, Scanner scanner) {
+            if (foodItemsList.isEmpty()) {
+                System.out.println();
+                System.out.println("No Items Yet.");
+                return;
+            } else {
+                viewList(foodItemsList);
+                System.out.println();
+                System.out.print("Enter Item Number To Remove: ");
+                int userRemove = scanner.nextInt();
+                scanner.nextLine();
+
+                FoodItem selectedRemove = foodItemsList.get(userRemove - 1);
+
+                System.out.println();
+                System.out.print("Are You Sure You Want To Remove " + selectedRemove + "? ");
+                char userYN = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+
+                if (userYN != 'Y') {
+                    return;
+                } else {
+                    selectedRemove = foodItemsList.remove(userRemove - 1);
+                    System.out.println();
+                    System.out.println("You Have Successfully Removed " + selectedRemove + "!");
+                }
+            }
+        }
 
     public static void main(String[] args) {
 
@@ -86,6 +112,7 @@ class GroceryListApp {
                     addItem(foodItemsList, scanner);
                     break;
                 case "3":
+                    removeItem(foodItemsList, scanner);
                     break;
                 case "4":
                     System.out.println();
