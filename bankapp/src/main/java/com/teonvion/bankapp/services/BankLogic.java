@@ -11,7 +11,7 @@ public class BankLogic {
         return bank.getUserBalance();
     }
 
-    public void makeDeposit(double userDeposit) {
+    public static void makeDeposit(double userDeposit) {
         if (userDeposit > 0) {
             bank.setUserBalance(bank.getUserBalance() + userDeposit);
         }
