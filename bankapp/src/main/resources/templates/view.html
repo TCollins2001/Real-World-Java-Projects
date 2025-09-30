@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>View Balance</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body>
+<div class="view-div">
+<h1>
+    YOUR CURRENT BALANCE:
+</h1>
+    <p>$<span th:text="${balance}">0.00</span></p>
+</div>
+</body>
+</html>
