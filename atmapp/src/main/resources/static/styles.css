@@ -53,12 +53,13 @@ span {
 font-size: 40px;
 }
 
-ul {
+.menu-ul {
 list-style-type: none;
 }
 
-li {
+.menu-ul li {
 font-size: 45px;
-margin-bottom: 20px;
+margin-bottom: 50px;
 color: #2155a7;
+background-color: blue;
 }

@@ -23,8 +23,32 @@ public class AtmController {
     }
 
     @GetMapping("/view")
-    public String view() {
+    public String view(Model model) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        model.addAttribute("userBalance", df.format(AtmService.getBalance()));
         return "view";
+    }
+
+    @GetMapping("/deposit")
+    public String deposit(Model model) {
+        return "deposit";
+    }
+
+    @PostMapping("/deposit")
+    public String makeDeposit(@RequestParam double amount) {
+        AtmService.makeDeposit(amount);
+        return "redirect:/view";
+    }
+
+    @GetMapping("/withdraw")
+    public String withdraw(Model model) {
+        return "withdraw";
+    }
+
+    @PostMapping("/withdraw")
+    public String makeWithdraw(@RequestParam double amountW) {
+        AtmService.makeWithdraw(amountW);
+        return "redirect:/view";
     }
 }
 
