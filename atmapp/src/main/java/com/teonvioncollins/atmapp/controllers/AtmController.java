@@ -17,23 +17,15 @@ public class AtmController {
         return "homepage";
     }
 
-    @GetMapping("/view")
-    public String view(Model model) {
-        DecimalFormat df = new DecimalFormat("0.00");
-        model.addAttribute("userBalance", df.format(AtmService.getBalance()));
-        return "view";
+    @GetMapping("/menu")
+    public String menu() {
+        return "menu";
     }
 
-    @GetMapping("/deposit")
-        public String deposit(Model model) {
-        return "deposit";
-        }
-
-        @PostMapping("/deposit")
-    public String makeDeposit(@RequestParam double amount) {
-        AtmService.makeDeposit(amount);
-        return "redirect:/view";
-        }
+    @GetMapping("/view")
+    public String view() {
+        return "view";
+    }
 }
 
 

@@ -52,3 +52,13 @@ color: #2155a7;
 span {
 font-size: 40px;
 }
+
+ul {
+list-style-type: none;
+}
+
+li {
+font-size: 45px;
+margin-bottom: 20px;
+color: #2155a7;
+}
