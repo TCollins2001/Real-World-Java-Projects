@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PocketATM | Deposit</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="menu-body">
+<div class="overlay"><h1>POCKETATM</h1></div>
+<div class="menu-div">
+  <form action="/deposit" method="post">
+  <h2>ENTER AMOUNT: </h2>
+  <br>
+  <br>
+    <input type="number" step="0.01" name="amount" placeholder="0.00">
+    <button type="submit">Deposit</button>
+  </form>
+</div>
+</body>
+</html>
