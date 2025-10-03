@@ -18,7 +18,7 @@ public class AtmController {
     }
 
     @GetMapping("/menu")
-    public String menu() {
+    public String menu(Model model) {
         return "menu";
     }
 
