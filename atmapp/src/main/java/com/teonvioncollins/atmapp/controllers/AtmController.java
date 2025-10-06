@@ -31,6 +31,7 @@ public class AtmController {
 
     @GetMapping("/deposit")
     public String deposit(Model model) {
+        model.addAttribute("showDepositModal", true);
         return "deposit";
     }
 
@@ -42,6 +43,7 @@ public class AtmController {
 
     @GetMapping("/withdraw")
     public String withdraw(Model model) {
+        model.addAttribute("showWithdrawModal", true);
         return "withdraw";
     }
 

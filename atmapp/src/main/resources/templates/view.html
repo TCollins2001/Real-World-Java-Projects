@@ -12,7 +12,9 @@
     <h2>YOUR BALANCE: </h2>
     <br>
     <br>
-    <p>$<span th:text="${userBalance}">0.00</span></p>
+    <div class="balance-border">
+    <p class="dollar">$<span th:text="${userBalance}">0.00</span></p>
+    </div>
 </div>
 </body>
 </html>
