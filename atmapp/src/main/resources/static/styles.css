@@ -94,3 +94,13 @@ cursor: pointer;
 button {
 cursor: pointer;
 }
+
+.sign-buttons {
+position: relative;
+left: 210px;
+top: 150px;
+}
+
+.sign-up {
+background-color: blue;
+}
