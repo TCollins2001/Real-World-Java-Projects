@@ -13,147 +13,152 @@ class FoodItem {
 
     @Override
     public String toString() {
-        return name + " (Qty: " + quantity + ") " + (isBought ? " -Bought-" : " -Not Bought-");
+        return name + " - " + "Qty: " + quantity + " " + "(" + (isBought? "Bought" : "Not Bought") + ")";
     }
 }
 
-class GroceryListApp {
+    class GroceryListApp {
 
-    static void viewList(List<FoodItem> foodItemsList) {
-        if (foodItemsList.isEmpty()) {
+        static void viewList(Scanner scanner, List<FoodItem> foodItemList, boolean allowMarking) {
             System.out.println();
-            System.out.println("No Items Yet.");
-        } else {
-            System.out.println();
-            System.out.println("Grocery List: ");
-            System.out.println("---------------");
-            for (int i = 0; i < foodItemsList.size(); i++) {
-                System.out.println((i + 1) + ". " + foodItemsList.get(i));
-            }
-        }
-    }
-
-    static void addItem(List<FoodItem> foodItemsList, Scanner scanner) {
-        System.out.println();
-        System.out.print("Add Item: ");
-        String userItem = scanner.nextLine().trim();
-        System.out.println();
-        System.out.print("Enter Quantity: ");
-        int userQuantity = scanner.nextInt();
-        scanner.nextLine();
-
-        if (userItem.isEmpty()) {
-            System.out.println();
-            System.out.println("Empty Entry. Try Again.");
-            return;
-        }
-
-        if (userQuantity < 1) {
-            System.out.println();
-            System.out.println("Invalid Quantity. Try Again.");
-            return;
-        }
-
-        foodItemsList.add(new FoodItem(userItem, userQuantity));
-
-        System.out.println();
-        System.out.println("Added Item To List!");
-
-    }
-
-    static void markBrought(List<FoodItem> foodItemsList, Scanner scanner) {
-
-        if (foodItemsList.isEmpty()) {
-            System.out.println();
-            System.out.println("No Items Yet.");
-            return;
-        } else {
-            viewList(foodItemsList);
-            System.out.println();
-            System.out.print("Enter Item Number To Mark Bought: ");
-            int userBought = scanner.nextInt();
-            scanner.nextLine();
-
-            if (userBought < 1 || userBought > foodItemsList.size()) {
-                System.out.println();
-                System.out.println("Invalid Number Choice. Try Again.");
-                return;
-            }
-
-            FoodItem selectedBought = foodItemsList.get(userBought - 1);
-            selectedBought.isBought = true;
-            System.out.println();
-            System.out.println("\"" + selectedBought.name + "\"" + " Marked Bought!");
-
-        }
-    }
-
-    static void removeItem(List<FoodItem> foodItemsList, Scanner scanner) {
-            if (foodItemsList.isEmpty()) {
-                System.out.println();
+            if (foodItemList.isEmpty()) {
                 System.out.println("No Items Yet.");
-                return;
             } else {
-                viewList(foodItemsList);
+                System.out.println("Grocery List: ");
+                System.out.println("--------------");
+                for (int i = 0; i < foodItemList.size(); i++) {
+                    System.out.println((i + 1) + ". " + foodItemList.get(i));
+                }
+            }
+
+            if (allowMarking) {
                 System.out.println();
-                System.out.print("Enter Item Number To Remove: ");
-                int userRemove = scanner.nextInt();
+                System.out.print("Would You Like To Mark Any Items Bought? (Y/N): ");
+                char userYNB = scanner.next().toUpperCase().charAt(0);
                 scanner.nextLine();
 
-                FoodItem selectedRemove = foodItemsList.get(userRemove - 1);
-
-                System.out.println();
-                System.out.print("Are You Sure You Want To Remove " + "\"" + selectedRemove.name + "\"" + "? ");
-                char userYN = scanner.next().toUpperCase().charAt(0);
-                scanner.nextLine();
-
-                if (userYN != 'Y') {
+                if (userYNB != 'Y') {
                     return;
                 } else {
-                    selectedRemove = foodItemsList.remove(userRemove - 1);
                     System.out.println();
-                    System.out.println("You Have Removed " + "\"" + selectedRemove.name + "\"" + "!");
+                    System.out.print("Enter Number Of Item To Be Marked: ");
+                    int userMark = scanner.nextInt();
+                    scanner.nextLine();
+
+                    FoodItem selectedMark = foodItemList.get(userMark - 1);
+
+                    if (userMark < 1 || userMark > foodItemList.size()) {
+                        System.out.println();
+                        System.out.println("Invalid Entry. Try Again.");
+                    } else {
+                        selectedMark.isBought = true;
+                    }
+
                 }
             }
         }
 
-    public static void main(String[] args) {
+        static void addItem(Scanner scanner, List<FoodItem> foodItemList) {
 
-        List<FoodItem> foodItemsList = new ArrayList<>();
-        Scanner scanner = new Scanner(System.in);
+            while (true) {
+                System.out.println();
+                System.out.print("Add Item: ");
+                String userItem = scanner.nextLine().trim();
 
-        while (true) {
-            System.out.println();
-            System.out.println("1. View Full List");
-            System.out.println("2. Add Items");
-            System.out.println("3. Mark Brought");
-            System.out.println("4. Remove Items");
-            System.out.println("5. Exit");
-            System.out.println();
-            System.out.print("Enter Number Choice: ");
-            String userChoice = scanner.nextLine().trim();
+                System.out.println();
+                System.out.print("Quantity: ");
+                int userQuantity = scanner.nextInt();
 
-            switch (userChoice) {
-                case "1":
-                    viewList(foodItemsList);
-                    break;
-                case "2":
-                    addItem(foodItemsList, scanner);
-                    break;
-                case "3":
-                    markBrought(foodItemsList, scanner);
-                    break;
-                case "4":
-                    removeItem(foodItemsList, scanner);
-                    break;
-                case "5":
+                scanner.nextLine();
+
+                if (userItem.isEmpty() || userQuantity <= 0) {
                     System.out.println();
-                    System.out.println("Exited :)");
+                    System.out.println("Invalid. Try Again.");
+                } else {
+                    foodItemList.add(new FoodItem(userItem, userQuantity));
+                }
+
+                System.out.println();
+                System.out.print("Would You Like To Add Another Item? (Y/N): ");
+                char userYNA = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
+
+                if (userYNA != 'Y') {
                     return;
-                default:
+                }
+            }
+
+        }
+
+        static void removeItem(Scanner scanner, List<FoodItem> foodItemList) {
+            if (foodItemList.isEmpty()) {
                     System.out.println();
-                    System.out.println("Invalid Choice. Try Again.");
+                    System.out.println("No Items Yet.");
+                } else {
+                    viewList(scanner, foodItemList, false);
+                    System.out.println();
+                    System.out.print("Item To Remove: ");
+                    int userRemoved = scanner.nextInt();
+
+                    scanner.nextLine();
+
+                    FoodItem selectedRemove;
+
+                    if (userRemoved <= 0) {
+                        System.out.println();
+                        System.out.println("Invalid Entry. Try Again.");
+                    } else {
+                        selectedRemove = foodItemList.remove(userRemoved - 1);
+                        System.out.println();
+                        System.out.println(selectedRemove.name + " " + "Removed!");
+                    }
+
+                    System.out.println();
+                    System.out.print("Would You Like To Remove Another Item? (Y/N): ");
+                    char userYNR = scanner.next().toUpperCase().charAt(0);
+                    scanner.nextLine();
+
+                    if (userYNR != 'Y') {
+                        return;
+                    }
+                }
+        }
+
+        public static void main(String[] args) {
+            Scanner scanner = new Scanner(System.in);
+            List<FoodItem> foodItemList = new ArrayList<>();
+
+            while (true) {
+                System.out.println();
+                System.out.println("1. View Grocery List");
+                System.out.println("2. Add Item");
+                System.out.println("3. Remove Item");
+                System.out.println("4. Exit");
+
+                System.out.println();
+
+                System.out.print("Enter Number Choice: ");
+                String userChoice = scanner.nextLine().trim();
+
+                switch (userChoice) {
+                    case "1":
+                        viewList(scanner, foodItemList, true);
+                        break;
+                    case "2":
+                        addItem(scanner, foodItemList);
+                        break;
+                    case "3":
+                        removeItem(scanner, foodItemList);
+                        break;
+                    case "4":
+                        System.out.println();
+                        System.out.println("Exited :) ");
+                        return;
+                    default:
+                        System.out.println();
+                        System.out.println("Invalid Choice. Try Again.");
+                }
+
             }
         }
-    }
 }
