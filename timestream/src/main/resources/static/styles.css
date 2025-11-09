@@ -150,3 +150,86 @@ pointer-events: none;
 display: flex;
 gap: 10px;
 }
+
+
+/* chatroom styling */
+
+.logo {
+width: 100px;
+height: 100px;
+margin-top: 15px;
+margin-left: 15px;
+border-radius: 20px;
+
+}
+
+.chatroom-container {
+margin-top: -20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: relative;
+z-index: 1;
+}
+
+.chatroom-container input {
+height: 50px;
+width: 68%;
+font-size: 16px;
+}
+
+#send-btn {
+margin-top: 30px;
+font-size: 23px;
+box-shadow:
+    inset 3px 3px 8px rgba(0, 0, 0, 0.5),
+    inset -3px -3px 8px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+.chatroom-window {
+display: grid;
+grid-template-columns: 1fr 1fr;
+width: 1000px;
+height: 600px;
+background: linear-gradient(to right, rgba(255,255,255,0.8) 50%, rgba(0,0,0,0.8) 50%);
+background-color: golden;
+overflow-y: auto;
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.9),
+    0 12px 40px rgba(0, 0, 0, 0.8);
+}
+
+.chat-left {
+background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow-y: auto;
+  box-shadow:
+      0 8px 25px rgba(0, 0, 0, 0.9),
+      0 12px 40px rgba(0, 0, 0, 0.8);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  color: black;
+}
+
+.chat-messages p {
+  margin: 8px 0;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  width: fit-content;
+  max-width: 80%;
+  font-size: 15px;
+}
