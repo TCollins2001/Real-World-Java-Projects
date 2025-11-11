@@ -1,21 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>SIGN UP | TIMESTREAM</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+<nav>
+    <a href="/index">HOME</a>
+    <a href="/profile">PROFILE</a>
+    <a href="/chatroom">CHAT</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
+    <a href="/logout" class="logout-link">LOG OUT</a>
+</span>
+</nav>
+<a href="/index">
+    <img src="images/logo.png" alt="website logo" class="logo">
+</a>
+<div class="already">
+    <p>Already Have An Account? <a href="/sign-in">Login</a></p>
+</div>
 <div class="sign-up-div">
-<form action="" method="post">
+<form action="/register" method="post">
     <div class="form-container">
     <div class="sign-up-wrapper">
         <div class="main-form active">
         <h1>SIGN UP</h1>
-        <label for="first-name">First Name</label>
-        <input type="text" name="first-name" id="first-name" placeholder="Enter First Name" required>
-        <label for="last-name">Last Name</label>
-        <input type="text" name="last-name" id="last-name" placeholder="Enter Last Name" required>
+        <label for="first_name">First Name</label>
+        <input type="text" name="first_name" id="first_name" placeholder="Enter First Name" required>
+        <label for="last_name">Last Name</label>
+        <input type="text" name="last_name" id="last_name" placeholder="Enter Last Name" required>
 
         <label for="email">Email</label>
         <input type="text" name="email" id="email" placeholder="Enter Email" required>
@@ -24,6 +42,10 @@
 
         <label for="confirmPassword">Confirm Password</label>
         <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Re-Enter Password" required>
+            <div th:if="${errors != null and errors.containsKey('confirmPassword')}"
+                 style="color: red; font-size: 14px;">
+                <p th:text="${errors['confirmPassword']}"></p>
+            </div>
         <button type="button" class="next-btn">NEXT</button>
         </div>
 
@@ -51,15 +73,14 @@ const mainForm = document.querySelector('.main-form');
 const usernameForm = document.querySelector('.username-form');
 
 nextBtn.addEventListener('click', () => {
-  mainForm.classList.add('hidden');        // hide step 1
-  usernameForm.classList.add('active');    // show step 2
+  mainForm.classList.add('hidden');
+  usernameForm.classList.add('active');
 });
 
 backBtn.addEventListener('click', () => {
-  usernameForm.classList.remove('active'); // go back
+  usernameForm.classList.remove('active');
   mainForm.classList.remove('hidden');
 });
 </script>
-
 </body>
 </html>
