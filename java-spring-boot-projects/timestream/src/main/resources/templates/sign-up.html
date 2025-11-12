@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>SIGN UP | TIMESTREAM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<nav>
+    <a href="/index">HOME</a>
+    <a href="/profile">PROFILE</a>
+    <a href="/chatroom">CHAT</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
+    <a href="/logout" class="logout-link">LOG OUT</a>
+</span>
+</nav>
+<a href="/index">
+    <img src="images/logo.png" alt="website logo" class="logo">
+</a>
+<div class="already">
+    <p>Already Have An Account? <a href="/sign-in">Login</a></p>
+</div>
+<div class="sign-up-div">
+<form action="/register" method="post">
+    <div class="form-container">
+    <div class="sign-up-wrapper">
+        <div class="main-form active">
+        <h1>SIGN UP</h1>
+        <label for="first_name">First Name</label>
+        <input type="text" name="first_name" id="first_name" placeholder="Enter First Name" required>
+        <label for="last_name">Last Name</label>
+        <input type="text" name="last_name" id="last_name" placeholder="Enter Last Name" required>
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" placeholder="Enter Email" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter Password" required>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Re-Enter Password" required>
+            <div th:if="${errors != null and errors.containsKey('confirmPassword')}"
+                 style="color: red; font-size: 14px;">
+                <p th:text="${errors['confirmPassword']}"></p>
+            </div>
+        <button type="button" class="next-btn">NEXT</button>
+        </div>
+
+        <div class="username-form">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Enter Username" required>
+            <div class="button-row">
+                <button type="button" class="back-btn">BACK</button>
+            <button type="submit" class="submit-btn">SUBMIT</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</form>
+    <div class="right-side">
+        <h2>HELLO, SWEETIE...</h2>
+        <h1>WELCOME TO THE TIMESTREAM!</h1>
+        <p>PRESS SIGN UP TO JUMP INTO YOUR TIME STREAM.</p>
+    </div>
+</div>
+<script>
+    const nextBtn = document.querySelector('.next-btn');
+const backBtn = document.querySelector('.back-btn');
+const mainForm = document.querySelector('.main-form');
+const usernameForm = document.querySelector('.username-form');
+
+nextBtn.addEventListener('click', () => {
+  mainForm.classList.add('hidden');
+  usernameForm.classList.add('active');
+});
+
+backBtn.addEventListener('click', () => {
+  usernameForm.classList.remove('active');
+  mainForm.classList.remove('hidden');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>PROFILE | TIMESTREAM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="profile-body" style="background: none;">
+<nav>
+    <a href="/index">HOME</a>
+    <a href="/profile">PROFILE</a>
+    <a href="/chatroom">CHAT</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
+    <a href="/logout" class="logout-link">LOG OUT</a>
+</span>
+</nav>
+<a href="/index">
+    <img src="images/logo.png" alt="website logo" class="logo">
+</a>
+</body>
+</html>
