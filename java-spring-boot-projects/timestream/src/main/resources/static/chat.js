@@ -3,9 +3,14 @@ const sendBtn = document.getElementById("send-btn");
 const input = document.getElementById("messageInput");
 const chatMessages = document.getElementById("messages");
 
+const username = document.getElementById("usernameField")?.value;
+const sessionId = Number(document.getElementById("sessionIdField")?.value);
+
 socket.onmessage = (event) => {
   console.log("Received:", event.data);
   const msgData = JSON.parse(event.data);
+
+  if (msgData.sessionId != sessionId) return;
 
   const msg = document.createElement("p");
 
@@ -35,7 +40,8 @@ sendBtn.addEventListener("click", () => {
   if (input.value.trim() !== "") {
     const msgObj = {
       username: username,
-      message: input.value
+      message: input.value,
+      sessionId: sessionId
     };
     console.log("Sending:", msgObj);
     socket.send(JSON.stringify(msgObj));

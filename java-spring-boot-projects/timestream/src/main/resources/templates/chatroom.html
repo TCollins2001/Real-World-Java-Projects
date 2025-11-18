@@ -9,7 +9,7 @@
 <nav>
     <a href="/index">HOME</a>
     <a href="/profile">PROFILE</a>
-    <a href="/chatroom">CHAT</a>
+    <a href="/all-chats">CHAT</a>
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
     <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
@@ -27,7 +27,8 @@
         <input type="hidden" id="usernameField"
                th:if="${session.loggedInUser != null}"
                th:value="${session.loggedInUser.username}">
-
+        <input type="hidden" id="sessionIdField"
+               th:value="${sessionId}">
         <div class="chat-messages" id="messages"></div>
     </div>
     <div class="chatroom-side-panel"></div>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ALL CHATS | TIMESTREAM</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="all-chat-body" style="background: none; background: linear-gradient(135deg, #001133, #002966); padding-bottom: 100px;">
+<nav>
+  <a href="/index">HOME</a>
+  <a href="/profile">PROFILE</a>
+  <a href="/all-chats">CHAT</a>
+  <a href="/about">ABOUT</a>
+  <a href="/contact">CONTACT</a>
+  <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+  <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
+    <a href="/logout" class="logout-link">LOG OUT</a>
+</span>
+</nav>
+<a href="/index">
+  <img src="images/logo.png" alt="website logo" class="logo">
+</a>
+<div class="chat-box">
+    <div class="add-new-container">
+    <form action="/create-chat-session" method="post">
+        <button type="button" id="newChatBtn">
+            <img src="/images/plus-icon.png" class="new-chat-btn">
+            <p>Add New Chat Session</p>
+        </button>
+    </form>
+</div>
+    <div class="chat-box" id="chatBox"></div>
+</div>
+<script th:inline="javascript">
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const chatIds = /*[[${chatIds}]]*/ [];
+        chatIds.forEach(id => addChatPreview(id));
+    });
+
+    document.getElementById("newChatBtn").addEventListener("click", () => {
+        fetch("/create-chat-session", { method: "POST" })
+            .then(res => res.text())
+            .then(sessionId => addChatPreview(sessionId));
+    });
+
+    function addChatPreview(id) {
+        const box = document.querySelector(".chat-box");
+
+        const preview = document.createElement("div");
+        preview.classList.add("chat-preview");
+        preview.setAttribute("data-id", id);
+
+        preview.innerHTML = `
+            <div class="chat-preview-inner">
+                <strong>You &</strong>
+                <img src="images/tardis.png" class="chat-tardis">
+            </div>
+            <button class="delete-chat-btn" data-id="${id}">X</button>
+        `;
+
+        preview.addEventListener("click", () => {
+            window.location.href = `/chatroom?sessionId=${id}`;
+        });
+
+        preview.querySelector(".delete-chat-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            deleteChat(id);
+        });
+
+        box.appendChild(preview);
+    }
+
+    function deleteChat(id) {
+        fetch(`/delete-chat-session/${id}`, { method: "POST" })
+            .then(res => {
+                if (res.ok) {
+                    document.querySelector(`.chat-preview[data-id="${id}"]`)?.remove();
+                }
+            });
+    }
+
+</script>
+</body>
+</html>

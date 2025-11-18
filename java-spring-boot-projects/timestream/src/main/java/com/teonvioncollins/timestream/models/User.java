@@ -22,19 +22,19 @@ public class User {
     private String confirmPassword;
     @Column(nullable = false, unique = true, length = 50)
     private String username;
-    private String coverPic;
-    private String profilePic;
+    private String cover_pic;
+    private String profile_pic;
 
     public User() {}
 
-    public User(String first_name, String last_name, String email, String password, String username, String coverPic, String profilePic) {
+    public User(String first_name, String last_name, String email, String password, String username, String cover_pic, String profile_pic) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.username = username;
-        this.coverPic = coverPic;
-        this.profilePic = profilePic;
+        this.cover_pic = cover_pic;
+        this.profile_pic = profile_pic;
     }
 
     public Long getId() {
@@ -94,18 +94,18 @@ public class User {
         }
 
     public String getCoverPic() {
-        return coverPic;
+        return cover_pic;
     }
 
-    public void setCoverPic(String coverPic) {
-        this.coverPic = coverPic;
+    public void setCoverPic(String cover_pic) {
+        this.cover_pic = cover_pic;
     }
 
     public String getProfilePic() {
-        return profilePic;
+        return profile_pic;
     }
 
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
+    public void setProfilePic(String profile_pic) {
+        this.profile_pic = profile_pic;
     }
 }

@@ -205,6 +205,7 @@ position: fixed;
   height: 90px;
   border-radius: 20px;
   z-index: 1100;
+  border: 2px solid white;
 }
 
 .chatroom-container {
@@ -454,4 +455,233 @@ color: #82b1ff;
   0%, 100% { opacity: 0; transform: translate(-50%, 15px); }
   10%, 25% { opacity: 1; transform: translate(-50%, 0); }
   30%, 90% { opacity: 0; transform: translate(-50%, 15px); }
+}
+
+
+/* profile page */
+
+.profile-header {
+    position: relative;
+    width: 100%;
+    height: 250px;
+}
+
+.profile-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-bottom: 3px solid #fff;
+}
+
+.cover-container {
+border: 10px solid  #062a64;
+position: absolute;
+top: 85px;
+width: 100%;
+height: 300px;
+border-right: none;
+border-left: none;
+}
+
+.avatar-container {
+    position: absolute;
+    bottom: -70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    z-index: 3;
+    background-color: #062a64;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    transition: opacity 0.25s ease;
+    border-radius: 50%;
+    z-index: 4;
+}
+
+.profile-pic {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid white;
+    object-fit: cover;
+}
+
+.editing-pencil {
+float: right;
+width: 23px;
+height: 23px;
+border-radius: 50%;
+background-color: #062a64;
+padding: 5px;
+position: absolute;
+top: 15px;
+right: 30px;
+cursor: pointer;
+border: 2px solid white;
+}
+
+.editing-reset {
+float: right;
+width: 23px;
+height: 23px;
+border-radius: 50%;
+background-color: #062a64;
+padding: 5px;
+position: absolute;
+top: 50px;
+right: 30px;
+cursor: pointer;
+border: 2px solid white;
+}
+
+
+
+.avatar-pencil {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35px;
+    height: 35px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: 5;
+    border: 2px solid white;
+}
+
+.avatar-reset {
+position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35px;
+    height: 35px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    z-index: 5;
+    border: 2px solid white;
+
+}
+
+.profile-form-container {
+    display: none;
+}
+
+.avatar-container:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.avatar-container:hover .avatar-pencil {
+    opacity: 1;
+}
+
+.avatar-container:hover .avatar-reset {
+    opacity: 1;
+}
+
+.cover-reset {
+    position: absolute;
+    top: 70px;
+}
+
+/* all-chats page */
+
+
+.add-new-container {
+position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.new-chat-btn {
+cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+.chat-preview {
+width: 800px;
+height: 200px;
+background-color: white;
+position: relative;
+    top: 250px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-bottom: 20px;
+    border-radius: 10px;
+text-align: center;
+color: #062a64;
+cursor: pointer;
+font-family: serif;
+font-weight: bold;
+}
+
+.add-new-container p, .add-new-container button {
+display: flex;
+flex-direction: row;
+gap: 4px;
+padding: 3px;
+}
+.add-new-container button {
+background-color: white;
+height: 50px;
+border-radius: 10px;
+box-shadow: 0 4px 0 #062a64;
+    transition: all 0.1s ease;
+}
+
+.add-new-container button:active {
+    box-shadow: 0 0 0 #062a64;
+    transform: translateY(4px);
+}
+
+.add-new-container p {
+display: flex;
+flex-direction: row;
+position: relative;
+top: -8px;
+color: #062a64;
+font-size: 17px;
+width: 80%;
+font-weight: bold;
+}
+
+.chat-tardis {
+width: 60px;
+height: 60px;
+float: right;
+position: relative;
+top: 120px;
+left: 5px;
+}
+
+.delete-chat-btn {
+font-weight: bold;
+color: #062a64;
+background: none;
+float: right;
+border-color: #062a64;
+position: relative;
+top: -12px;
+left: 45px;
+cursor: pointer;
+}
+
+.chat-box::after {
+    content: "";
+    display: block;
+    height: 120px;
 }

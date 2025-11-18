@@ -80,11 +80,34 @@ public class UserValidation {
     }
 
     public User saveUser(User user) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return user;
+        if (user.getId() == null) {
+            if (!user.getPassword().startsWith("$2a$")) {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                user.setPassword(encoder.encode(user.getPassword()));
+            }
+            return userRepository.save(user);
+        }
+
+        User existing = userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found for update"));
+
+        if (user.getFirst_name() != null) existing.setFirst_name(user.getFirst_name());
+        if (user.getLast_name() != null) existing.setLast_name(user.getLast_name());
+        if (user.getUsername() != null) existing.setUsername(user.getUsername());
+        if (user.getEmail() != null) existing.setEmail(user.getEmail());
+
+        if (user.getProfilePic() != null) existing.setProfilePic(user.getProfilePic());
+        if (user.getCoverPic() != null) existing.setCoverPic(user.getCoverPic());
+
+        if (user.getPassword() != null && !user.getPassword().isBlank()
+                && !existing.getPassword().equals(user.getPassword())) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            existing.setPassword(encoder.encode(user.getPassword()));
+        }
+
+        return userRepository.save(existing);
     }
+
 
     public Map<String, String> validateLogin(User inputUser) {
         Map<String, String> errors = new HashMap<>();
@@ -116,5 +139,26 @@ public class UserValidation {
 
         logger.info("Login successful for username: {}", inputUser.getUsername());
         return errors;
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found: " + username));
+    }
+
+    public void updateCoverPic(String username, String coverPicPath) {
+        User user = findByUsername(username);
+        if (user != null) {
+            user.setCoverPic(coverPicPath);
+            saveUser(user);
+        }
+    }
+
+    public void updateProfilePic(String username, String profilePicPath) {
+        User user = findByUsername(username);
+        if (user != null) {
+            user.setProfilePic(profilePicPath);
+            saveUser(user);
+        }
     }
 }
