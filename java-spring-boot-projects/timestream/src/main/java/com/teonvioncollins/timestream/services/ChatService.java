@@ -39,4 +39,8 @@ public class ChatService {
     public Set<Long> getAllSessionIds() {
         return sessions.keySet();
     }
+
+    public int openChatSessions() {
+        return sessions.size();
+    }
 }

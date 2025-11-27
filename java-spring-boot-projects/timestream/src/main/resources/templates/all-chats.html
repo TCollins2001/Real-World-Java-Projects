@@ -7,13 +7,13 @@
 </head>
 <body class="all-chat-body" style="background: none; background: linear-gradient(135deg, #001133, #002966); padding-bottom: 100px;">
 <nav>
-  <a href="/index">HOME</a>
-  <a href="/profile">PROFILE</a>
-  <a href="/all-chats">CHAT</a>
-  <a href="/about">ABOUT</a>
-  <a href="/contact">CONTACT</a>
-  <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
-  <span th:if="${session.loggedInUser != null}" class="welcome-user">
+    <a href="/index">HOME</a>
+    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
+    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
+    <a href="/about">ABOUT</a>
+    <a href="/contact">CONTACT</a>
+    <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    <span th:if="${session.loggedInUser != null}" class="welcome-user">
   Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
     <a href="/logout" class="logout-link">LOG OUT</a>
 </span>
@@ -54,7 +54,6 @@
 
         preview.innerHTML = `
             <div class="chat-preview-inner">
-                <strong>You &</strong>
                 <img src="images/tardis.png" class="chat-tardis">
             </div>
             <button class="delete-chat-btn" data-id="${id}">X</button>

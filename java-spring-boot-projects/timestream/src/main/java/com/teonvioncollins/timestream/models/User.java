@@ -2,6 +2,9 @@ package com.teonvioncollins.timestream.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -22,17 +25,20 @@ public class User {
     private String confirmPassword;
     @Column(nullable = false, unique = true, length = 50)
     private String username;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
     private String cover_pic;
     private String profile_pic;
 
     public User() {}
 
-    public User(String first_name, String last_name, String email, String password, String username, String cover_pic, String profile_pic) {
+    public User(String first_name, String last_name, String email, String password, String username, LocalDateTime createdAt, String cover_pic, String profile_pic) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.username = username;
+        this.createdAt = createdAt;
         this.cover_pic = cover_pic;
         this.profile_pic = profile_pic;
     }
@@ -91,6 +97,14 @@ public class User {
 
         public void setUsername(String username) {
             this.username = username;
+        }
+
+        public LocalDateTime getCreatedAt() {
+        return createdAt;
+        }
+
+        public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
         }
 
     public String getCoverPic() {

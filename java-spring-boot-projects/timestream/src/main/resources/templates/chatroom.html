@@ -8,8 +8,8 @@
 <body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
 <nav>
     <a href="/index">HOME</a>
-    <a href="/profile">PROFILE</a>
-    <a href="/all-chats">CHAT</a>
+    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
+    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
     <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>

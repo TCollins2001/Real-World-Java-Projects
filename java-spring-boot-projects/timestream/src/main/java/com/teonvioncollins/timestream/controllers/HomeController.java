@@ -35,7 +35,8 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String profile() {
+    public String profile(Model model) {
+        model.addAttribute("openChats", chatService.openChatSessions());
         return "profile";
     }
 

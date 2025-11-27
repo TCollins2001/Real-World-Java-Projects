@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
@@ -26,10 +27,12 @@ public class UserController {
     public String registerUser(@ModelAttribute User user, Model model, HttpSession session) {
         Map<String, String> errors = userValidation.validateRegistration(user);
 
+
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
             return "sign-up";
         }
+        user.setCreatedAt(LocalDateTime.now());
 
         User savedUser = userValidation.saveUser(user);
 
