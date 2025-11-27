@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>T.C IMPOSTER GAME | HOST & JOIN</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/index"><button type="button" class="host-back-btn" style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">BACK</button></a>
+<div class="background-host-container">
+  <a href="/index"><img class="background-host" src="/images/background.png"></a>
+</div>
+<h3>GAME CODE!</h3>
+<h3 th:text="${code}" style="color: #1892a2; -webkit-text-stroke: 4px #ffffff; text-stroke: 4px #ffffff;"></h3>
+<form action="/host-join" method="post">
+  <div class="join-start-input">
+    <input type="hidden" name="code" th:value="${code}">
+  <label>
+    <input type="text" name="name" placeholder="Enter Name" required>
+  </label>
+  <label>
+    <input type="number" name="maxPlayers" placeholder="Number Of Players?" min="2" max="10" required>
+  </label>
+  </div>
+  <button type="submit" class="join-start-btn">HOST & JOIN</button>
+</form>
+</body>
+</html>

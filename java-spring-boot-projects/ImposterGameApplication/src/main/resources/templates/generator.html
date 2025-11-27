@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>T.C IMPOSTER GAME | GENERATOR</title>
+  <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+<body>
+<a href="/index"><button type="button" class="host-back-btn" style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">BACK</button></a>
+<div class="generator" style="font-family: 'Luckiest Guy', sans-serif;">
+    <h2 th:if="${code != null}" style="background-color: #1892a2; color: white; padding: 10px; display: inline-block; border: 7px solid #ffffff; border-radius: 10px;">
+        Game Code: <span th:text="${code}"></span>
+    </h2>
+    <h2 th:text="${role}" style="text-align: center; color: #ffffff; font-size: 50px;"></h2>
+    <h2 style="text-align: center; color: #ffffff; font-size: 50px;">
+        Category: <span th:text="${category}"></span>
+    </h2>
+    <h3 th:if="${question != ''}" th:text="${question}" style="font-size: 63px;"></h3>
+</div>
+</body>
+</html>

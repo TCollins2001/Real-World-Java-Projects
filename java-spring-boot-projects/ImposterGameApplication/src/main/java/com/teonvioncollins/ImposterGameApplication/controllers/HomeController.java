@@ -1,0 +1,28 @@
+package com.teonvioncollins.ImposterGameApplication.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HomeController {
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/host")
+    public String host() {
+        return "host";
+    }
+
+    @GetMapping("/generator")
+    public String generator() {
+        return "generator";
+    }
+
+    @GetMapping("/join")
+    public String join() {
+        return "join";
+    }
+}

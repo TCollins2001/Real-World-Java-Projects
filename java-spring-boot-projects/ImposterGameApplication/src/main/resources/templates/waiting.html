@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>T.C IMPOSTER GAME | WAITING ROOM</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="background-host-container">
+  <a href="/index"><img class="background-waiting" src="/images/background.png"></a>
+</div>
+<div class="waiting-container">
+  <h2 th:if="${code != null}" style="background-color: #1892a2; color: white; padding: 10px; display: inline-block; border: 7px solid #ffffff; border-radius: 10px; font-family: 'Luckiest Guy', sans-serif;">
+    Game Code: <span th:text="${code}"></span>
+  </h2>
+<h1>WAITING FOR ALL PLAYERS TO JOIN<span id="dots">...</span></h1>
+</div>
+<form id="goGenForm" action="/generator" method="post">
+  <input type="hidden" name="code" th:value="${code}">
+  <input type="hidden" name="playerId" th:value="${playerId}">
+</form>
+
+<script>
+  let dotCount = 0;
+const dots = document.getElementById("dots");
+
+setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
+    dots.textContent = ".".repeat(dotCount);
+}, 500);
+
+
+function checkStatus() {
+    fetch("/status", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "code=" + [[${code}]]
+    })
+    .then(res => res.text())
+    .then(result => {
+        if (result === "START") {
+            document.getElementById("goGenForm").submit();
+        }
+    });
+}
+
+setInterval(checkStatus, 1000);
+</script>
+
+</body>
+</html>
