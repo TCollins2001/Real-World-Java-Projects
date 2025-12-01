@@ -46,14 +46,16 @@ public class CreateSessionService {
                         "Which food feels nostalgic to you?",
                         "What warm food do people claim is better when it's cold?",
                         "What's a food you absolutely hate?",
-                        "What food have you definitely dropped on the floor before eating anyway?"
+                        "What food have you definitely dropped on the floor before eating anyway?",
+                        "What food is impossible to eat neatly?"
 
 
                 ),
                 "Animal", List.of(
                         "What animal would you own if you had no choice?",
                         "What animal’s personality do you connect with most?",
-                        "What animal would you lose to in a fight?"
+                        "What animal would you lose to in a fight?",
+                        "Which animal would be the worst at hide-and-seek?"
 
                 ),
                 "Person", List.of(
@@ -61,7 +63,8 @@ public class CreateSessionService {
                         "Who is the calmest person you know, even in chaos?",
                         "Who would get scammed in the funniest way?",
                         "Who would confidently answer a question with the wrong answer?",
-                        "Who would take a joke too seriously?"
+                        "Who would take a joke too seriously?",
+                        "Who would survive a zombie apocalypse the longest?"
 
 
                 ),
