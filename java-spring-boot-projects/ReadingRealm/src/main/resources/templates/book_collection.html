@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="/styles.css">
+<head>
+    <meta charset="UTF-8">
+    <title>ReadingRealm | Books</title>
+</head>
+<body class="book-background">
+<h1>All Books</h1>
+<div class="genre-div">
+  <form action="/find-by-genre" method="get">
+    <button type="submit" name="genre" value="Sci-Fi" class="sci-btn">Sci-Fi</button>
+    <button type="submit" name="genre" value="Horror" class="horror-btn">Horror</button>
+  </form>
+</div>
+<div class="book-div">
+<figure th:each="book : ${books}">
+        <img th:src="@{/images/{file}(file=${book.image})}">
+  <figcaption>
+    <h3 th:text="${book.title + ' ' + '(' + book.genre + ')'}"></h3>
+    <h3 th:text="${book.author}"></h3>
+  </figcaption>
+</figure>
+</div>
+</body>
+</html>

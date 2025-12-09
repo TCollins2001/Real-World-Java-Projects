@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>WRITERSROOM | NOTES</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="notes-page">
+  <div class="sidebar">
+    <div class="top-bar">
+      <input id="searchInput" class="search" placeholder="Search notes...">
+      <form action="/add-note" method="post">
+      <button id="newNoteBtn" class="new-note-btn">+ New Note</button>
+      </form>
+    </div>
+
+    <div id="noteList" class="note-list">
+    </div>
+  </div>
+
+  <div class="content">
+    <input id="noteTitle" class="note-title" placeholder="Title">
+    <textarea id="noteContent" class="note-content" placeholder="Start typing..."></textarea>
+  </div>
+</div>
+</body>
+</html>

@@ -198,3 +198,90 @@ cursor: pointer;
 position: relative;
 top: 10px;
 }
+
+
+/* notes page */
+
+
+.notes-page {
+    display: flex;
+    height: 100vh;
+    background: #f6f0e6;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+    width: 300px;
+    background: #f2ede3;
+    border-right: 1px solid #d1c7b8;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-bar {
+    padding: 15px;
+    border-bottom: 1px solid #d1c7b8;
+}
+
+.search {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.new-note-btn {
+    width: 100%;
+    padding: 8px;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.note-list {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.note-item {
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #e2dbd0;
+}
+
+.note-item:hover {
+    background: #e8e2d8;
+}
+
+.note-item.active {
+    background: #ddd5c7;
+    font-weight: 600;
+}
+
+.content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.note-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    border: none;
+    background: transparent;
+}
+
+.note-content {
+    flex: 1;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    resize: none;
+    background: transparent;
+    line-height: 1.6;
+}
