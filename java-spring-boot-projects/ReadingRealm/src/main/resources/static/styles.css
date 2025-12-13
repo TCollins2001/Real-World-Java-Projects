@@ -1,5 +1,21 @@
+
+.index-body {
+background: url("/images/rr-background.png") no-repeat;
+background-size: cover;
+font-family: 'Poppins', sans-serif;
+}
+
+
 .book-background {
-background-color: black;
+background: linear-gradient(
+  135deg,
+  #a33a2b 0%,
+  #b8482f 25%,
+  #c95a3a 50%,
+  #d36a45 75%,
+  #e07c55 100%
+);
+font-family: 'Poppins', sans-serif;
 }
 
 h1 {
@@ -7,6 +23,52 @@ text-align: center;
 color: white;
 font-size: 30px;
 }
+
+button {
+font-family: 'Poppins', sans-serif;
+}
+
+.index-btn-div button {
+font-size: 19.2px;
+font-weight: bold;
+color: #f09242;
+border-radius: 10px;
+width: 225px;
+height: 50px;
+cursor: pointer;
+}
+
+.browse-btn {
+  position: relative;
+  top: 710px;
+  left: 283px;
+  transform: rotate(-8.2deg);
+  font-family: 'Poppins', sans-serif;
+  background-color: #fbd7a7;
+  border: 2px solid #f09242;
+  padding: 12px 22px;
+  box-shadow:
+    0 4px 0 #f09242,
+    0 6px 10px rgba(0,0,0,0.25);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+.browse-btn:hover {
+  transform: rotate(-8.2deg) translateY(-2px);
+  box-shadow:
+    0 7px 0 #f09242,
+    0 12px 16px rgba(0,0,0,0.3);
+}
+
+.browse-btn:active {
+  transform: rotate(-8.2deg) translateY(2px);
+  box-shadow:
+    0 2px 0 #f09242,
+    0 4px 6px rgba(0,0,0,0.2);
+}
+
 
 .book-div {
 display: grid;
@@ -16,6 +78,7 @@ margin-top: 130px;
 text-align: center;
 color: white;
 }
+
 .book-div img {
 width: 300px;
 height: 400px;
@@ -31,22 +94,118 @@ gap: 10px;
 }
 
 .genre-div button {
-margin-top: 120px;
 font-size: 20px;
-background-color: white;
+font-weight: bold;
+color: #f09242;
+background-color: #fbd7a7;
 border-radius: 10px;
-box-shadow: 0px 4px 0px grey;
 width: 100px;
 height: 100px;
 cursor: pointer;
 }
 
-.sci-btn:active {
-    box-shadow: 0px 1px 0px grey;
-    transform: translateY(3px);
+.all-books-btn:hover, .sci-btn:hover, .horror-btn:hover {
+    box-shadow:
+        0 7px 0 #f09242,
+        0 12px 16px rgba(0,0,0,0.3);
 }
 
-.horror-btn:active {
-    box-shadow: 0px 1px 0px #2b5bd8;
-    transform: translateY(3px);
+.all-books-btn:active, .sci-btn:active, .horror-btn:active  {
+transform: translateY(2px);
+     box-shadow:
+         0 2px 0 #f09242,
+         0 4px 6px rgba(0,0,0,0.2);
+}
+
+.all-books-btn, .sci-btn, .horror-btn {
+margin-top: 120px;
+  border: 2px solid #f09242;
+  box-shadow:
+      0 4px 0 #f09242,
+      0 6px 10px rgba(0,0,0,0.25);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease;
+}
+
+.back-home-div button {
+font-size: 20px;
+font-weight: bold;
+color: #f09242;
+border-radius: 10px;
+width: 190px;
+height: 40px;
+cursor: pointer;
+}
+
+.book-div button {
+font-size: 20px;
+font-weight: bold;
+color: #f09242;
+border-radius: 10px;
+width: 100px;
+height: 40px;
+cursor: pointer;
+}
+
+.back-home-btn, .view-btn {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fbd7a7;
+  border: 2px solid #f09242;
+  border-radius: 10px;
+  box-shadow:
+    0 4px 0 #f09242,
+    0 6px 10px rgba(0,0,0,0.25);
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease;
+}
+
+
+.back-home-btn:hover, .view-btn:hover {
+  box-shadow:
+    0 7px 0 #f09242,
+    0 12px 16px rgba(0,0,0,0.3);
+}
+
+ .back-home-btn:active, .view-btn:active {
+ transform: translateY(2px);
+ box-shadow:
+     0 2px 0 #f09242,
+     0 4px 6px rgba(0,0,0,0.2);
+ }
+
+
+ /* view page */
+
+.main-book-div {
+color: white;
+text-align: center;
+}
+
+.main-book-div figure {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.main-book-div figcaption {
+padding-left: 50px;
+margin-top: 50px;
+}
+
+.main-book-div img {
+margin-top: 70px;
+width: 490px;
+height: 600px;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+border-radius: 10px;
+}
+
+.label {
+font-size: 20px;
+}
+
+.main-book-div h2 {
+padding-bottom: 20px;
 }

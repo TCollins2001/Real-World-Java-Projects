@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>ReadingRealm | View</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="book-background">
+<div class="back-home-div">
+  <a href="/get-books"><button type="button" class="back-home-btn">Back</button></a>
+</div>
+<div class="main-book-div">
+  <figure th:each="book : ${books}">
+    <img th:src="@{/images/{file}(file=${book.image})}">
+    <figcaption>
+      <span class="label">Title: </span>
+      <h2 th:text="${book.title}"></h2>
+      <span class="label">Synopsis: </span>
+      <h2 th:text="${book.synopsis}"></h2>
+      <span class="label">Main Characters: </span>
+      <h2 th:text="${book.characters}"></h2>
+      <span class="label">Language: </span>
+      <h2 th:text="${book.language}"></h2>
+    </figcaption>
+  </figure>
+</div>
+</body>
+</html>

@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BookRepository extends JpaRepository<BookModel, Long> {
 
     List<BookModel> findByGenre(String genre);
-
 }

@@ -13,6 +13,9 @@ public class BookModel {
     private String author;
     private String genre;
     private String image;
+    private String synopsis;
+    private String characters;
+    private String language;
 
     public BookModel() {}
 
@@ -63,5 +66,29 @@ public class BookModel {
 
     public void setImage() {
         this.image = image;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
+
+    public String getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(String characters) {
+        this.characters = characters;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

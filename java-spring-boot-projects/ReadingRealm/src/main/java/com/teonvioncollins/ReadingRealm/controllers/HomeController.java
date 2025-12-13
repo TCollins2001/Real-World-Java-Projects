@@ -15,4 +15,9 @@ public class HomeController {
     public String bookCollection() {
         return "book_collection";
     }
+
+    @GetMapping("/view")
+        public String view() {
+        return "view";
+    }
 }

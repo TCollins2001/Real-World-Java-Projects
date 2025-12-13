@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <link rel="stylesheet" href="/styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <head>
     <meta charset="UTF-8">
     <title>ReadingRealm | Books</title>
 </head>
 <body class="book-background">
-<h1>All Books</h1>
+<div class="back-home-div">
+<a href="/index"><button type="button" class="back-home-btn">Back Home</button></a>
+</div>
+<h1 th:text="${pageTitle}" style="color: #f09242; background-color: #fbd7a7; padding:10px; font-size: 40px; border-radius: 10px;">All Books</h1>
 <div class="genre-div">
+    <form action="/get-books" method="get">
+        <button type="submit" class="all-books-btn">All Books</button>
+    </form>
   <form action="/find-by-genre" method="get">
     <button type="submit" name="genre" value="Sci-Fi" class="sci-btn">Sci-Fi</button>
     <button type="submit" name="genre" value="Horror" class="horror-btn">Horror</button>
@@ -19,6 +28,9 @@
   <figcaption>
     <h3 th:text="${book.title + ' ' + '(' + book.genre + ')'}"></h3>
     <h3 th:text="${book.author}"></h3>
+      <form action="/view-book" method="get">
+      <button type="submit" name="id" th:value="${book.id}" class="view-btn">View</button>
+      </form>
   </figcaption>
 </figure>
 </div>
