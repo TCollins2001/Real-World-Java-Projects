@@ -12,16 +12,37 @@
 </div>
 <div class="main-book-div">
   <figure th:each="book : ${books}">
+    <div class="book-media">
     <img th:src="@{/images/{file}(file=${book.image})}">
+    <button type="submit" class="checkout-btn">Start Reading</button>
+    </div>
     <figcaption>
-      <span class="label">Title: </span>
-      <h2 th:text="${book.title}"></h2>
-      <span class="label">Synopsis: </span>
+      <div class="book-view-heading">
+      <h2 th:text="${book.title}" class="book-title"></h2>
+      <h2 th:text="${book.author}" class="book-author"></h2>
+      </div>
+
       <h2 th:text="${book.synopsis}"></h2>
+
+      <div class="book-view-characters">
       <span class="label">Main Characters: </span>
-      <h2 th:text="${book.characters}"></h2>
+      <p th:text="${book.characters}" class="book-characters"></p>
+      </div>
+
+      <div class="book-view-pages">
+        <span class="label"># Pages: </span>
+        <p th:text="${book.pages}" class="book-pages"></p>
+      </div>
+
+      <div class="book-view-language">
       <span class="label">Language: </span>
-      <h2 th:text="${book.language}"></h2>
+      <p th:text="${book.language}" class="book-language"></p>
+      </div>
+
+      <div class="book-view-format">
+        <span class="label">Format: </span>
+        <p th:text="${book.format}" class="book-format"></p>
+      </div>
     </figcaption>
   </figure>
 </div>

@@ -15,6 +15,8 @@ public class BookModel {
     private String image;
     private String synopsis;
     private String characters;
+    private String format;
+    private int pages;
     private String language;
 
     public BookModel() {}
@@ -90,5 +92,21 @@ public class BookModel {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
     }
 }

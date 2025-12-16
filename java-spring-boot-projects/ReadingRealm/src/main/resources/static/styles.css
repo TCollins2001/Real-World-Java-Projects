@@ -1,3 +1,9 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
 
 .index-body {
 background: url("/images/rr-background.png") no-repeat;
@@ -136,6 +142,8 @@ border-radius: 10px;
 width: 190px;
 height: 40px;
 cursor: pointer;
+margin-top: 10px;
+margin-left: 10px;
 }
 
 .book-div button {
@@ -148,7 +156,7 @@ height: 40px;
 cursor: pointer;
 }
 
-.back-home-btn, .view-btn {
+.back-home-btn, .view-btn, .checkout-btn {
   font-family: 'Poppins', sans-serif;
   background-color: #fbd7a7;
   border: 2px solid #f09242;
@@ -162,13 +170,13 @@ cursor: pointer;
 }
 
 
-.back-home-btn:hover, .view-btn:hover {
+.back-home-btn:hover, .view-btn:hover, .checkout-btn:hover {
   box-shadow:
     0 7px 0 #f09242,
     0 12px 16px rgba(0,0,0,0.3);
 }
 
- .back-home-btn:active, .view-btn:active {
+ .back-home-btn:active, .view-btn:active, .checkout-btn:active {
  transform: translateY(2px);
  box-shadow:
      0 2px 0 #f09242,
@@ -180,9 +188,13 @@ cursor: pointer;
 
 .main-book-div {
 color: white;
-text-align: center;
 }
 
+.book-media {
+display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .main-book-div figure {
 display: flex;
 justify-content: center;
@@ -191,21 +203,52 @@ align-items: center;
 
 .main-book-div figcaption {
 padding-left: 50px;
-margin-top: 50px;
+margin-top: -160px;
 }
 
-.main-book-div img {
-margin-top: 70px;
-width: 490px;
+.book-media img {
+margin-top: 40px;
+width: 420px;
 height: 600px;
 box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 border-radius: 10px;
 }
 
-.label {
+
+.book-media button {
 font-size: 20px;
+font-weight: bold;
+color: #f09242;
+border-radius: 10px;
+width: 320px;
+height: 50px;
+cursor: pointer;
+margin-top: 20px;
 }
 
-.main-book-div h2 {
-padding-bottom: 20px;
+.label {
+font-size: 15px;
+}
+
+.book-title {
+    font-size: 50px;
+    margin-bottom: -25px;
+}
+
+.book-author {
+    font-size: 25px;
+}
+.book-view-heading {
+    border-bottom: 5px solid white;
+}
+
+.book-view-characters, .book-view-language, .book-view-format, .book-view-pages {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.book-characters, .book-language, .book-format, .book-pages {
+padding-left: 8px;
+font-size: 18px;
 }
