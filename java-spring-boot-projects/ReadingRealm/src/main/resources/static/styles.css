@@ -4,6 +4,21 @@ html, body {
   min-height: 100%;
 }
 
+.main-book-div, .b-collection-div {
+  animation: contentFade 0.25s ease;
+}
+
+@keyframes contentFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 .index-body {
 background: url("/images/rr-background.png") no-repeat;
@@ -47,7 +62,7 @@ cursor: pointer;
 .browse-btn {
   position: relative;
   top: 710px;
-  left: 283px;
+  left: 289px;
   transform: rotate(-8.2deg);
   font-family: 'Poppins', sans-serif;
   background-color: #fbd7a7;
@@ -110,20 +125,31 @@ height: 100px;
 cursor: pointer;
 }
 
-.all-books-btn:hover, .sci-btn:hover, .horror-btn:hover {
+.genre-div button:nth-child(4) {
+font-size: 20px;
+font-weight: bold;
+color: #f09242;
+background-color: #fbd7a7;
+border-radius: 10px;
+width: 120px;
+height: 100px;
+cursor: pointer;
+}
+
+.all-books-btn:hover, .sci-btn:hover, .horror-btn:hover, .myst-btn:hover, .rom-btn:hover, .hist-btn:hover {
     box-shadow:
         0 7px 0 #f09242,
         0 12px 16px rgba(0,0,0,0.3);
 }
 
-.all-books-btn:active, .sci-btn:active, .horror-btn:active  {
+.all-books-btn:active, .sci-btn:active, .horror-btn:active, .myst-btn:active, .rom-btn:active, .hist-btn:active  {
 transform: translateY(2px);
      box-shadow:
          0 2px 0 #f09242,
          0 4px 6px rgba(0,0,0,0.2);
 }
 
-.all-books-btn, .sci-btn, .horror-btn {
+.all-books-btn, .sci-btn, .horror-btn, .myst-btn, .rom-btn, .hist-btn {
 margin-top: 120px;
   border: 2px solid #f09242;
   box-shadow:
@@ -192,9 +218,16 @@ color: white;
 
 .book-media {
 display: flex;
-  flex-direction: column;
-  align-items: center;
+flex-direction: column;
+align-items: center;
 }
+
+.book-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 .main-book-div figure {
 display: flex;
 justify-content: center;
@@ -202,8 +235,8 @@ align-items: center;
 }
 
 .main-book-div figcaption {
+margin-top: -100px;
 padding-left: 50px;
-margin-top: -160px;
 }
 
 .book-media img {
@@ -226,10 +259,6 @@ cursor: pointer;
 margin-top: 20px;
 }
 
-.label {
-font-size: 15px;
-}
-
 .book-title {
     font-size: 50px;
     margin-bottom: -25px;
@@ -249,6 +278,17 @@ font-size: 15px;
 }
 
 .book-characters, .book-language, .book-format, .book-pages {
-padding-left: 8px;
-font-size: 18px;
+padding-left: 5px;
+font-size: 15px;
+}
+
+
+.book-view-characters {
+  margin-top: 15px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.meta-value {
+  margin-left: 3px;
 }

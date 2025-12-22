@@ -5,12 +5,12 @@
     <title>ReadingRealm | View</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
 <body class="book-background">
 <div class="back-home-div">
   <a href="/get-books"><button type="button" class="back-home-btn">Back</button></a>
 </div>
 <div class="main-book-div">
+  <div class="book-wrapper">
   <figure th:each="book : ${books}">
     <div class="book-media">
     <img th:src="@{/images/{file}(file=${book.image})}">
@@ -19,15 +19,18 @@
     <figcaption>
       <div class="book-view-heading">
       <h2 th:text="${book.title}" class="book-title"></h2>
-      <h2 th:text="${book.author}" class="book-author"></h2>
+      <p th:text="${book.author}" class="book-author"></p>
       </div>
 
-      <h2 th:text="${book.synopsis}"></h2>
+      <p th:text="${book.synopsis}" class="book-syn"></p>
 
-      <div class="book-view-characters">
-      <span class="label">Main Characters: </span>
-      <p th:text="${book.characters}" class="book-characters"></p>
-      </div>
+      <p class="book-meta">
+        <span class="meta-label">Main Characters:</span>
+        <span class="meta-value" th:text="${book.characters}">
+  </span>
+      </p>
+
+
 
       <div class="book-view-pages">
         <span class="label"># Pages: </span>
@@ -45,6 +48,7 @@
       </div>
     </figcaption>
   </figure>
+</div>
 </div>
 </body>
 </html>

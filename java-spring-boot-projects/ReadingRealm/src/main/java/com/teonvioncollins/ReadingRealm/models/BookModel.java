@@ -21,12 +21,17 @@ public class BookModel {
 
     public BookModel() {}
 
-    public BookModel(Long id, String title, String author, String genre, String image) {
+    public BookModel(Long id, String title, String author, String genre, String image, String synopsis, String characters, String format, int pages, String language) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.image = image;
+        this.synopsis = synopsis;
+        this.characters = characters;
+        this.format = format;
+        this.pages = pages;
+        this.language = language;
 
     }
 
