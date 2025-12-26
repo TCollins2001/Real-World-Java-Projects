@@ -5,6 +5,132 @@
     <title>Template For Search Bar</title>
 </head>
 <body>
-
+<div class="search-div">
+  <input type="text" name="search" class="search-btn" id="searchInput" autocomplete="on" placeholder="Search by title, author, or keyword...">
+</div>
+<script src="/search.js"></script>
 </body>
 </html>
+
+
+/* create template/fragments/results.html */
+
+<div th:fragment="results" class="book-div" xmlns:th="http://www.w3.org/1999/xhtml">
+  <figure th:each="book : ${books}">
+    <a th:href="@{/view-book(id=${book.id})}">
+      <img th:src="@{/images/{file}(file=${book.image})}">
+    </a>
+    <figcaption>
+      <h3 th:text="${book.title + ' (' + book.genre + ')'}"></h3>
+      <h3 th:text="${book.author}"></h3>
+      <form action="/view-book" method="get">
+        <button
+                type="submit"
+                name="id"
+                th:value="${book.id}"
+                class="view-btn">
+          View
+        </button>
+      </form>
+    </figcaption>
+  </figure>
+</div>
+
+
+/* styles.css */
+
+.search-div {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.search-btn {
+width: 800px;
+height: 50px;
+border-color: #f09242;
+border-radius: 20px;
+outline-color: #f09242;
+margin-top: 20px;
+font-size: 20px;
+padding-left: 10px;
+}
+
+
+
+
+/* search.js */
+
+document.addEventListener("DOMContentLoaded", () => {
+const input = document.getElementById("searchInput");
+const resultsDiv = document.getElementById("results-wrapper");
+
+let timeout = null;
+
+input.addEventListener("input", () => {
+clearTimeout(timeout);
+
+timeout = setTimeout(() => {
+const query = input.value.trim();
+
+if (query === "") {
+fetch("/get-books-fragment")
+.then(res => res.text())
+.then(html => resultsDiv.innerHTML = html);
+return;
+}
+
+fetch(`/search-live?q=${encodeURIComponent(query)}`)
+.then(res => res.text())
+.then(html => resultsDiv.innerHTML = html);
+
+}, 300);
+});
+});
+
+
+
+
+
+/* BookService.java */
+
+public List<BookModel> searchBooks(String query) {
+  return bookRepository
+  .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(
+  query,
+  query,
+  Sort.by(Sort.Direction.ASC, "displayOrder")
+  );
+  }
+
+
+
+
+
+
+  /* BookRepository.java */
+
+  List<BookModel> findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(String query, String query1, Sort displayOrder);
+    }
+
+
+
+
+
+
+    /* BookController */
+
+    @GetMapping("/search-live")
+    public String liveSearch(
+    @RequestParam String q,
+    Model model
+    ) {
+    model.addAttribute("books", bookService.searchBooks(q));
+    return "fragments/book_results :: results";
+    }
+
+    @GetMapping("/get-books-fragment")
+    public String allBooksFragment(Model model) {
+    model.addAttribute("books", bookService.findAllBooks());
+    return "fragments/book_results :: results";
+    }
