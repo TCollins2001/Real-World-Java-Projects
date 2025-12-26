@@ -4,7 +4,7 @@ html, body {
   min-height: 100%;
 }
 
-.main-book-div, .b-collection-div {
+.main-book-div, .b-collection-div, .reader-div  {
   animation: contentFade 0.25s ease;
 }
 
@@ -21,11 +21,30 @@ html, body {
 
 
 .index-body {
-background: url("/images/rr-background.png") no-repeat;
-background-size: cover;
 font-family: 'Poppins', sans-serif;
+background: linear-gradient(
+  135deg,
+  #a33a2b 0%,
+  #b8482f 25%,
+  #c95a3a 50%,
+  #d36a45 75%,
+  #e07c55 100%
+);
 }
 
+.index-background {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.index-background img {
+width: 60%;
+height: 560px;
+border-radius: 20px;
+margin-top: 30px;
+border: 5px solid #fbd7a7;
+}
 
 .book-background {
 background: linear-gradient(
@@ -54,16 +73,12 @@ font-size: 19.2px;
 font-weight: bold;
 color: #f09242;
 border-radius: 10px;
-width: 225px;
-height: 50px;
+width: 300px;
+height: 60px;
 cursor: pointer;
 }
 
 .browse-btn {
-  position: relative;
-  top: 710px;
-  left: 289px;
-  transform: rotate(-8.2deg);
   font-family: 'Poppins', sans-serif;
   background-color: #fbd7a7;
   border: 2px solid #f09242;
@@ -74,22 +89,23 @@ cursor: pointer;
   transition:
     transform 0.12s ease,
     box-shadow 0.12s ease;
+    display: block;
+    margin: 0 auto;
+    margin-top: 50px;
 }
 
 .browse-btn:hover {
-  transform: rotate(-8.2deg) translateY(-2px);
   box-shadow:
     0 7px 0 #f09242,
     0 12px 16px rgba(0,0,0,0.3);
 }
 
 .browse-btn:active {
-  transform: rotate(-8.2deg) translateY(2px);
+  transform: translateY(2px);
   box-shadow:
     0 2px 0 #f09242,
     0 4px 6px rgba(0,0,0,0.2);
 }
-
 
 .book-div {
 display: grid;
@@ -105,6 +121,7 @@ width: 300px;
 height: 400px;
 box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 border-radius: 10px;
+border: 8px solid #fbd7a7;
 }
 
 .genre-div {
@@ -292,3 +309,77 @@ font-size: 15px;
 .meta-value {
   margin-left: 3px;
 }
+
+.book-div figure {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.book-div figure:hover {
+  transform: translateY(-8px);
+}
+
+.book-div figure:hover img {
+  box-shadow: 0 40px 70px rgba(0,0,0,0.35);
+}
+
+.search-div {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.search-btn {
+width: 800px;
+height: 50px;
+border-color: #f09242;
+border-radius: 20px;
+outline-color: #f09242;
+margin-top: 20px;
+font-size: 20px;
+padding-left: 10px;
+}
+
+.pdf-div {
+display: flex;
+align-items: center;
+justify-content: center;
+max-width: 1100px;
+  margin: 40px auto;
+  padding: 14px;
+    border-radius: 12px;
+    box-shadow:
+      inset 0 2px 0 rgba(255,255,255,0.35),
+      inset 0 -6px 12px rgba(0,0,0,0.45),
+      inset 0 0 0 2px rgba(0,0,0,0.25),
+      0 28px 55px rgba(0,0,0,0.55);
+}
+
+iframe {
+width: 1000px;
+height: 700px;
+ background: linear-gradient(135deg, #f09242, #e46c3a);
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.35),
+    inset 0 2px 6px rgba(255, 255, 255, 0.25),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+.pdf-div iframe {
+  width: 100%;
+  height: 85vh;
+  border: none;
+  border-radius: 12px;
+  background: #fbd7a7;
+  box-shadow:
+      inset 0 0 0 1px rgba(255,255,255,0.08),
+      inset 0 0 18px rgba(0,0,0,0.6);
+}
+
+
+
+
+
+

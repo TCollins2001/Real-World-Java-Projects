@@ -3,6 +3,7 @@ package com.teonvioncollins.ReadingRealm.controllers;
 import com.teonvioncollins.ReadingRealm.models.BookModel;
 import com.teonvioncollins.ReadingRealm.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class BookController {
 
     @GetMapping("/find-by-genre")
     public String findBookGenres(@RequestParam String genre, Model model) {
-        model.addAttribute("books", bookService.findBooksByGenre(genre));
+        model.addAttribute("books", bookService.findBooksByGenre(genre, Sort.by(Sort.Direction.ASC, "displayOrder")));
         model.addAttribute("pageTitle", genre + " Books");
         return "book_collection";
     }
@@ -36,6 +37,28 @@ public class BookController {
     public String viewBook(@RequestParam Long id, Model model) {
         model.addAttribute("books", bookService.getBookById(id));
         return "view";
+    }
+
+    @GetMapping("/search-live")
+    public String liveSearch(
+            @RequestParam String q,
+            Model model
+    ) {
+        model.addAttribute("books", bookService.searchBooks(q));
+        return "fragments/book_results :: results";
+    }
+
+    @GetMapping("/get-books-fragment")
+    public String allBooksFragment(Model model) {
+        model.addAttribute("books", bookService.findAllBooks());
+        return "fragments/book_results :: results";
+    }
+
+    @GetMapping("/read")
+    public String readBook(@RequestParam Long id, Model model) {
+        BookModel book = bookService.getBookById(id);
+        model.addAttribute("book", book);
+        return "reader";
     }
 
 }

@@ -20,4 +20,9 @@ public class HomeController {
         public String view() {
         return "view";
     }
+
+    @GetMapping("/reader")
+    public String reader() {
+        return "reader";
+    }
 }

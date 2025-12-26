@@ -13,8 +13,11 @@
 <div class="back-home-div">
 <a href="/index"><button type="button" class="back-home-btn">Back Home</button></a>
 </div>
-<h1 th:text="${pageTitle}" style="color: #f09242; background-color: #fbd7a7; padding:10px; font-size: 40px; border-radius: 10px; text-decoration: underline; text-decoration-color: #f09242;">All Books</h1>
-<div class="genre-div">
+<h1 th:text="${pageTitle}" style="color: #f09242; background-color: #fbd7a7; padding:10px; font-size: 40px; border-radius: 10px; text-decoration: underline; text-decoration-color: #f09242; width: 40%; margin: 20px auto;">All Books</h1>
+    <div class="search-div">
+    <input type="text" name="search" class="search-btn" id="searchInput" autocomplete="on" placeholder="Search by title, author, or keyword...">
+    </div>
+    <div class="genre-div">
     <form action="/get-books" method="get">
         <button type="submit" class="all-books-btn">All Books</button>
     </form>
@@ -26,18 +29,10 @@
       <button type="submit" name="genre" value="History" class="hist-btn">History</button>
   </form>
 </div>
-<div class="book-div">
-<figure th:each="book : ${books}">
-        <img th:src="@{/images/{file}(file=${book.image})}">
-  <figcaption>
-    <h3 th:text="${book.title + ' ' + '(' + book.genre + ')'}"></h3>
-    <h3 th:text="${book.author}"></h3>
-      <form action="/view-book" method="get">
-      <button type="submit" name="id" th:value="${book.id}" class="view-btn">View</button>
-      </form>
-  </figcaption>
-</figure>
+    <div id="results-wrapper">
+        <div th:replace="fragments/book_results :: results"></div>
+    </div>
 </div>
-</div>
+<script src="/search.js"></script>
 </body>
 </html>

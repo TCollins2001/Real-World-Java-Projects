@@ -14,7 +14,11 @@
   <figure th:each="book : ${books}">
     <div class="book-media">
     <img th:src="@{/images/{file}(file=${book.image})}">
-    <button type="submit" class="checkout-btn">Start Reading</button>
+        <a th:href="@{/read(id=${book.id})}">
+            <button type="button" class="checkout-btn">
+                Start Reading
+            </button>
+        </a>
     </div>
     <figcaption>
       <div class="book-view-heading">

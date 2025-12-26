@@ -18,10 +18,14 @@ public class BookModel {
     private String format;
     private int pages;
     private String language;
+    private String pdfFile;
+
+    @Column(name = "display_order")
+    private Integer displayOrder;
 
     public BookModel() {}
 
-    public BookModel(Long id, String title, String author, String genre, String image, String synopsis, String characters, String format, int pages, String language) {
+    public BookModel(Long id, String title, String author, String genre, String image, String synopsis, String characters, String format, int pages, String language, Integer displayOrder, String pdfFile) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -32,6 +36,8 @@ public class BookModel {
         this.format = format;
         this.pages = pages;
         this.language = language;
+        this.displayOrder = displayOrder;
+        this.pdfFile = pdfFile;
 
     }
 
@@ -113,5 +119,21 @@ public class BookModel {
 
     public void setPages(int pages) {
         this.pages = pages;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
+    public String getPdfFile() {
+        return pdfFile;
+    }
+
+    public void setPdfFile(String pdfFile) {
+        this.pdfFile = pdfFile;
     }
 }

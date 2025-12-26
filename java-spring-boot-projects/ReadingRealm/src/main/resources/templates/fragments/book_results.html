@@ -1,0 +1,20 @@
+<div th:fragment="results" class="book-div" xmlns:th="http://www.w3.org/1999/xhtml">
+  <figure th:each="book : ${books}">
+    <a th:href="@{/view-book(id=${book.id})}">
+      <img th:src="@{/images/{file}(file=${book.image})}">
+    </a>
+    <figcaption>
+      <h3 th:text="${book.title + ' (' + book.genre + ')'}"></h3>
+      <h3 th:text="${book.author}"></h3>
+      <form action="/view-book" method="get">
+        <button
+                type="submit"
+                name="id"
+                th:value="${book.id}"
+                class="view-btn">
+          View
+        </button>
+      </form>
+    </figcaption>
+  </figure>
+</div>
