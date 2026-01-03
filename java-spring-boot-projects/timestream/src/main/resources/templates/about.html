@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>ABOUT | TIMESTREAM</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
+<nav>
+  <a href="/index">HOME</a>
+  <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
+  <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
+  <a href="/about">ABOUT</a>
+  <a href="/contact">CONTACT</a>
+  <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+  <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
+    <a href="/logout" class="logout-link">LOG OUT</a>
+</span>
+</nav>
+<a href="/index">
+  <img src="images/logo.png" alt="website logo" class="logo">
+</a>
+
+<section class="about-wrapper">
+  <h1>About Us</h1>
+
+  <p>
+    Welcome to <strong>TimeStream</strong> — a Doctor Who–inspired chat app where every conversation is its own little
+    timeline. Start a chat, jump between sessions, and leave messages like you’re dropping notes across time and space.
+  </p>
+
+  <div class="about-card">
+    <h2>What is TimeStream?</h2>
+    <p>
+      TimeStream is a simple chat experience built around <strong>sessions</strong> (think: “episodes”).
+      Each session keeps its own message history, so you can bounce between timelines without losing the plot.
+    </p>
+  </div>
+
+  <div class="about-card">
+    <h2>How it works</h2>
+    <ul>
+      <li><strong>Create a chat</strong> to open a brand-new timeline.</li>
+      <li><strong>View all chats</strong> to revisit older timelines whenever you want.</li>
+      <li><strong>Customize your profile</strong> — because even Time Lords update their look sometimes.</li>
+    </ul>
+  </div>
+  <div class="about-card">
+    <h2>Doctor Who vibes (without the chaos)</h2>
+    <ul>
+      <li>
+        <strong>Regeneration Aesthetics:</strong> Pick a Doctor theme to change the feel of your profile — like a UI
+        regeneration cycle (no exploding TARDIS required).
+      </li>
+      <li>
+        <strong>Timeline Tracker:</strong> See how long you’ve been “traveling” since your account was created.
+      </li>
+      <li>
+        <strong>Open Chats Counter:</strong> Keep an eye on how many timelines you currently have open.
+      </li>
+    </ul>
+  </div>
+
+  <div class="about-card">
+    <h2>House rules (very important)</h2>
+    <ul>
+      <li><strong>Don’t blink.</strong> (But seriously: keep your chats respectful.)</li>
+      <li><strong>No Dalek behavior.</strong> Exterminate negativity somewhere else.</li>
+      <li><strong>Be kind.</strong> Because kindness is cool. (And brave.)</li>
+    </ul>
+  </div>
+
+  <p class="about-footer">
+    Whether you’re here to chat casually or organize conversations into neat little timelines,
+    TimeStream is built to keep things fun, clean, and a little bit <em>wibbly-wobbly</em>.
+  </p>
+</section>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.teonvioncollins.timestream.controllers;
 
 import com.teonvioncollins.timestream.models.User;
+import com.teonvioncollins.timestream.services.UserService;
 import com.teonvioncollins.timestream.services.UserValidation;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -22,6 +24,9 @@ public class UserController {
 
     @Autowired
     private UserValidation userValidation;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, Model model, HttpSession session) {
@@ -135,5 +140,11 @@ public class UserController {
         session.setAttribute("loggedInUser", sessionUser);
 
         return "redirect:/profile";
+    }
+
+    @GetMapping("/search-users")
+    @ResponseBody
+    public List<String> searchUsers(@RequestParam String q) {
+        return userService.searchAllUsers(q).stream().map(User:: getUsername).toList();
     }
 }

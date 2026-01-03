@@ -1,6 +1,6 @@
 package com.teonvioncollins.timestream.config;
 
-import com.teonvioncollins.timestream.models.ChatWebSocketHandler;
+import com.teonvioncollins.timestream.component.ChatWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;

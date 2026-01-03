@@ -22,64 +22,76 @@
   <img src="images/logo.png" alt="website logo" class="logo">
 </a>
 <div class="chat-box">
-    <div class="add-new-container">
-    <form action="/create-chat-session" method="post">
-        <button type="button" id="newChatBtn">
-            <img src="/images/plus-icon.png" class="new-chat-btn">
-            <p>Add New Chat Session</p>
-        </button>
-    </form>
+        <div class="search-container">
+            <input type="text"  id="userSearch" autocomplete="off" placeholder="Find a companion...">
+        </div>
+    <div id="searchResults" class="search-results" style="background-color: white; margin: 20px auto; width: 53%;"></div>
 </div>
-    <div class="chat-box" id="chatBox"></div>
-</div>
+<div id="chatPreviewContainer" class="chat-preview-container"></div>
 <script th:inline="javascript">
 
     window.addEventListener("DOMContentLoaded", () => {
-        const chatIds = /*[[${chatIds}]]*/ [];
-        chatIds.forEach(id => addChatPreview(id));
+        const chats = /*[[${chats}]]*/ [];
+        const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
+
+        chats.forEach(chat => {
+    const otherUser =
+        chat.userA === currentUser ? chat.userB : chat.userA;
+
+    addChatPreview(chat.id, otherUser);
+    });
     });
 
-    document.getElementById("newChatBtn").addEventListener("click", () => {
-        fetch("/create-chat-session", { method: "POST" })
-            .then(res => res.text())
-            .then(sessionId => addChatPreview(sessionId));
+    window.addChatPreview = function (id, username) {
+    if (document.querySelector(`.chat-preview[data-id="${id}"]`)) return;
+
+    const box = document.getElementById("chatPreviewContainer");
+
+    const preview = document.createElement("div");
+    preview.classList.add("chat-preview");
+    preview.dataset.id = id;
+
+      if (username) {
+      preview.innerHTML = `<span style="font-weight:bold;color:#062a64;text-transform:uppercase;font-family: 'Russo One', sans-serif;">You & ${username}</span>`;
+      }
+
+    const inner = document.createElement("div");
+    inner.classList.add("chat-preview-inner");
+    inner.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">`;
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-chat-btn");
+    deleteBtn.textContent = "X";
+    deleteBtn.style = "font-weight: bold; color: red; border-color: white; background: white; cursor: pointer;";
+
+    deleteBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const ok = confirm("Are you sure you want to delete this chat?");
+        if (!ok) return;
+
+        deleteChat(id);
     });
 
-    function addChatPreview(id) {
-        const box = document.querySelector(".chat-box");
+    preview.addEventListener("click", () => {
+        window.location.href = `/chatroom?sessionId=${id}`;
+    });
 
-        const preview = document.createElement("div");
-        preview.classList.add("chat-preview");
-        preview.setAttribute("data-id", id);
+    preview.appendChild(inner);
+    preview.appendChild(deleteBtn);
+    box.appendChild(preview);
+}
 
-        preview.innerHTML = `
-            <div class="chat-preview-inner">
-                <img src="images/tardis.png" class="chat-tardis">
-            </div>
-            <button class="delete-chat-btn" data-id="${id}">X</button>
-        `;
-
-        preview.addEventListener("click", () => {
-            window.location.href = `/chatroom?sessionId=${id}`;
-        });
-
-        preview.querySelector(".delete-chat-btn").addEventListener("click", (e) => {
-            e.stopPropagation();
-            deleteChat(id);
-        });
-
-        box.appendChild(preview);
-    }
-
-    function deleteChat(id) {
-        fetch(`/delete-chat-session/${id}`, { method: "POST" })
-            .then(res => {
-                if (res.ok) {
-                    document.querySelector(`.chat-preview[data-id="${id}"]`)?.remove();
-                }
-            });
+function deleteChat(id) {
+    fetch(`/delete-chat-session/${id}`, {
+        method: "POST"
+    }).then(() => {
+        document.querySelector(`[data-id="${id}"]`)?.remove();
+    });
     }
 
 </script>
+<script src="/search.js"></script>
 </body>
 </html>

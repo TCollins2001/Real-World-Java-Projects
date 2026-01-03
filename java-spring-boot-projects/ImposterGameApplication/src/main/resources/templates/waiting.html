@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="transition-div">
 <div class="background-host-container">
   <a href="/index"><img class="background-waiting" src="/images/background.png"></a>
 </div>
@@ -14,39 +15,67 @@
   <h2 th:if="${code != null}" style="background-color: #1892a2; color: white; padding: 10px; display: inline-block; border: 7px solid #ffffff; border-radius: 10px; font-family: 'Luckiest Guy', sans-serif;">
     Game Code: <span th:text="${code}"></span>
   </h2>
-<h1>WAITING FOR ALL PLAYERS TO JOIN<span id="dots">...</span></h1>
+  <h3 id="playerCount"></h3>
+
+  <ul id="playerList"></ul>
+
+  <p class="start-text" style="color: white; text-align: center; font-size: 25px; padding-top: 30px; font-family: 'Luckiest Guy', sans-serif;">Game Starts When All Players Join</p>
 </div>
 <form id="goGenForm" action="/generator" method="post">
   <input type="hidden" name="code" th:value="${code}">
   <input type="hidden" name="playerId" th:value="${playerId}">
 </form>
-
 <script>
-  let dotCount = 0;
-const dots = document.getElementById("dots");
-
-setInterval(() => {
-    dotCount = (dotCount + 1) % 4;
-    dots.textContent = ".".repeat(dotCount);
-}, 500);
-
-
-function checkStatus() {
+  function checkStatus() {
     fetch("/status", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: "code=" + [[${code}]]
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: "code=" + [[${code}]]
     })
-    .then(res => res.text())
-    .then(result => {
-        if (result === "START") {
-            document.getElementById("goGenForm").submit();
-        }
-    });
+    .then(res => res.json())
+    .then(data => {
+      if (data.status === "START") {
+        document.getElementById("goGenForm").submit();
+        return;
+      }
+      document.getElementById("playerCount").textContent =
+        `${data.joined} / ${data.max} players joined`;
+
+      const list = document.getElementById("playerList");
+      list.innerHTML = "";
+      list.style.listStyleType = "none";
+      list.style.padding = "0";
+      data.players.forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name;
+
+        li.style.backgroundColor = "#1892a2";
+        li.style.fontSize = "30px";
+        li.style.padding = "20px";
+        li.style.marginBottom = "10px";
+        li.style.borderRadius = "10px";
+        li.style.border = "7px solid white";
+        li.style.color = "white";
+        li.style.fontWeight = "bold";
+        li.style.width = "30%";
+        li.style.margin = "20px auto";
+        li.style.textAlign = "center";
+        li.style.display = "block";
+
+        li.style.animationDelay = `${Math.random() * 0.8}s`;
+
+        list.appendChild(li);
+      });
+      if (data.full && !document.body.classList.contains("full")) {
+  document.body.classList.add("full");
+  document.querySelector(".start-text").textContent =
+    "All players joined! Starting...";
 }
-
-setInterval(checkStatus, 1000);
+    });
+  }
+  checkStatus();
+  setInterval(checkStatus, 500);
 </script>
-
+</div>
 </body>
 </html>

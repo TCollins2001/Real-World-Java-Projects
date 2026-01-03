@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <title>T.C IMPOSTER GAME | HOME</title>
     <link rel="stylesheet" href="/styles.css">
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
 </head>
 <body>
+<div class="transition-div">
+<p style="color:gold; font-size: 15px; text-align: center; position: relative; top: 10px;"><span style="text-decoration: underline;">T.C Imposter Game</span> is a multiplayer social deduction game where one player is kept in the dark.
+    <br>Join a room, receive a role, and try to uncover the imposter — or survive as one...</p>
+<div class="info-icon-container">
+<i class="fa-sharp fa-solid fa-circle-info" style="color: #ffffff;"></i>
+    <div class="info-tooltip">
+        <strong>How to Play!</strong><br>
+        <ul class="instructions">
+            <li>One player is secretly the imposter</li>
+            <li>Everyone else receives the same category and question</li>
+            <li>The imposter does not see the question and will have to answer based on the category alone</li>
+            <li>Answer carefully and try to guess who's the imposter</li>
+            <li>After everyone votes, the imposter reveals themselves</li>
+            <li>If more than half guessed correctly, the group wins. Otherwise, the imposter wins</li>
+        </ul>
+    </div>
+</div>
 <div class="background-container">
 <img class="background" src="/images/background.png">
 </div>
@@ -16,6 +39,7 @@
         <form action="/join" method="get">
         <button type="submit" class="join-btn">JOIN</button>
     </form>
+</div>
 </div>
 </body>
 </html>

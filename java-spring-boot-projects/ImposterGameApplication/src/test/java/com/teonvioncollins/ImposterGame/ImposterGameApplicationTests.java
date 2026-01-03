@@ -1,4 +1,4 @@
-package com.teonvioncollins.ImposterGameApplication;
+package com.teonvioncollins.ImposterGame;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

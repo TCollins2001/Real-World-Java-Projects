@@ -1,17 +1,18 @@
-package com.teonvioncollins.ImposterGameApplication.models;
+package com.teonvioncollins.ImposterGame.models;
+
+import java.util.UUID;
 
 public class Player {
 
-    public String name;
-    public int newPlayerNumber;
-    public String playerId;
-    public String role;
+    private String name;
+    private String playerId;
+    private String role;
 
+    public Player() {}
 
-    public Player(String name, int newPlayerNumber, String playerId){
+    public Player(String name) {
         this.name = name;
-        this.newPlayerNumber = newPlayerNumber;
-        this.playerId = playerId;
+        this.playerId = UUID.randomUUID().toString();
         this.role = "INNOCENT \uD83D\uDE05";
     }
 
@@ -21,14 +22,6 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getNewPlayerNumber() {
-        return newPlayerNumber;
-    }
-
-    public void setNewPlayerNumber(int newPlayerNumber) {
-        this.newPlayerNumber = newPlayerNumber;
     }
 
     public String getPlayerId() {
@@ -46,4 +39,6 @@ public class Player {
     public void setRole(String role) {
         this.role = role;
     }
+
 }
+

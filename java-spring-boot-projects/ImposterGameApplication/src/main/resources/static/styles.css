@@ -1,6 +1,24 @@
 body {
-  background: linear-gradient(135deg, #073B7A 0%, #0A4C96 40%, #0E6DA8 100%);
+    background: linear-gradient(
+      to bottom,
+      #073B7A 0%,
+      #0A4C96 25%,
+      #0E6DA8 100%
+    );
 }
+
+.waiting-hidden {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+.waiting-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
 
 .background-container {
 display: flex;
@@ -16,6 +34,14 @@ border-radius: 25px;
 box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 border: 5px solid white;
 margin: 20px auto;
+animation: float 6s ease-in-out infinite,
+             breathe 8s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.015); }
+  100% { transform: scale(1); }
 }
 
 .background-host-container {
@@ -30,14 +56,7 @@ height: 100px;
 border-radius: 25px;
 border: 5px solid white;
 margin-top: 10px;
-}
-
-.background-waiting {
-width: 100px;
-height: 100px;
-border-radius: 25px;
-border: 5px solid white;
-margin-top: 50px;
+padding: 5px;
 }
 
 .background-join-container {
@@ -51,14 +70,28 @@ width: 100px;
 height: 100px;
 border-radius: 25px;
 border: 5px solid white;
+padding: 5px;
 }
 
-background-waiting {
+.start-text::after {
+  content: '';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+
+.background-waiting {
 width: 100px;
 height: 100px;
 border-radius: 25px;
 border: 5px solid white;
-margin-top: 10px;
+margin-top: 50px;
+padding: 5px;
 }
 
 .background-waiting-container {
@@ -71,6 +104,54 @@ margin-top: 10px;
 display: flex;
 align-items: center;
 justify-content: center;
+}
+
+.info-icon-container {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-block;
+  z-index: 1000;
+}
+
+
+.info-icon-container i {
+display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.info-tooltip {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  width: 260px;
+
+  background: #0b3d91;
+  color: white;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid white;
+
+  font-size: 14px;
+  line-height: 1.4;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+}
+
+.info-icon-container:hover .info-tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fa-sharp {
+font-size: 20px;
+cursor: pointer;
 }
 
 .host-btn, .join-btn {
@@ -127,13 +208,13 @@ transform: translateY(4px);
                 0 2px 6px rgba(0,0,0,0.2);
 }
 
-join-start-btn:hover {
+.join-start-btn:hover:not(:active) {
 transform: translateY(-2px);
         box-shadow: 0 8px 0 #1b3d6b,
                     0 10px 14px rgba(0,0,0,0.25);
 }
 
-.host-btn:hover, .join-btn:hover {
+.host-btn:hover:not(:active), .join-btn:hover:not(:active) {
     transform: translateY(-2px);
         box-shadow: 0 8px 0 #1b3d6b,
                     0 10px 14px rgba(0,0,0,0.25);
@@ -233,30 +314,60 @@ box-shadow: 0 6px 0 #1b3d6b,
     transition: all 0.15s ease;
 }
 
+.transition-div {
+  animation: contentFade 0.25s ease;
+}
+
+@keyframes contentFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+#playerList li {
+  text-transform: uppercase;
+  font-family: 'Luckiest Guy', sans-serif;
+  animation: nervousWiggle 0.6s ease-in-out infinite;
+}
+@keyframes nervousWiggle {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-3px); }
+  30%  { transform: translateX(3px); }
+  45%  { transform: translateX(-2px); }
+  60%  { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+
 .host-back-btn:active {
 transform: translateY(4px);
     box-shadow: 0 2px 0 #1b3d6b,
                 0 2px 6px rgba(0,0,0,0.2);
 }
 
-.host-back-btn:hover {
+.host-back-btn:hover:not(:active) {
 transform: translateY(-2px);
         box-shadow: 0 8px 0 #1b3d6b,
                     0 10px 14px rgba(0,0,0,0.25);
 }
 
-/* ----------------------------------------------------------
-   MOBILE RESPONSIVE (DO NOT CHANGE EXISTING DESKTOP STYLES)
-   ---------------------------------------------------------- */
+.instructions li {
+margin-bottom: 10px;
+}
+
 @media (max-width: 700px) {
 
-    /* Shrink big family-image card */
     .background {
         width: 85% !important;
         height: auto !important;
     }
 
-    /* Shrink small icon in top-right */
     .background-host,
     .background-join,
     .background-waiting {
@@ -266,7 +377,6 @@ transform: translateY(-2px);
         border-width: 4px !important;
     }
 
-    /* Fix spacing for join/host/generator/waiting headers */
     h1, h2, h3 {
         font-size: 32px !important;
         -webkit-text-stroke: 2px #0b2b66 !important;
@@ -277,27 +387,23 @@ transform: translateY(-2px);
         margin-right: 10px !important;
     }
 
-    /* Generator question (very large) */
     .generator h3,
     h3[th\\:text="${question}"] {
         font-size: 28px !important;
         padding: 0 15px !important;
     }
 
-    /* Input boxes shrink */
     input {
         width: 90% !important;
         font-size: 20px !important;
     }
 
-    /* Form card centers and shrinks */
     .join-start-input {
         width: 90% !important;
         padding: 25px !important;
         margin-top: 20px !important;
     }
 
-    /* Buttons become full width */
     .host-btn,
     .join-btn,
     .join-start-btn,
@@ -313,20 +419,18 @@ transform: translateY(-2px);
         gap: 15px !important;
     }
 
-    /* Waiting room text smaller */
     .waiting-container h1 {
         font-size: 30px !important;
     }
 
-    /* Game Code box shrink */
     .generator h2,
     .waiting-container h2 {
         font-size: 26px !important;
         padding: 8px 12px !important;
     }
 
-    /* Ensures everything stays centered */
     body {
         text-align: center !important;
     }
+
 }

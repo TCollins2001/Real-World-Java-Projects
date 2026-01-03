@@ -1,6 +1,9 @@
 package com.teonvioncollins.timestream.controllers;
 
+import com.teonvioncollins.timestream.models.ChatSession;
+import com.teonvioncollins.timestream.models.User;
 import com.teonvioncollins.timestream.services.ChatService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,14 +38,36 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String profile(Model model) {
-        model.addAttribute("openChats", chatService.openChatSessions());
+    public String profile(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/sign-in";
+        }
+
+        int chatCount = chatService
+                .getUsersInChat(user.getUsername())
+                .size();
+
+        model.addAttribute("openChats", chatCount);
         return "profile";
     }
 
     @GetMapping("/all-chats")
-    public String allchats(Model model) {
-        model.addAttribute("chatIds", chatService.getAllSessionIds());
+    public String allChats(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return "redirect:/sign-in";
+        }
+        model.addAttribute("chats", chatService.getUsersInChat(user.getUsername()));
     return "all-chats";
 }
+    @GetMapping("/about")
+    public String about() {
+        return "about";
+    }
+
+    @GetMapping("/contact")
+    public String contact() {
+        return "contact";
+    }
 }

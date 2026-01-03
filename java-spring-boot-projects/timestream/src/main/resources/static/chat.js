@@ -6,6 +6,12 @@ const chatMessages = document.getElementById("messages");
 const username = document.getElementById("usernameField")?.value;
 const sessionId = Number(document.getElementById("sessionIdField")?.value);
 
+const protocol = location.protocol === "https:" ? "wss" : "ws";
+
+const socket = new WebSocket(
+  `${protocol}://${location.host}/chat?sessionId=${sessionId}`
+);
+
 socket.onmessage = (event) => {
   console.log("Received:", event.data);
   const msgData = JSON.parse(event.data);

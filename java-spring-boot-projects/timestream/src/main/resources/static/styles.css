@@ -29,20 +29,13 @@ min-height: 100vh;
 background: url("images/doctor-who-bg.jpg") no-repeat center center fixed;
 background-size: cover;
 font-family: 'Russo One', sans-serif;
-cursor: url("images/9th-10th-sonic.png") 8 0, auto;
 }
 
-button:hover {
-cursor: url("images/9th-10th-sonic.png") 8 0, auto;
-}
-a:hover {
-cursor: url("images/9th-10th-sonic.png") 8 0, auto;
-}
 .sign-up-div, .sign-in-div {
 display: grid;
 grid-template-columns: 1fr 1fr;
 width: 930px;
-height: 600px;
+height: 630px;
 background: linear-gradient(to right, rgba(255,255,255,0.8) 50%, rgba(0,0,0,0.8) 50%);
 background-size: contain;
 margin: 0 auto;
@@ -71,7 +64,7 @@ box-shadow:
 
 .already p {
 position: relative;
-top: -10px;
+top: -15px;
 left: 10px;
 }
 
@@ -92,7 +85,7 @@ box-shadow:
 
 .havent p {
 position: relative;
-top: -10px;
+top: -15px;
 left: 10px;
 }
 
@@ -156,11 +149,11 @@ font-size: 40px;
 }
 
 .right-side-sign-in h2 {
-font-size: 30px;
+font-size: 40px;
 }
 
 .right-side-sign-in h1 {
-font-size: 35px;
+font-size: 40px;
 }
 
  .right-side-sign-in p {
@@ -315,6 +308,103 @@ z-index: 1000;
 font-size: 30px;
 }
 
+.contact-container, .about-wrapper {
+  max-width: 900px;
+  margin: 130px auto 60px;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.contact-title, .about-wrapper h1{
+  font-size: 64px;
+  margin-bottom: 10px;
+}
+
+.contact-subtitle{
+  opacity: 0.95;
+  font-size: 18px;
+  margin-bottom: 25px;
+}
+
+.contact-card, .about-card{
+  background: rgba(0,0,0,0.65);
+  border: 2px solid white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  text-align: left;
+}
+
+.contact-card h2{
+  margin-top: 0;
+  text-align: center;
+}
+
+.contact-form .contact-row{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select{
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.9);
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.contact-btn{
+  margin-top: 12px;
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 12px;
+  border: 2px solid white;
+  background: rgba(11,61,145,0.95);
+  color: white;
+  cursor: pointer;
+}
+
+.contact-btn:hover{
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.contact-note{
+  margin-top: 12px;
+  opacity: 0.85;
+  font-size: 13px;
+  text-align: center;
+}
+
+.contact-extra{
+  margin-top: 22px;
+  background: rgba(0,0,0,0.45);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid rgba(255,255,255,0.35);
+}
+
+.contact-list{
+  list-style: disc;
+  list-style-position: inside;
+  padding-left: 0;
+  text-align: left;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.contact-list li{
+  margin: 10px 0;
+}
+
 nav a {
 position: relative;
 margin: 0 25px;
@@ -362,7 +452,7 @@ font-size: 40px;
 }
 
 .welcome {
-font-size: 50px;
+font-size: 46px;
 }
 
 .fan {
@@ -396,7 +486,7 @@ position: relative;
 top: 560px;
 left: 970px;
 width: 220px;
-height: 230px;
+height: 240px;
 overflow: hidden;
 border-radius: 12px;
 box-shadow: 0 0 20px rgba(11, 61, 145, 0.6);
@@ -739,12 +829,47 @@ position: relative;
     transform: translate(-50%, -50%);
     margin-bottom: 20px;
     border-radius: 10px;
-text-align: center;
 color: #062a64;
 cursor: pointer;
-font-family: serif;
+font-family: 'Russo One', sans-serif;
 font-weight: bold;
+font-size: 30px;
+display: flex;
+justify-content: center;
+align-items: center;
+
+
 }
+
+.chat-preview-container {
+    width: 60%;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: auto;
+    margin-top: -600px;
+}
+
+.chat-tardis {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+
+  width: 60px;
+  height: 60px;
+
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.delete-chat-btn {
+  position: absolute;
+  right: -50px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 
 .add-new-container p, .add-new-container button {
 display: flex;
@@ -776,25 +901,59 @@ width: 80%;
 font-weight: bold;
 }
 
-.chat-tardis {
-width: 60px;
-height: 60px;
-float: right;
-position: relative;
-top: 120px;
-left: 5px;
+.search-container {
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
-.delete-chat-btn {
-font-weight: bold;
-color: #062a64;
-background: none;
-float: right;
-border-color: #062a64;
-position: relative;
-top: 12px;
-left: 45px;
-cursor: pointer;
+.search-results {
+    min-height: 300px;
+    max-height: 400px;
+    margin: 15px auto;
+    background-color: white;
+    overflow-y: auto;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    padding: 20px;
+    position: relative;
+    top: -18px;
+    opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+
+        transition:
+            opacity 0.25s ease,
+            transform 0.25s ease;
+            z-index: 10;
+            cursor: pointer;
+}
+
+.user-result {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: outline 0.15s ease, background-color 0.15s ease;
+    border-bottom: 2px solid #0b3d91;
+}
+
+.user-result:hover {
+    outline: 2px solid #0b3d91;
+    background-color: #f5f9ff;
+}
+
+.search-results.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+#userSearch {
+width: 800px;
+height: 50px;
+margin-top: 300px;
+font-size: 20px;
+padding-left: 10px;
 }
 
 .chat-box::after {

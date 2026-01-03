@@ -7,16 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
+<div class="transition-div">
 <a href="/index"><button type="button" class="host-back-btn" style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">BACK</button></a>
 <div class="generator" style="font-family: 'Luckiest Guy', sans-serif;">
     <h2 th:if="${code != null}" style="background-color: #1892a2; color: white; padding: 10px; display: inline-block; border: 7px solid #ffffff; border-radius: 10px;">
         Game Code: <span th:text="${code}"></span>
     </h2>
+    <h2 th:text="${name}" style="background-color: #1892a2; color: white; padding: 10px; margin: 20px auto; text-align: center; width: 30%; border: 7px solid #ffffff; border-radius: 10px;"></h2>
     <h2 th:text="${role}" style="text-align: center; color: #ffffff; font-size: 50px;"></h2>
     <h2 style="text-align: center; color: #ffffff; font-size: 50px;">
         Category: <span th:text="${category}"></span>
     </h2>
-    <h3 th:if="${question != ''}" th:text="${question}" style="font-size: 63px;"></h3>
+    <h3 th:if="${question != ''}" th:text="${question}" style="font-size: 63px; margin-top: 40px;"></h3>
+</div>
 </div>
 </body>
 </html>
