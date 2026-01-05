@@ -15,7 +15,7 @@
   <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
   <span th:if="${session.loggedInUser != null}" class="welcome-user">
   Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
-    <a href="/logout" class="logout-link">LOG OUT</a>
+    <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
 </span>
 </nav>
 <a href="/index">

@@ -426,17 +426,17 @@ nav .welcome-user {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: white;
+  color: #042844;
   font-weight: bold;
-  background-color: #042844;
+  background-color: white;
   padding: 15px;
-  border-radius: 20px;
+  border-radius: 10px;
   white-space: nowrap;
   font-size: 25px;
 }
 
 nav .welcome-user strong {
-  color: white;
+  color: #042844;
 }
 
 .welcome-message {
