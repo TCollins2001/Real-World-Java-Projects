@@ -6,6 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadingRealm | Books</title>
 </head>
 <body class="book-background">
@@ -13,22 +14,20 @@
 <div class="back-home-div">
 <a href="/index"><button type="button" class="back-home-btn">Back Home</button></a>
 </div>
-<h1 th:text="${pageTitle}" style="color: #f09242; background-color: #fbd7a7; padding:10px; font-size: 40px; border-radius: 10px; text-decoration: underline; text-decoration-color: #f09242; width: 40%; margin: 20px auto;">All Books</h1>
+    <div class="top-wrapper">
+<h1 th:text="${pageTitle}" style="color: #f09242; background-color: #fbd7a7; padding:10px; border-radius: 10px; text-decoration: underline; text-decoration-color: #f09242; width: 40%; margin: 20px auto;" class="title-title">All Books</h1>
     <div class="search-div">
     <input type="text" name="search" class="search-btn" id="searchInput" autocomplete="on" placeholder="Search by title, author, or keyword...">
     </div>
     <div class="genre-div">
-    <form action="/get-books" method="get">
-        <button type="submit" class="all-books-btn">All Books</button>
-    </form>
-  <form action="/find-by-genre" method="get">
-    <button type="submit" name="genre" value="Sci-Fi" class="sci-btn">Sci-Fi</button>
-    <button type="submit" name="genre" value="Horror" class="horror-btn">Horror</button>
-      <button type="submit" name="genre" value="Mystery" class="myst-btn">Mystery</button>
-      <button type="submit" name="genre" value="Romance" class="rom-btn">Romance</button>
-      <button type="submit" name="genre" value="History" class="hist-btn">History</button>
-  </form>
-</div>
+        <form action="/get-books"><button class="all-books-btn">All Books</button></form>
+        <form action="/find-by-genre"><button name="genre" value="Sci-Fi" class="sci-btn">Sci-Fi</button></form>
+        <form action="/find-by-genre"><button name="genre" value="Horror" class="horror-btn">Horror</button></form>
+        <form action="/find-by-genre"><button name="genre" value="Mystery" class="myst-btn">Mystery</button></form>
+        <form action="/find-by-genre"><button name="genre" value="Romance" class="rom-btn">Romance</button></form>
+        <form action="/find-by-genre"><button name="genre" value="History" class="hist-btn">History</button></form>
+    </div>
+    </div>
     <div id="results-wrapper">
         <div th:replace="fragments/book_results :: results"></div>
     </div>

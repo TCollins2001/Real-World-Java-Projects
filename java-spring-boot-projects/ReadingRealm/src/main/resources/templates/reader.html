@@ -2,16 +2,17 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-    <title>ReadingRealm | Reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReadingRealm | Reader</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="book-background">
-<div class="back-home-div">
-  <a href="/get-books"><button type="button" class="back-home-btn" style="width: 220px">Back To Collection</button></a>
+<div class="back-collection-div">
+  <a href="/get-books"><button type="button" class="back-collection-btn">Back To Collection</button></a>
 </div>
 <div class="reader-div">
-<h1 style="font-size: 40px; text-decoration: underline; color: #fbd7a7;">ReadingRealm Reader</h1>
+<h1 style="text-decoration: underline; color: #fbd7a7; padding-top: 20px;" class="rrr-title">ReadingRealm Reader</h1>
 <div class="pdf-div" th:if="${book.pdfFile != null}">
   <iframe th:src="@{/pdfs/{file}(file=${book.pdfFile})}"></iframe>
 </div>

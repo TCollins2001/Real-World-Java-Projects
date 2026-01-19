@@ -14,18 +14,21 @@ public class BookModel {
     private String genre;
     private String image;
     private String synopsis;
+    @Column(name = "`characters`")
     private String characters;
     private String format;
     private int pages;
     private String language;
     private String pdfFile;
 
+    private String themeColor;
+
     @Column(name = "display_order")
     private Integer displayOrder;
 
     public BookModel() {}
 
-    public BookModel(Long id, String title, String author, String genre, String image, String synopsis, String characters, String format, int pages, String language, Integer displayOrder, String pdfFile) {
+    public BookModel(Long id, String title, String author, String genre, String image, String synopsis, String characters, String format, int pages, String language, Integer displayOrder, String pdfFile, String themeColor) {
         this.id = id;
         this.title = title;
         this.author = author;
@@ -38,6 +41,7 @@ public class BookModel {
         this.language = language;
         this.displayOrder = displayOrder;
         this.pdfFile = pdfFile;
+        this.themeColor = themeColor;
 
     }
 
@@ -135,5 +139,13 @@ public class BookModel {
 
     public void setPdfFile(String pdfFile) {
         this.pdfFile = pdfFile;
+    }
+
+    public String getThemeColor() {
+        return themeColor;
+    }
+
+    public void setThemeColor(String themeColor) {
+        this.themeColor = themeColor;
     }
 }

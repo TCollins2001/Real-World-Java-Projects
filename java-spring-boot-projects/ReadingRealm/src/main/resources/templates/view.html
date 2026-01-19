@@ -2,10 +2,12 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReadingRealm | View</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<body class="book-background">
+<body class="view-body"
+      th:style="'--topColor:' + (${books.themeColor} ?: '#ccc')">
 <div class="back-home-div">
   <a href="/get-books"><button type="button" class="back-home-btn">Back</button></a>
 </div>
@@ -14,7 +16,7 @@
   <figure th:each="book : ${books}">
     <div class="book-media">
     <img th:src="@{/images/{file}(file=${book.image})}">
-        <a th:href="@{/read(id=${book.id})}">
+        <a th:href="@{/read(id=${book.id})}" class="start-reading">
             <button type="button" class="checkout-btn">
                 Start Reading
             </button>
@@ -29,7 +31,8 @@
       <p th:text="${book.synopsis}" class="book-syn"></p>
 
       <p class="book-meta">
-        <span class="meta-label">Main Characters:</span>
+        <span class="meta-label" style="font-weight: bold;">Main Characters:</span>
+          <br>
         <span class="meta-value" th:text="${book.characters}">
   </span>
       </p>
@@ -37,17 +40,17 @@
 
 
       <div class="book-view-pages">
-        <span class="label"># Pages: </span>
+        <span class="label" style="font-weight: bold;"># Pages: </span>
         <p th:text="${book.pages}" class="book-pages"></p>
       </div>
 
       <div class="book-view-language">
-      <span class="label">Language: </span>
+      <span class="label" style="font-weight: bold;">Language: </span>
       <p th:text="${book.language}" class="book-language"></p>
       </div>
 
       <div class="book-view-format">
-        <span class="label">Format: </span>
+        <span class="label" style="font-weight: bold;">Format: </span>
         <p th:text="${book.format}" class="book-format"></p>
       </div>
     </figcaption>
