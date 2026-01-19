@@ -746,6 +746,48 @@ position: absolute;
 color: white;
 }
 
+.invite-badge {
+  position: absolute;
+  top: 185px;
+  right: calc(50% - 90px);
+  width: 14px;
+  height: 14px;
+  background: red;
+  border-radius: 50%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.invite-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.invite-modal-content {
+  background: white;
+  width: 500px;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.invite-item {
+  margin: 15px 0;
+  padding: 12px;
+  border-bottom: 1px solid #ccc;
+}
+
+.invite-actions button {
+  margin: 5px;
+}
+
 .user-profile-name, .open-chat-count {
 display: flex;
 flex-direction: column;

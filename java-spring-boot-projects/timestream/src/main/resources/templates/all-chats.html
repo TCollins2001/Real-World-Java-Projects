@@ -21,15 +21,25 @@
 <a href="/index">
   <img src="images/logo.png" alt="website logo" class="logo">
 </a>
+<div class="mail-container" style="display: flex; justify-content: center; align-items: center;" id="inviteEnvelope">
+    <img src="/images/envelope.png" style="width: 200px; height: 150px; position: relative; top: 200px; background-color: white; border-radius: 10px;" class="envelope-icon">
+    <span id="inviteBadge" class="invite-badge hidden"></span>
+</div>
+<div id="inviteModal" class="invite-modal hidden">
+    <div class="invite-modal-content">
+    <h2>Chat Invites</h2>
+        <div id="inviteList"></div>
+        <button id="closeInviteBtn">×</button>
+    </div>
+</div>
 <div class="chat-box">
         <div class="search-container">
-            <input type="text"  id="userSearch" autocomplete="off" placeholder="Find a companion...">
+            <input type="text"  id="userSearch" autocomplete="off" placeholder="Invite a companion...">
         </div>
     <div id="searchResults" class="search-results" style="background-color: white; margin: 20px auto; width: 53%;"></div>
 </div>
 <div id="chatPreviewContainer" class="chat-preview-container"></div>
 <script th:inline="javascript">
-
     window.addEventListener("DOMContentLoaded", () => {
         const chats = /*[[${chats}]]*/ [];
         const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
@@ -93,5 +103,6 @@ function deleteChat(id) {
 
 </script>
 <script src="/search.js"></script>
+<script src="/invite.js"></script>
 </body>
 </html>

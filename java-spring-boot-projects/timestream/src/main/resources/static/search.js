@@ -37,17 +37,16 @@ document.addEventListener("DOMContentLoaded", () => {
             div.textContent = username;
 
             div.onclick = async () => {
-                const res = await fetch(
-                    `/create-chat?username=${encodeURIComponent(username)}`,
+                await fetch(
+                    `/invite-chat?username=${encodeURIComponent(username)}`,
                     { method: "POST" }
                 );
-
-                const chatId = await res.json();
-                addChatPreview(chatId, username);
 
                 resultsDiv.classList.remove("visible");
                 resultsDiv.innerHTML = "";
                 input.value = "";
+
+                alert(`Invite sent to ${username}`);
             };
 
             resultsDiv.appendChild(div);
