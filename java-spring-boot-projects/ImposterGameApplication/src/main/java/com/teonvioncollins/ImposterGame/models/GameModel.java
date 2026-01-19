@@ -1,8 +1,6 @@
 package com.teonvioncollins.ImposterGame.models;
 
-import java.util.List;
-
-import java.util.ArrayList;
+import java.util.*;
 
 public class GameModel {
 
@@ -15,6 +13,14 @@ public class GameModel {
     private String question;
     private int playersLeft;
     private long readyAt = 0;
+    private int totalRounds;
+    private int currentRound = 1;
+    private int groupWins = 0;
+    private int imposterWins = 0;
+
+    private GamePhase phase = GamePhase.WAITING;
+
+    private Map<String, String> votes = new HashMap<>();
 
     public GameModel(int code) {
         this.code = code;
@@ -79,5 +85,136 @@ public class GameModel {
 
     public int playersLeft() {
         return maxPlayers - players.size();
+    }
+
+    public GamePhase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(GamePhase phase) {
+        this.phase = phase;
+    }
+
+    public Map<String, String> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Map<String, String> votes) {
+        this.votes = votes;
+    }
+
+    public Player getImposter() {
+        return players.stream().filter(p -> p.getRole().startsWith("IMPOSTER"))
+                .findFirst().orElse(null);
+    }
+
+    public int correctVotes() {
+        Player imposter = getImposter();
+        if (imposter == null) return 0;
+
+        return (int) votes.values().stream()
+                .filter(votedFor -> votedFor.equals(imposter.getPlayerId()))
+                .count();
+    }
+
+    public int totalVotes() {
+        return votes.size();
+    }
+
+    public int getTotalRounds() {
+        return totalRounds;
+    }
+
+    public void setTotalRounds(int totalRounds) {
+        this.totalRounds = totalRounds;
+    }
+
+    public int getCurrentRound() {
+        return currentRound;
+    }
+
+    public void setCurrentRound(int currentRound) {
+        this.currentRound = currentRound;
+    }
+
+    public int getGroupWins() {
+        return groupWins;
+    }
+
+    public void setGroupWins(int groupWins) {
+        this.groupWins = groupWins;
+    }
+
+    public int getImposterWins() {
+        return imposterWins;
+    }
+
+    public void setImposterWins(int imposterWins) {
+        this.imposterWins = imposterWins;
+    }
+
+    public void scoreRound() {
+        Player imposter = getImposter();
+        if (imposter == null) return;
+
+        long correctCount = votes.values().stream()
+                .filter(v -> v.equals(imposter.getPlayerId()))
+                .count();
+
+        long totalPlayers = players.size();
+        boolean imposterLoses = correctCount > totalPlayers / 2;
+
+        players.forEach(p -> p.setRoundScore(0));
+
+        if (correctCount == 0) {
+            imposter.setRoundScore(5);
+            imposter.addScore(5);
+            imposter.setTotalScore(imposter.getScore());
+            imposterWins++;
+            return;
+        }
+
+        if (!imposterLoses) {
+            imposter.setRoundScore(3);
+            imposter.addScore(3);
+
+            players.stream()
+                    .filter(p -> votes.get(p.getPlayerId()) != null &&
+                            votes.get(p.getPlayerId()).equals(imposter.getPlayerId()) &&
+                            !p.equals(imposter))
+                    .forEach(p -> {
+                        p.setRoundScore(5);
+                        p.addScore(5);
+                    });
+
+            players.forEach(p -> p.setTotalScore(p.getScore()));
+            imposterWins++;
+            return;
+        }
+
+        players.stream()
+                .filter(p -> votes.get(p.getPlayerId()) != null &&
+                        votes.get(p.getPlayerId()).equals(imposter.getPlayerId()) &&
+                        !p.equals(imposter))
+                .forEach(p -> {
+                    p.setRoundScore(5);
+                    p.addScore(5);
+                });
+
+        players.forEach(p -> p.setTotalScore(p.getScore()));
+        groupWins++;
+    }
+
+    public void resetForNextRound() {
+        this.votes.clear();
+        this.imposterAssigned = false;
+        this.category = null;
+        this.question = null;
+        this.phase = GamePhase.WAITING;
+
+        players.forEach(p -> {
+            p.resetRoundScore();
+            p.setRole("INNOCENT 😅");
+        });
     }
 }

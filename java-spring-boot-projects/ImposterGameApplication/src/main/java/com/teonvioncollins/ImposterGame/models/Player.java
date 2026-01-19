@@ -8,6 +8,14 @@ public class Player {
     private String playerId;
     private String role;
 
+    private boolean isHost;
+
+    private int score = 0;
+
+    private int roundScore = 0;
+
+    private int totalScore = 0;
+
     public Player() {}
 
     public Player(String name) {
@@ -40,5 +48,40 @@ public class Player {
         this.role = role;
     }
 
+    public boolean isHost() {
+        return isHost;
+    }
+
+    public void setHost(boolean host) {
+        this.isHost = host;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void addScore(int points) {
+        this.score += points;
+    }
+
+    public int getRoundScore() {
+        return roundScore;
+    }
+
+    public void setRoundScore(int roundScore) {
+        this.roundScore = roundScore;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public void resetRoundScore() {
+        this.roundScore = 0;
+    }
 }
 

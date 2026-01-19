@@ -2,20 +2,24 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>T.C IMPOSTER GAME | HOST & JOIN</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="transition-div">
+<div class="transition-div" id="page">
 <a href="/index"><button type="button" class="host-back-btn" style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">BACK</button></a>
 <div class="background-host-container">
   <a href="/index"><img class="background-host" src="/images/background.png"></a>
 </div>
+  <div class="host-game-code">
 <h3>GAME CODE!</h3>
-<h3 th:text="${code}" style="color: #1892a2; -webkit-text-stroke: 4px #ffffff; text-stroke: 4px #ffffff;"></h3>
+<h3 class="host-code" th:text="${code}"></h3>
+  </div>
+  <div class="background-host-main-container">
 <form action="/host-join" method="post">
-  <div class="join-start-input">
+  <div class="host-start-input">
     <input type="hidden" name="code" th:value="${code}">
   <label>
     <input type="text" name="name" placeholder="Enter Name" required>
@@ -23,9 +27,36 @@
   <label>
     <input type="number" name="maxPlayers" placeholder="Number Of Players?" min="3" max="10" required>
   </label>
+    <label class="round-select-label">
+      Number Of Rounds?
+    <select name="rounds" class="round-select" required>
+      <option value=""></option>
+      <option value="1">1</option>
+      <option value="3">3</option>
+      <option value="5">5</option>
+    </select>
+    </label>
   </div>
+  <div class="join-start-buttons">
   <button type="submit" class="join-start-btn">HOST & JOIN</button>
+  </div>
 </form>
+  </div>
+  <img id="musicToggle" src="/images/music-off.png" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; z-index: 9999;">
+  <audio id="bgMusic" src="/audio/so-right-instrumental.mp3" loop></audio>
+  <script src="bg-music.js"></script>
 </div>
+<script>
+  document.querySelector("form").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const page = document.getElementById("page");
+    page.style.animation = "fadeOut 0.25s ease forwards";
+
+    setTimeout(() => {
+      e.target.submit();
+    }, 250);
+  });
+</script>
 </body>
 </html>

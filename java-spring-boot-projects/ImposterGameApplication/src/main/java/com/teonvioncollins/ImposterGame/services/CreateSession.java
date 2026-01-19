@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class CreateSession {
 
-    Map<Integer, GameModel> sessions = new ConcurrentHashMap<>();
+    private static final Map<Integer, GameModel> sessions = new ConcurrentHashMap<>();
 
     public int createSession() {
         int code = generateRandomCode();
@@ -24,7 +24,7 @@ public class CreateSession {
         return sessions.get(code) ;
     }
 
-    public void lockSession(int code, int maxPlayers) {
+    public void lockSession(int code, int maxPlayers, int totalRounds) {
 
         GameModel session = sessions.get(code);
 
@@ -33,6 +33,7 @@ public class CreateSession {
         }
 
         session.lock(maxPlayers);
+        session.setTotalRounds(totalRounds);
     }
 
     public Player joinSession(int code, String name) {
@@ -48,6 +49,11 @@ public class CreateSession {
         }
 
         Player player = new Player(name);
+
+        if (session.getPlayers().isEmpty()) {
+            player.setHost(true);
+        }
+
         session.addPlayer(player);
 
         if (session.isLocked()

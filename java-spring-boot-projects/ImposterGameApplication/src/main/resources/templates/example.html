@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T.C IMPOSTER GAME | VOTING</title>
+
+    <link rel="stylesheet" href="/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<div class="transition-div">
+
+    <!-- BACK BUTTON -->
+    <a href="/index">
+        <button type="button" class="host-back-btn">
+            BACK
+        </button>
+    </a>
+
+    <!-- GAME CODE -->
+    <h2 class="game-code-gen">
+        Game Code: <span>7537</span>
+    </h2>
+
+    <!-- VOTING CARD -->
+    <div class="submit-vote-container vote-slide-up">
+
+        <h2 style="margin-bottom: 20px;">
+            VOTE FOR THE IMPOSTER!
+            <br>
+            BUT THINK VERY CAREFULLY…
+        </h2>
+
+        <!-- PLAYER OPTIONS -->
+        <form>
+
+            <label class="vote-option">
+                <span>ALEX</span>
+                <input type="radio" name="voteFor">
+            </label>
+
+            <label class="vote-option">
+                <span>BEDA</span>
+                <input type="radio" name="voteFor">
+            </label>
+
+            <label class="vote-option">
+                <span>JORDAN</span>
+                <input type="radio" name="voteFor">
+            </label>
+
+            <label class="vote-option">
+                <span>TAYLOR</span>
+                <input type="radio" name="voteFor">
+            </label>
+
+            <!-- SUBMIT -->
+            <button type="submit" class="vote-btn" style="margin-top: 25px;">
+                VOTE
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- BOTTOM CONTROLS -->
+    <div class="bottom-items">
+
+        <button class="start-btn">
+            START VOTE
+        </button>
+
+        <img
+                id="musicToggle"
+                src="/images/music-off.png"
+                alt="Toggle music"
+        >
+
+        <audio id="bgMusic" loop></audio>
+    </div>
+
+</div>
+</body>
+</html>

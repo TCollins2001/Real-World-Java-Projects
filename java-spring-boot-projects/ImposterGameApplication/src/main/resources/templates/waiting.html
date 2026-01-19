@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>T.C IMPOSTER GAME | WAITING ROOM</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
@@ -12,16 +13,16 @@
   <a href="/index"><img class="background-waiting" src="/images/background.png"></a>
 </div>
 <div class="waiting-container">
-  <h2 th:if="${code != null}" style="background-color: #1892a2; color: white; padding: 10px; display: inline-block; border: 7px solid #ffffff; border-radius: 10px; font-family: 'Luckiest Guy', sans-serif;">
+  <h2 th:if="${code != null}" class="game-code-waiting">
     Game Code: <span th:text="${code}"></span>
   </h2>
   <h3 id="playerCount"></h3>
 
   <ul id="playerList"></ul>
 
-  <p class="start-text" style="color: white; text-align: center; font-size: 25px; padding-top: 30px; font-family: 'Luckiest Guy', sans-serif;">Game Starts When All Players Join</p>
+  <p class="start-text" style="color: white; text-align: center; padding-top: 30px; font-family: 'Luckiest Guy', sans-serif;">Game Starts When All Players Join</p>
 </div>
-<form id="goGenForm" action="/generator" method="post">
+<form id="goGenForm" action="/generator" method="get">
   <input type="hidden" name="code" th:value="${code}">
   <input type="hidden" name="playerId" th:value="${playerId}">
 </form>
@@ -50,14 +51,12 @@
         li.textContent = name;
 
         li.style.backgroundColor = "#1892a2";
-        li.style.fontSize = "30px";
         li.style.padding = "20px";
         li.style.marginBottom = "10px";
         li.style.borderRadius = "10px";
         li.style.border = "7px solid white";
         li.style.color = "white";
         li.style.fontWeight = "bold";
-        li.style.width = "30%";
         li.style.margin = "20px auto";
         li.style.textAlign = "center";
         li.style.display = "block";
@@ -76,6 +75,9 @@
   checkStatus();
   setInterval(checkStatus, 500);
 </script>
+  <img id="musicToggle" src="/images/music-off.png" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; z-index: 9999;">
+  <audio id="bgMusic" src="/audio/so-right-instrumental.mp3" loop></audio>
+  <script src="bg-music.js"></script>
 </div>
 </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T.C IMPOSTER GAME | HOME</title>
     <link rel="stylesheet" href="/styles.css">
     <link
@@ -13,7 +14,7 @@
 </head>
 <body>
 <div class="transition-div">
-<p style="color:gold; font-size: 15px; text-align: center; position: relative; top: 10px;"><span style="text-decoration: underline;">T.C Imposter Game</span> is a multiplayer social deduction game where one player is kept in the dark.
+<p class="index-desc"><span style="text-decoration: underline;">T.C Imposter Game</span> is a multiplayer social deduction game where one player is kept in the dark.
     <br>Join a room, receive a role, and try to uncover the imposter — or survive as one...</p>
 <div class="info-icon-container">
 <i class="fa-sharp fa-solid fa-circle-info" style="color: #ffffff;"></i>
@@ -40,6 +41,9 @@
         <button type="submit" class="join-btn">JOIN</button>
     </form>
 </div>
+    <img id="musicToggle" src="/images/music-off.png" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; z-index: 9999;">
+    <audio id="bgMusic" src="/audio/so-right-instrumental.mp3" loop muted></audio>
+    <script src="bg-music.js"></script>
 </div>
 </body>
 </html>

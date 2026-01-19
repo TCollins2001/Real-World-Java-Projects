@@ -16,13 +16,13 @@ public class HomeController {
         return "host";
     }
 
-    @GetMapping("/generator")
-    public String generator() {
-        return "generator";
-    }
-
     @GetMapping("/join")
     public String join() {
         return "join";
+    }
+
+    @GetMapping("/example")
+    public String example() {
+        return "example";
     }
 }

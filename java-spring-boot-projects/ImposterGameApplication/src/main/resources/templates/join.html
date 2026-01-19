@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>T.C IMPOSTER GAME | JOIN</title>
     <link rel="stylesheet" href="/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
@@ -22,9 +23,15 @@
 <input type="text" name="name" placeholder="Enter Name" required>
 </label>
     </div>
+    <div class="join-start-buttons">
 <button type="submit" class="join-start-btn">JOIN</button>
+    </div>
 </form>
+    </div>
 <h3 th:text="${error}"></h3>
+    <img id="musicToggle" src="/images/music-off.png" style="position: fixed; bottom: 10px; right: 10px; cursor: pointer; z-index: 9999;">
+    <audio id="bgMusic" src="/audio/so-right-instrumental.mp3" loop></audio>
+    <script src="bg-music.js"></script>
 </div>
 </body>
 </html>
