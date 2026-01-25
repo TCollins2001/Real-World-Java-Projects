@@ -28,7 +28,7 @@
 
     <div th:if="${phaseName == 'VOTING' or phaseName == 'REVEAL_READY'}"
          class="submit-vote-container vote-slide-up"
-         style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff; background-color: #1892a2; position: relative; top: 150px; margin: 20px auto; height: 500px; width: 400px; border-radius: 10px; text-align: center; color: white; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;">
+         style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff; background-color: #1892a2; position: relative; top: 100px; margin: 20px auto; border-radius: 10px; text-align: center; color: white; box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;">
 
         <div th:if="${!hasVoted and phaseName == 'VOTING'}">
             <form th:action="@{/submit-vote}" method="post" style="height: 500px;">
@@ -37,19 +37,19 @@
                 <h2 style="color: white; padding-bottom: 20px;">VOTE FOR THE IMPOSTER!<br>BUT THINK VERY CAREFULLY...</h2>
                 <div th:each="p : ${players}" th:if="${p.playerId != playerId}">
                     <label class="vote-option">
-                        <span th:text="${p.name}" style="font-size: 28px;"></span>
+                        <span th:text="${p.name}"></span>
                         <input type="radio" name="voteFor" th:value="${p.playerId}" required>
                     </label>
                 </div>
-                <button type="submit" style="position: relative; top: 20px;" class="vote-btn">VOTE</button>
+                <button type="submit" style="position: relative; top: 20px; font-family: 'Luckiest Guy', sans-serif;" class="vote-btn">VOTE</button>
             </form>
         </div>
 
-        <div th:if="${hasVoted and phaseName == 'VOTING'}" style="height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-            <h2 style="color: white; font-size: 36px; margin-bottom: 30px;">Your vote is in! ✅</h2>
-            <h3 style="color: white; font-size: 28px;">Waiting for other players to vote…</h3>
+        <div th:if="${hasVoted and phaseName == 'VOTING'}" style="height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;" class="host-vote-content">
+            <h2 style="color: white; margin-bottom: 30px;" class="your-vote">Your vote is in! ✅</h2>
+            <h2 style="color: white;" class="waiting-for">Waiting for other players to vote…</h2>
 
-            <div style="font-size: 24px;">
+            <div class="voted-waiting">
                 <div th:each="p : ${players}">
                     <div th:if="${p.playerId != playerId}">
                         <span th:text="${p.name}"></span>:
@@ -65,13 +65,14 @@
              style="height: 500px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            padding: 20px;">
-        <h2 style="color: white; font-size: 36px;">🎉 All votes are in!</h2>
-            <h3 style="color: white; font-size: 28px; text-align: center;">
-                <span th:if="${!isHost}">Waiting for host to reveal the imposter…</span>
-            </h3>
+            padding: 20px;
+            gap: 20px;">
+        <h2 style="color: white;" class="all-votes">🎉 All votes are in!</h2>
+            <h2 style="color: white; text-align: center;">
+                <span th:if="${!isHost}" class="waiting-for">Waiting for host to reveal the imposter…</span>
+            </h2>
 
             <div style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
 
@@ -79,14 +80,14 @@
                 <form th:action="@{/reveal}" method="post">
                     <input type="hidden" name="code" th:value="${code}">
                     <input type="hidden" name="playerId" th:value="${playerId}">
-                    <button type="submit" class="vote-btn" style="font-size: 30px; padding: 15px 40px; background-color: #FFD700; color: white; border-color: white;">
+                    <button type="submit" class="reveal-btn" style="padding: 15px 40px; font-family: 'Luckiest Guy', sans-serif;">
                         REVEAL IMPOSTER!
                     </button>
                     <div style="font-size: 22px;
             background: rgba(255,255,255,0.1);
             padding: 15px;
             border-radius: 10px;
-            margin-top: 10px;">
+            margin-top: 100px;">
                         <p style="margin: 5px 0;" th:if="${votes != null}">
                             Total votes: <span th:text="${votes.size()}"></span>/<span th:text="${players.size()}"></span>
                         </p>
@@ -99,12 +100,10 @@
             </div>
         </div>
 
-                <div th:if="${!isHost}"
-                     style="font-size: 22px;
-            background: rgba(255,255,255,0.1);
+                <div  class="total-votes" th:if="${!isHost}"
+                     style="background: rgba(255,255,255,0.1);
             padding: 15px;
-            border-radius: 10px;
-            margin-top: auto;">
+            border-radius: 10px;">
                     <p style="margin: 5px 0;" th:if="${votes != null}">
                         Total votes: <span th:text="${votes.size()}"></span>/<span th:text="${players.size()}"></span>
                     </p>
@@ -116,8 +115,10 @@
 
     <a th:if="${phaseName == 'REVEAL'}" href="/index"><button type="button" class="host-back-btn" style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">BACK</button></a>
     <div th:if="${phaseName == 'REVEAL'}" class="reveal-card vote-slide-up" style="font-family: 'Luckiest Guy', sans-serif; background-color: #1892a2; border: 5px solid white;">
-        <h2 style="color: white;">IMPOSTER REVEAL:</h2>
-        <h1 style="position: relative; top: -320px;">
+        <h2 class="imposter-r" style="color: white;">IMPOSTER REVEAL:</h2>
+        <h1 class="imposter-name" style="color: #ffffff; text-align: center; -webkit-text-stroke: 4px #0b2b66; text-stroke: 4px #0b2b66; text-shadow:
+        0px 4px 0px #0b2b66,
+        0px 8px 0px rgba(0,0,0,0.35);">
             😏 <span th:text="${imposterName}"></span>!
         </h1>
         <div class="result-table">
@@ -148,26 +149,28 @@
         </div>
         </div>
         <div class="wins-mvps-container">
-        <h2 th:if="${imposterLoses}" style="color: #FF6B6B; margin-top: 30px; text-align: center; font-size: 30px;">IMPOSTER LOSES ❌ Group Wins!</h2>
-        <h2 th:if="${!imposterLoses}" style="color: #FF6B6B; margin-top: 30px; text-align: center; font-size: 30px;">IMPOSTER WINS! 😏 Group Loses</h2>
+            <div class="imposter-group">
+        <h2  th:if="${imposterLoses}" style="color: #32CD32; text-align: center;">IMPOSTER LOSES ❌ Group Wins!</h2>
+        <h2 th:if="${!imposterLoses}" style="color: #FF6B6B; text-align: center;">IMPOSTER WINS! 😏 Group Loses</h2>
+            </div>
             <th:block th:if="${mvps.size() > 0}">
-                <h2 style="color:#FFD700; font-size:30px; text-align:center;">
-                    <span th:text="${mvps.size() == 1 ? 'MVP' : 'MVPs'}"></span> 🏆
-                    <br><br>
+                <span style="color:#FFD700; text-align:center;">
+                    <span class="mvp" th:text="${mvps.size() == 1 ? 'MVP' : 'MVPs'}"></span> 🏆
+                    <br>
 
                     <span th:each="p, iter : ${mvps}">
-            <span th:text="${p.name}" style="color:white;"></span>
+            <h2 th:text="${p.name}" style="color:white;"></h2>
             <span th:if="${iter.last == false and iter.index < mvps.size() - 2}">, </span>
             <span th:if="${iter.index == mvps.size() - 2}"> &amp; </span>
         </span>
-                </h2>
+                </span>
             </th:block>
         </div>
-        <div th:if="${isHost and currentRound < totalRounds}" class="next-round-container">
+        <div th:if="${isHost and currentRound < totalRounds}" class="next-round-container" style="font-family: 'Luckiest Guy', sans-serif;">
             <form th:action="@{/next-round}" method="post">
                 <input type="hidden" name="code" th:value="${code}">
                 <input type="hidden" name="playerId" th:value="${playerId}">
-                <button type="submit" class="vote-btn" style="margin-top: -30px;">
+                <button type="submit" class="vote-btn">
                     NEXT ROUND (Round [[${currentRound + 1}]]) ➜
                 </button>
             </form>
@@ -239,7 +242,7 @@
                 fetch("/phase", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: "code=" + code + "&t=" + Date.now() // Prevent caching
+                    body: "code=" + code + "&t=" + Date.now()
                 })
                 .then(res => {
                     if (!res.ok) throw new Error("Network error");

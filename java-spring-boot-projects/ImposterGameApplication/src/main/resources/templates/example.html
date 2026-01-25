@@ -3,84 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T.C IMPOSTER GAME | VOTING</title>
+    <title>T.C Imposter Game | Reveal</title>
 
-    <link rel="stylesheet" href="/styles.css">
+    <!-- Luckiest Guy -->
     <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
-</head>
 
+    <!-- Optional main stylesheet -->
+    <link rel="stylesheet" href="/styles.css">
+</head>
 <body>
+
 <div class="transition-div">
 
     <!-- BACK BUTTON -->
-    <a href="/index">
-        <button type="button" class="host-back-btn">
+    <a href="#">
+        <button type="button"
+                class="host-back-btn"
+                style="font-family: 'Luckiest Guy', sans-serif; border: 7px solid #ffffff;">
             BACK
         </button>
     </a>
 
-    <!-- GAME CODE -->
-    <h2 class="game-code-gen">
-        Game Code: <span>7537</span>
-    </h2>
+    <!-- REVEAL CARD -->
+    <div class="reveal-card vote-slide-up"
+         style="
+            font-family: 'Luckiest Guy', sans-serif;
+            background-color: #1892a2;
+            border: 5px solid white;
+         ">
 
-    <!-- VOTING CARD -->
-    <div class="submit-vote-container vote-slide-up">
+        <h2 class="imposter-r" style="color: white;">IMPOSTER REVEAL:</h2>
 
-        <h2 style="margin-bottom: 20px;">
-            VOTE FOR THE IMPOSTER!
-            <br>
-            BUT THINK VERY CAREFULLY…
-        </h2>
+        <h1 class="imposter-name" style="
+            color: #ffffff;
+            text-align: center;
+            -webkit-text-stroke: 4px #0b2b66;
+            text-stroke: 4px #0b2b66;
+            text-shadow:
+                0px 4px 0px #0b2b66,
+                0px 8px 0px rgba(0,0,0,0.35);
+        ">
+            😏 Alex!
+        </h1>
 
-        <!-- PLAYER OPTIONS -->
-        <form>
+        <!-- RESULTS TABLE -->
+        <div class="result-table">
 
-            <label class="vote-option">
-                <span>ALEX</span>
-                <input type="radio" name="voteFor">
-            </label>
+            <div class="row header">
+                <div class="cell">Player</div>
+                <div class="cell">Role</div>
+                <div class="cell">Voted For</div>
+                <div class="cell">Round Score</div>
+                <div class="cell">Total Score</div>
+            </div>
 
-            <label class="vote-option">
-                <span>BEDA</span>
-                <input type="radio" name="voteFor">
-            </label>
+            <div class="row">
+                <div class="cell">Alex</div>
+                <div class="cell">Imposter</div>
+                <div class="cell">Mary ❌</div>
+                <div class="cell">0 pts</div>
+                <div class="cell">5 pts</div>
+            </div>
 
-            <label class="vote-option">
-                <span>JORDAN</span>
-                <input type="radio" name="voteFor">
-            </label>
+            <div class="row">
+                <div class="cell">Mary</div>
+                <div class="cell">Civilian</div>
+                <div class="cell">Alex ✅</div>
+                <div class="cell">2 pts</div>
+                <div class="cell">8 pts</div>
+            </div>
 
-            <label class="vote-option">
-                <span>TAYLOR</span>
-                <input type="radio" name="voteFor">
-            </label>
+            <div class="row">
+                <div class="cell">Beda</div>
+                <div class="cell">Civilian</div>
+                <div class="cell">Alex ✅</div>
+                <div class="cell">2 pts</div>
+                <div class="cell">9 pts</div>
+            </div>
 
-            <!-- SUBMIT -->
-            <button type="submit" class="vote-btn" style="margin-top: 25px;">
-                VOTE
+        </div>
+
+        <!-- WIN / LOSE MESSAGE -->
+        <div class="wins-mvps-container">
+
+            <div class="imposter-group">
+                <h2 style="color:#32CD32; text-align:center;">
+                    IMPOSTER LOSES ❌ Group Wins!
+                </h2>
+            </div>
+
+            <!-- MVPs -->
+            <div style="color:#FFD700; text-align:center;">
+                <span class="mvp">MVPs 🏆</span>
+                <h2 style="color:white;">Mary</h2>
+                <h2 style="color:white;">Beda</h2>
+            </div>
+
+        </div>
+
+        <!-- NEXT ROUND BUTTON -->
+        <div class="next-round-container">
+            <button class="vote-btn">
+                NEXT ROUND (Round 2) ➜
             </button>
+        </div>
 
-        </form>
+        <!-- SCROLL INDICATOR -->
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="arrow">▼</div>
+        </div>
 
-    </div>
-
-    <!-- BOTTOM CONTROLS -->
-    <div class="bottom-items">
-
-        <button class="start-btn">
-            START VOTE
-        </button>
-
-        <img
-                id="musicToggle"
-                src="/images/music-off.png"
-                alt="Toggle music"
-        >
-
-        <audio id="bgMusic" loop></audio>
     </div>
 
 </div>
+
 </body>
 </html>
