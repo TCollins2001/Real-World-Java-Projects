@@ -31,6 +31,29 @@ background-size: cover;
 font-family: 'Russo One', sans-serif;
 }
 
+
+.transition-div {
+  animation: contentFade 0.25s ease;
+}
+
+@keyframes contentFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
 .sign-up-div, .sign-in-div {
 display: grid;
 grid-template-columns: 1fr 1fr;
@@ -87,6 +110,90 @@ box-shadow:
 position: relative;
 top: -15px;
 left: 10px;
+}
+
+.envelope-icon {
+position: relative;
+top: 150px;
+width: 200px;
+height: 150px;
+cursor: pointer;
+}
+
+.envelope-icon {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.25),
+    0 12px 25px rgba(0,0,0,0.2);
+}
+
+.envelope-icon:hover {
+  transform: translateY(-6px);
+   box-shadow:
+     0 0 6px  rgba(255,255,255,0.9),
+     0 0 14px rgba(255,255,255,0.7),
+     0 0 28px rgba(255,255,255,0.6),
+     0 12px 25px rgba(0,0,0,0.35);
+}
+
+#closeInviteBtn {
+     cursor: pointer;
+     color: white;
+     font-weight: bold;
+          background-color: #042844;
+}
+
+.chip-input {
+  flex: 1;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 3px solid black;
+  border-radius: 12px;
+  background: white;
+}
+
+.chip-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 120px;
+  font-size: 16px;
+}
+
+.user-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 3px solid black;
+  border-radius: 999px;
+  font-weight: bold;
+}
+
+.user-chip button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.invite-btn {
+  padding: 8px 28px;
+  border-radius: 999px;
+  border: 3px solid black;
+  background: linear-gradient(90deg, #000000, #0b3d91);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+  box-shadow: 0 8px 0 #1b3d6b,
+                      0 10px 14px rgba(0,0,0,0.25);
 }
 
 .sign-up-wrapper, .sign-in-wrapper {
@@ -408,16 +515,26 @@ font-size: 30px;
 nav a {
 position: relative;
 margin: 0 25px;
-color: #ffffff;
+ text-shadow:
+    -1px -1px 0 #ffffff,
+     1px -1px 0 #ffffff,
+    -1px  1px 0 #ffffff,
+     1px  1px 0 #ffffff;
+     color: #042844;
 }
 
 nav a:hover {
-color: #042844;
-transform: translateY(-4px) scale(1.1);
+ text-shadow:
+    -1px -1px 0 #042844,
+     1px -1px 0 #042844,
+    -1px  1px 0 #042844,
+     1px  1px 0 #042844;
+     color: #ffffff;
 }
 
 nav a:last-child:hover {
 color: black;
+text-shadow: none;
 }
 
 nav .login-link,
@@ -429,7 +546,7 @@ nav .welcome-user {
   color: #042844;
   font-weight: bold;
   background-color: white;
-  padding: 15px;
+  padding: 10px;
   border-radius: 10px;
   white-space: nowrap;
   font-size: 25px;
@@ -472,13 +589,29 @@ cursor: pointer;
 background-color: white;
 color: black;
 }
+
 .about-btn {
 background: linear-gradient(90deg, #000000, #0b3d91);
 color: white;
 }
 
-.chat-btn:hover, .about-btn:hover {
+.chat-btn:hover:not(:active), .about-btn:hover:not(:active), .login-link:hover:not(:active), .invite-btn:hover:not(:active) {
 color: #042844;
+transform: translateY(-2px);
+        box-shadow: 0 8px 0 #1b3d6b,
+                    0 10px 14px rgba(0,0,0,0.25);
+                    text-shadow:
+                        -1px -1px 0 #ffffff,
+                         1px -1px 0 #ffffff,
+                        -1px  1px 0 #ffffff,
+                         1px  1px 0 #ffffff;
+}
+
+
+.chat-btn:active, .about-btn:active, .login-link:active, .invite-btn:active {
+transform: translateY(4px);
+    box-shadow: 0 2px 0 #1b3d6b,
+                0 2px 6px rgba(0,0,0,0.2);
 }
 
 .doctor-slideshow {
@@ -747,13 +880,39 @@ color: white;
 }
 
 .invite-badge {
-  position: absolute;
-  top: 185px;
-  right: calc(50% - 90px);
-  width: 14px;
-  height: 14px;
+  position: relative;
+  top: 75px;
+  right: 10px;
+
+  width: 18px;
+  height: 18px;
+
   background: red;
+  color: white;
+
   border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 11px;
+  font-weight: bold;
+
+  box-shadow: 0 0 6px rgba(255,0,0,0.7);
+
+  cursor: pointer;
+}
+
+
+.invite-badge {
+  animation: pulse 1.4s infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
 }
 
 .hidden {
@@ -768,6 +927,7 @@ color: white;
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  color: #062a64;
 }
 
 .invite-modal-content {
@@ -786,6 +946,43 @@ color: white;
 
 .invite-actions button {
   margin: 5px;
+  margin-top: 20px;
+}
+
+.invite-actions button:first-child {
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, #0b3d91, #062a64);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #1b3d6b;
+}
+
+.invite-actions button:last-child {
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 2px solid red;
+  background: red;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Russo One', sans-serif;
+}
+
+.invite-actions button:hover {
+  transform: translateY(-2px);
+}
+
+.invite-actions button:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+
+#closeInviteBtn:hover {
+  background: #0b3d91;
 }
 
 .user-profile-name, .open-chat-count {
@@ -864,14 +1061,12 @@ cursor: pointer;
 .chat-preview {
 width: 800px;
 height: 200px;
-background-color: white;
 position: relative;
     top: 250px;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-bottom: 20px;
     border-radius: 10px;
-color: #062a64;
 cursor: pointer;
 font-family: 'Russo One', sans-serif;
 font-weight: bold;
@@ -879,8 +1074,11 @@ font-size: 30px;
 display: flex;
 justify-content: center;
 align-items: center;
-
-
+background: rgba(0,0,0,0.65);
+  border: 2px solid white;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 .chat-preview-container {
@@ -891,6 +1089,31 @@ align-items: center;
     gap: 20px;
     height: auto;
     margin-top: -600px;
+}
+.chat-preview {
+  position: relative;
+  overflow: hidden;        /* clips sweep to card */
+  border-radius: 20px;     /* match your card radius */
+}
+
+.chat-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(0, 212, 255, 0.35),
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  animation: sweep 380ms ease-out forwards;
+}
+
+@keyframes sweep {
+  to { transform: translateX(120%); }
 }
 
 .chat-tardis {
@@ -907,9 +1130,45 @@ align-items: center;
 
 .delete-chat-btn {
   position: absolute;
-  right: -50px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 16px;
+  right: 16px;        
+  transform: none;
+  z-index: 2;
+}
+
+.chat-message {
+  display: flex;
+  margin: 8px 0;
+}
+
+.chat-message.sent {
+  justify-content: flex-end;
+}
+
+.chat-message.received {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 65%;
+  padding: 10px 14px;
+  border-radius: 18px;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  word-wrap: break-word;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.bubble .username {
+  display: block;
+  font-size: 11px;
+  opacity: 0.85;
+  margin-bottom: 4px;
+}
+
+.chat-message.sent .username {
+  display: none;
 }
 
 
@@ -943,6 +1202,18 @@ width: 80%;
 font-weight: bold;
 }
 
+.invite-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 60%;
+  margin: 40px auto 10px;
+}
+
+.chat-box {
+margin-top: 200px;
+}
+
 .search-container {
 display: flex;
 align-items: center;
@@ -962,7 +1233,6 @@ justify-content: center;
     opacity: 0;
         transform: translateY(-8px);
         pointer-events: none;
-
         transition:
             opacity 0.25s ease,
             transform 0.25s ease;
@@ -991,11 +1261,11 @@ justify-content: center;
 
 
 #userSearch {
-width: 800px;
-height: 50px;
-margin-top: 300px;
-font-size: 20px;
-padding-left: 10px;
+  width: auto;
+  height: 40px;
+  font-size: 18px;
+  padding: 6px 10px;
+  margin: 0;
 }
 
 .chat-box::after {

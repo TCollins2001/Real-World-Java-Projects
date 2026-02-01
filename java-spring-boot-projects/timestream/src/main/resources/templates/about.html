@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
+<div class="transition-div">
 <nav>
   <a href="/index">HOME</a>
   <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -76,5 +77,6 @@
     TimeStream is built to keep things fun, clean, and a little bit <em>wibbly-wobbly</em>.
   </p>
 </section>
+</div>
 </body>
 </html>

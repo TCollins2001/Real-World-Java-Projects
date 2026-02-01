@@ -14,14 +14,15 @@ public class ChatInviteService {
     @Autowired
     private ChatInviteRepo chatInviteRepo;
 
-    public void sendInvite(String fromUser, String toUser) {
+    public void sendInvite(Long chatId, String fromUser, String toUser) {
 
         if (fromUser.equalsIgnoreCase(toUser)) {
             throw new IllegalArgumentException("You cannot invite yourself");
         }
 
         boolean alreadyInvited =
-                chatInviteRepo.existsByFromUserAndToUserAndStatus(
+                chatInviteRepo.existsByChatIdAndFromUserAndToUserAndStatus (
+                        chatId,
                         fromUser,
                         toUser,
                         InviteStatus.PENDING
@@ -32,6 +33,7 @@ public class ChatInviteService {
         }
 
         ChatInvite chatInvite = new ChatInvite();
+        chatInvite.setChatId(chatId);
         chatInvite.setFromUser(fromUser);
         chatInvite.setToUser(toUser);
         chatInvite.setStatus(InviteStatus.PENDING);
@@ -51,6 +53,10 @@ public class ChatInviteService {
         ChatInvite chatInvite = chatInviteRepo.findById(inviteId)
                 .orElseThrow(() -> new RuntimeException("Invite Not Found"));
 
+        if (chatInvite.getStatus() != InviteStatus.PENDING) {
+            throw new IllegalArgumentException("Invite Already Occurred");
+        }
+
         chatInvite.setStatus(InviteStatus.ACCEPTED);
             return chatInviteRepo.save(chatInvite);
         }
@@ -59,3 +65,4 @@ public class ChatInviteService {
         chatInviteRepo.deleteById(inviteId);
     }
 }
+

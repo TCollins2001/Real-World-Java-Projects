@@ -20,4 +20,11 @@ public interface ChatInviteRepo extends JpaRepository<ChatInvite, Long> {
                 String toUser,
                 InviteStatus status
         );
+
+    boolean existsByChatIdAndFromUserAndToUserAndStatus(
+            Long chatId,
+            String fromUser,
+            String toUser,
+            InviteStatus status
+    );
     }

@@ -2,6 +2,7 @@ package com.teonvioncollins.timestream.repositories;
 
 import com.teonvioncollins.timestream.models.ChatSession;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,8 +11,17 @@ import java.util.Optional;
 @Repository
 public interface ChatRepo extends JpaRepository<ChatSession, Long> {
 
-    List<ChatSession> findByUserAOrUserB(String userA, String userB);
+    @Query("""
+        SELECT c FROM ChatSession c
+        JOIN ChatParticipants p ON p.chatId = c.id
+        WHERE p.username = :username
+    """)
+    List<ChatSession> findChatsByUsername(String username);
 
-    Optional<ChatSession> findByUserAAndUserB(String userA, String userB);
-
+    @Query("""
+  select cp.username
+  from ChatParticipants cp
+  where cp.chatId = :chatId
+""")
+    List<String> findParticipants(Long chatId);
 }

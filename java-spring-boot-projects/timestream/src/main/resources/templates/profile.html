@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="profile-body" style="background: none;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -202,5 +203,6 @@ function applyRegenTheme(regen) {
     document.documentElement.style.setProperty("--ui-border", theme.glow);
     }
 </script>
+</div>
 </body>
 </html>

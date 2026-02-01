@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body style="padding-bottom: 20px;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -82,5 +83,6 @@ backBtn.addEventListener('click', () => {
   mainForm.classList.remove('hidden');
 });
 </script>
+</div>
 </body>
 </html>

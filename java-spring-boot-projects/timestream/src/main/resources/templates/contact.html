@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -73,6 +74,6 @@
         </ul>
     </div>
 </div>
-
+</div>
 </body>
 </html>

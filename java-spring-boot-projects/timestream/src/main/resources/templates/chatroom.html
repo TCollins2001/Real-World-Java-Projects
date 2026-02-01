@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -33,9 +34,10 @@
     </div>
     <div class="chatroom-side-panel"></div>
 </div>
-<input type="text" id="messageInput" placeholder="Type Your Message Here...">
+<input type="text" id="messageInput" placeholder="Type Your Message Here..." style="border: 3px solid black;">
 <button type="submit" id="send-btn">SEND</button>
 </div>
 <script src="/chat.js"></script>
+</div>
 </body>
 </html>

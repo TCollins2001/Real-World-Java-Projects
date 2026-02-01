@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="all-chat-body" style="background: none; background: linear-gradient(135deg, #001133, #002966); padding-bottom: 100px;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -22,8 +23,8 @@
   <img src="images/logo.png" alt="website logo" class="logo">
 </a>
 <div class="mail-container" style="display: flex; justify-content: center; align-items: center;" id="inviteEnvelope">
-    <img src="/images/envelope.png" style="width: 200px; height: 150px; position: relative; top: 200px; background-color: white; border-radius: 10px;" class="envelope-icon">
-    <span id="inviteBadge" class="invite-badge hidden"></span>
+    <img src="/images/envelope.png" style="background-color: white; border-radius: 10px;" class="envelope-icon">
+    <span id="inviteBadge" class="invite-badge hidden">0</span>
 </div>
 <div id="inviteModal" class="invite-modal hidden">
     <div class="invite-modal-content">
@@ -33,41 +34,36 @@
     </div>
 </div>
 <div class="chat-box">
-        <div class="search-container">
-            <input type="text"  id="userSearch" autocomplete="off" placeholder="Invite a companion...">
+    <input type="hidden" id="activeChatId" value="">
+        <div class="invite-bar">
+            <div id="chipInput" class="chip-input">
+            <input type="text"  id="userSearch" autocomplete="off" placeholder="Invite companions...">
+                <button id="inviteBtn" class="invite-btn">Invite</button>
+        </div>
         </div>
     <div id="searchResults" class="search-results" style="background-color: white; margin: 20px auto; width: 53%;"></div>
 </div>
 <div id="chatPreviewContainer" class="chat-preview-container"></div>
 <script th:inline="javascript">
     window.addEventListener("DOMContentLoaded", () => {
-        const chats = /*[[${chats}]]*/ [];
-        const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
 
-        chats.forEach(chat => {
-    const otherUser =
-        chat.userA === currentUser ? chat.userB : chat.userA;
-
-    addChatPreview(chat.id, otherUser);
-    });
-    });
-
-    window.addChatPreview = function (id, username) {
-    if (document.querySelector(`.chat-preview[data-id="${id}"]`)) return;
-
+    window.addOrUpdateChatPreview = function (id, displayNames) {
     const box = document.getElementById("chatPreviewContainer");
+    let preview = document.querySelector(`.chat-preview[data-id="${id}"]`);
 
-    const preview = document.createElement("div");
+    if (!preview) {
+    preview = document.createElement("div");
     preview.classList.add("chat-preview");
     preview.dataset.id = id;
 
-      if (username) {
-      preview.innerHTML = `<span style="font-weight:bold;color:#062a64;text-transform:uppercase;font-family: 'Russo One', sans-serif;">You & ${username}</span>`;
-      }
-
-    const inner = document.createElement("div");
-    inner.classList.add("chat-preview-inner");
-    inner.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">`;
+    preview.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">
+    <div class="chat-names" style="
+      font-weight: bold;
+      color: #ffffff;
+      text-transform: uppercase;
+      font-family: 'Russo One', sans-serif;
+    ">
+    </div>`;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-chat-btn");
@@ -77,21 +73,68 @@
     deleteBtn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-
-        const ok = confirm("Are you sure you want to delete this chat?");
-        if (!ok) return;
-
-        deleteChat(id);
+        if (!confirm("Are you sure you want to delete this chat?")) return;
+    deleteChat(id);
     });
 
     preview.addEventListener("click", () => {
         window.location.href = `/chatroom?sessionId=${id}`;
     });
 
-    preview.appendChild(inner);
     preview.appendChild(deleteBtn);
     box.appendChild(preview);
 }
+
+    preview.querySelector(".chat-names").textContent =
+    displayNames || "YOU";
+
+    }
+
+        const chats = /*[[${chats}]]*/ [];
+        const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
+
+        chats.forEach(chat => {
+    const participants = Array.isArray(chat.participants) ? chat.participants : [];
+
+    if (participants.length <= 1) return;
+
+    const displayNames = participants
+      .filter(u => u && u !== currentUser)
+      .join(" • ");
+
+      addOrUpdateChatPreview(chat.id, displayNames);
+
+    });
+
+    async function refreshChatPreviews() {
+  try {
+    const res = await fetch("/chat-previews");
+    const chats = await res.json();
+
+    const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
+
+    chats.forEach(chat => {
+      const participants = Array.isArray(chat.participants)
+        ? chat.participants
+        : [];
+
+      if (participants.length <= 1) return;
+
+      const displayNames = participants
+        .filter(u => u && u !== currentUser)
+        .join(" • ");
+
+      addOrUpdateChatPreview(chat.id, displayNames);
+    });
+
+  } catch (err) {
+    console.error("Failed to refresh chat previews:", err);
+  }
+}
+    refreshChatPreviews();
+    setInterval(refreshChatPreviews, 3000);
+
+    });
 
 function deleteChat(id) {
     fetch(`/delete-chat-session/${id}`, {
@@ -104,5 +147,6 @@ function deleteChat(id) {
 </script>
 <script src="/search.js"></script>
 <script src="/invite.js"></script>
+</div>
 </body>
 </html>

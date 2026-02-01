@@ -12,6 +12,9 @@ public class ChatInvite {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private Long chatId;
+
     private String fromUser;
     private String toUser;
 
@@ -22,8 +25,8 @@ public class ChatInvite {
 
     public ChatInvite() {}
 
-    public ChatInvite(Long id, String fromUser, String toUser) {
-        this.id = id;
+    public ChatInvite(Long chatId, String fromUser, String toUser) {
+        this.chatId = chatId;
         this.fromUser = fromUser;
         this.toUser = toUser;
     }
@@ -34,6 +37,14 @@ public class ChatInvite {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
     }
 
     public String getFromUser() {

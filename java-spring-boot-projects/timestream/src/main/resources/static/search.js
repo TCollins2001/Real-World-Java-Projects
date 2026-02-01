@@ -1,57 +1,86 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const input = document.getElementById("userSearch");
-    const resultsDiv = document.getElementById("searchResults");
+const searchInput = document.getElementById("userSearch");
+const resultsBox = document.getElementById("searchResults");
+const chipInput = document.getElementById("chipInput");
+const inviteBtn = document.getElementById("inviteBtn");
 
-    if (!input || !resultsDiv) return;
+const selectedUsers = new Set();
 
-    document.addEventListener("click", (event) => {
-        if (
-            !input.contains(event.target) &&
-            !resultsDiv.contains(event.target)
-        ) {
-            resultsDiv.classList.remove("visible");
-            resultsDiv.innerHTML = "";
-        }
+searchInput.addEventListener("input", async () => {
+  const q = searchInput.value.trim();
+
+  if (!q) {
+    resultsBox.innerHTML = "";
+    resultsBox.classList.remove("visible");
+    return;
+  }
+
+  const res = await fetch(`/search-users?q=${q}`);
+  const users = await res.json();
+
+  resultsBox.innerHTML = "";
+
+  users.forEach(u => {
+    if (selectedUsers.has(u)) return;
+
+    const div = document.createElement("div");
+    div.textContent = u;
+    div.classList.add("user-result");
+
+    div.addEventListener("click", () => {
+      addChip(u);
+      searchInput.value = "";
+      resultsBox.innerHTML = "";
+      resultsBox.classList.remove("visible");
     });
 
-    input.addEventListener("input", async () => {
-        const query = input.value.trim();
-        resultsDiv.innerHTML = "";
+    resultsBox.appendChild(div);
+  });
 
-        if (query.length < 2) {
-            resultsDiv.classList.remove("visible");
-            return;
-        }
-
-        const res = await fetch(`/search-users?q=${encodeURIComponent(query)}`);
-        const users = await res.json();
-
-        if (users.length === 0) {
-            resultsDiv.classList.remove("visible");
-            return;
-        }
-
-        users.forEach(username => {
-            const div = document.createElement("div");
-            div.classList.add("user-result");
-            div.textContent = username;
-
-            div.onclick = async () => {
-                await fetch(
-                    `/invite-chat?username=${encodeURIComponent(username)}`,
-                    { method: "POST" }
-                );
-
-                resultsDiv.classList.remove("visible");
-                resultsDiv.innerHTML = "";
-                input.value = "";
-
-                alert(`Invite sent to ${username}`);
-            };
-
-            resultsDiv.appendChild(div);
-        });
-
-        resultsDiv.classList.add("visible");
-    });
+  resultsBox.classList.add("visible");
 });
+
+
+function addChip(username) {
+  if (selectedUsers.has(username)) return;
+  selectedUsers.add(username);
+
+  const chip = document.createElement("div");
+  chip.className = "user-chip";
+  chip.dataset.user = username;
+  chip.innerHTML = `
+    ${username}
+    <button>&times;</button>
+  `;
+
+  chip.querySelector("button").addEventListener("click", () => {
+    selectedUsers.delete(username);
+    chip.remove();
+  });
+
+  chipInput.insertBefore(chip, searchInput);
+}
+
+inviteBtn.addEventListener("click", async () => {
+  let chatId = document.getElementById("activeChatId").value;
+
+  if (selectedUsers.size === 0) return;
+  if (!chatId) {
+    const res = await fetch("/create-chat", { method: "POST" });
+    chatId = await res.json();
+    document.getElementById("activeChatId").value = chatId;
+  }
+
+  for (const user of selectedUsers) {
+    await fetch("/invite-chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `chatId=${chatId}&username=${encodeURIComponent(user)}`
+    });
+  }
+
+  alert("Invite sent. Waiting for acceptance.");
+  selectedUsers.clear();
+  document.querySelectorAll(".user-chip").forEach(c => c.remove());
+});
+
+

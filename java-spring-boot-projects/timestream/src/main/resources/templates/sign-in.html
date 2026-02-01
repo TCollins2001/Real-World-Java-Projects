@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body style="padding-bottom: 20px;">
+<div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
@@ -48,6 +49,7 @@
     <h1>WELCOME BACK TO THE TIMESTREAM!</h1>
     <p>SIGN IN TO JUMP BACK INTO YOUR TIME STREAM.</p>
   </div>
+</div>
 </div>
 </body>
 </html>

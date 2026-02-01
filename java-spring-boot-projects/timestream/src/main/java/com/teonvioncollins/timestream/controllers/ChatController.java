@@ -1,8 +1,12 @@
 package com.teonvioncollins.timestream.controllers;
 
 import com.teonvioncollins.timestream.models.ChatInvite;
+import com.teonvioncollins.timestream.models.ChatParticipants;
 import com.teonvioncollins.timestream.models.ChatSession;
 import com.teonvioncollins.timestream.models.User;
+import com.teonvioncollins.timestream.repositories.ChatInviteRepo;
+import com.teonvioncollins.timestream.repositories.ChatRepo;
+import com.teonvioncollins.timestream.repositories.ParticipantRepo;
 import com.teonvioncollins.timestream.services.ChatInviteService;
 import com.teonvioncollins.timestream.services.ChatService;
 import jakarta.servlet.http.HttpSession;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ChatController {
@@ -21,16 +26,44 @@ public class ChatController {
     @Autowired
     private ChatInviteService chatInviteService;
 
+    @Autowired
+    private ChatRepo chatRepo;
+
+    @Autowired
+    private ParticipantRepo participantRepo;
+
+    @Autowired
+    private ChatInviteRepo chatInviteRepo;
+
     @PostMapping("/create-chat")
     @ResponseBody
-    public Long createChat(@RequestParam String username, HttpSession session) {
-        User currentUser = (User) session.getAttribute("loggedInUser");
-        if (currentUser == null) {
+    public Long createChat(HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
             throw new RuntimeException("Not logged in");
         }
+        ChatSession chat = new ChatSession();
+        chat.setCreatedBy(user.getUsername());
+        chatRepo.save(chat);
 
-        ChatSession chat = chatService.createChat(currentUser.getUsername(), username);
+        participantRepo.save(new ChatParticipants(chat.getId(), user.getUsername()));
+
         return chat.getId();
+    }
+
+    @GetMapping("/chat-previews")
+    @ResponseBody
+    public List<Map<String, Object>> chatPreviews(HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            return List.of();
+        }
+
+            return chatService
+                    .getChatsForUser(user.getUsername())
+                    .stream()
+                    .map(chatService::getChatPreview)
+                    .toList();
     }
 
     @PostMapping("/delete-chat-session/{id}")
@@ -41,33 +74,51 @@ public class ChatController {
 
     @PostMapping("/invite-chat")
     @ResponseBody
-    public void inviteChat(@RequestParam String username, HttpSession session) {
-        User current = (User) session.getAttribute("loggedInUser");
+    public void inviteChat(
+            HttpSession session,
+            @RequestParam Long chatId,
+            @RequestParam String username
+    ) {
+        User from = (User) session.getAttribute("loggedInUser");
 
-        if (current == null) {
+        if (from == null) {
             throw new RuntimeException("Not logged in");
         }
 
-        chatInviteService.sendInvite(current.getUsername(), username);
+        chatInviteService.sendInvite(chatId, from.getUsername(), username);
     }
+
 
     @GetMapping("/pending-invites")
     @ResponseBody
     public List<ChatInvite> getInvites(HttpSession session) {
         User current = (User) session.getAttribute("loggedInUser");
+
+        if (current == null) {
+            return List.of();
+        }
+
         return chatInviteService.getPendingInvites(current.getUsername());
     }
 
+
     @PostMapping("/accept-invite/{inviteId}")
     @ResponseBody
-    public Long acceptInvite(@PathVariable Long inviteId) {
+    public Long acceptInvite(@PathVariable Long inviteId, HttpSession session) {
+
+        User current = (User) session.getAttribute("loggedInUser");
+        if (current == null) {
+            throw new RuntimeException("Not logged in");
+        }
 
         ChatInvite invite = chatInviteService.acceptInvite(inviteId);
 
-        ChatSession chat =
-                chatService.createChat(invite.getFromUser(), invite.getToUser());
+        if(!participantRepo.existsByChatIdAndUsername(invite.getChatId(), current.getUsername())) {
 
-        return chat.getId();
+            participantRepo.save(new ChatParticipants(invite.getChatId(), current.getUsername()));
+        }
+
+        return invite.getChatId();
     }
 
     @PostMapping("/decline-invite/{inviteId}")

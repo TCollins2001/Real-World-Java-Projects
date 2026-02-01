@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class HomeController {
 
@@ -44,8 +47,7 @@ public class HomeController {
             return "redirect:/sign-in";
         }
 
-        int chatCount = chatService
-                .getUsersInChat(user.getUsername())
+        int chatCount = chatService.getChatsForUser(user.getUsername())
                 .size();
 
         model.addAttribute("openChats", chatCount);
@@ -58,8 +60,14 @@ public class HomeController {
         if (user == null) {
             return "redirect:/sign-in";
         }
-        model.addAttribute("chats", chatService.getUsersInChat(user.getUsername()));
-    return "all-chats";
+        List<Map<String, Object>> previews = chatService
+                .getChatsForUser(user.getUsername())
+                .stream()
+                .map(chatService::getChatPreview)
+                .toList();
+
+        model.addAttribute("chats", previews);
+        return "all-chats";
 }
     @GetMapping("/about")
     public String about() {
