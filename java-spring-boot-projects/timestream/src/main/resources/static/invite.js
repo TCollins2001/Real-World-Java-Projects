@@ -64,8 +64,13 @@ async function acceptInvite(id) {
     const res = await fetch(`/accept-invite/${id}`, { method: "POST" });
     const data = await res.json();
     loadInvites();
-    const displayNames = data.participants.join(" • ");
-    addOrUpdateChatPreview(data.chatId, displayNames);
+
+    const participants = data.participants || [];
+    const displayNames = participants.length > 0 ? participants.join(" • ") : "New Chat";
+
+    if (typeof addOrUpdateChatPreview === "function") {
+        addOrUpdateChatPreview(data.chatId || data, displayNames);
+    }
 
   } catch (err) {
     console.error("Failed to accept invite:", err);

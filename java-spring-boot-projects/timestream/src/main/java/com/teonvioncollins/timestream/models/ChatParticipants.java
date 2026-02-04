@@ -20,6 +20,9 @@ public class ChatParticipants {
 
     private LocalDateTime joinedAt = LocalDateTime.now();
 
+    @Column(nullable = false)
+    private boolean active = true;
+
     public ChatParticipants() {}
 
     public ChatParticipants(Long chatId, String username) {
@@ -53,6 +56,14 @@ public class ChatParticipants {
 
     public LocalDateTime getJoinedAt() {
         return joinedAt;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
 }

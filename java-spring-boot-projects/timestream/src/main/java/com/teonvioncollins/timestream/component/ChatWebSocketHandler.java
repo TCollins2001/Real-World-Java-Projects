@@ -2,6 +2,7 @@ package com.teonvioncollins.timestream.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teonvioncollins.timestream.models.MessageModel;
+import com.teonvioncollins.timestream.repositories.MessageRepo;
 import com.teonvioncollins.timestream.repositories.ParticipantRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,27 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Autowired
     private ParticipantRepo participantRepo;
 
+    @Autowired
+    MessageRepo messageRepo;
+
+    public void broadcastSystemMessage(Long chatId, MessageModel msg) {
+        try {
+            String payload = mapper.writeValueAsString(msg);
+            TextMessage textMessage = new TextMessage(payload);
+
+            for (Map.Entry<WebSocketSession, Long> entry : sessionToChat.entrySet()) {
+                WebSocketSession session = entry.getKey();
+                Long sessionChatId = entry.getValue();
+
+                if (session.isOpen() && sessionChatId.equals(chatId)) {
+                    session.sendMessage(textMessage);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error broadcasting system message: " + e.getMessage());
+        }
+    }
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String query = Objects.requireNonNull(session.getUri()).getQuery();
@@ -44,7 +66,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
         String username = URLDecoder.decode(params.get("username"), StandardCharsets.UTF_8);
 
         boolean allowed =
-                participantRepo.existsByChatIdAndUsername(chatId, username);
+                participantRepo.existsByChatIdAndUsernameAndActiveTrue(chatId, username);
 
         if (!allowed) {
             session.close();
@@ -60,12 +82,22 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message)
             throws IOException {
 
-        MessageModel msg =
+        MessageModel incoming =
                 mapper.readValue(message.getPayload(), MessageModel.class);
 
-        Long chatId = msg.getSessionId();
+        Long chatId = incoming.getChatId();
+        String username = incoming.getUsername();
+        String text = incoming.getMessage();
 
-        String jsonMsg = mapper.writeValueAsString(msg);
+
+        if (!participantRepo.existsByChatIdAndUsernameAndActiveTrue(chatId, username)) {
+            return;
+        }
+
+        MessageModel saved = new MessageModel(chatId, username, text);
+        messageRepo.save(saved);
+
+        String jsonMsg = mapper.writeValueAsString(saved);
 
         for (WebSocketSession s : sessionToChat.keySet()) {
             if (s.isOpen() && sessionToChat.get(s).equals(chatId)) {

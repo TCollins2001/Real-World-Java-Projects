@@ -32,8 +32,32 @@
                th:value="${sessionId}">
         <div class="chat-messages" id="messages"></div>
     </div>
-    <div class="chatroom-side-panel"></div>
+    <div class="chatroom-side-panel">
+    <div class="participants-panel">
+        <h3>Chat Participants</h3>
+        <ul id="participantsList"></ul>
+    </div>
+        <div class="chat-preview-panel">
+            <h3>All Chats</h3>
+            <div id="chatPreviewList" class="chat-preview-list"></div>
+        </div>
+        <button id="leaveChatBtn" class="leave-chat-btn">
+            Leave Chat
+        </button>
+    </div>
 </div>
+    <div id="leaveModal" class="delete-modal hidden">
+        <div class="delete-modal-content">
+            <h2>Leave Chat?</h2>
+            <p>
+                You are about to leave this timeline. You won't see new messages unless you are invited back.
+            </p>
+            <div class="delete-actions">
+                <button id="stayBtn">Stay</button>
+                <button id="leaveBtn">Leave</button>
+            </div>
+        </div>
+    </div>
 <input type="text" id="messageInput" placeholder="Type Your Message Here..." style="border: 3px solid black;">
 <button type="submit" id="send-btn">SEND</button>
 </div>

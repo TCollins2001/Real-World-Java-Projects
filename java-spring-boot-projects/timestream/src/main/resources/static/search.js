@@ -3,6 +3,8 @@ const resultsBox = document.getElementById("searchResults");
 const chipInput = document.getElementById("chipInput");
 const inviteBtn = document.getElementById("inviteBtn");
 
+const currentUser = window.CURRENT_USER;
+
 const selectedUsers = new Set();
 
 searchInput.addEventListener("input", async () => {
@@ -20,6 +22,9 @@ searchInput.addEventListener("input", async () => {
   resultsBox.innerHTML = "";
 
   users.forEach(u => {
+
+    if (u === currentUser) return;
+
     if (selectedUsers.has(u)) return;
 
     const div = document.createElement("div");
@@ -41,6 +46,7 @@ searchInput.addEventListener("input", async () => {
 
 
 function addChip(username) {
+if (username === currentUser) return;
   if (selectedUsers.has(username)) return;
   selectedUsers.add(username);
 
@@ -78,7 +84,7 @@ inviteBtn.addEventListener("click", async () => {
     });
   }
 
-  alert("Invite sent. Waiting for acceptance.");
+  inviteSentModal.classList.remove("hidden");
   selectedUsers.clear();
   document.querySelectorAll(".user-chip").forEach(c => c.remove());
 });

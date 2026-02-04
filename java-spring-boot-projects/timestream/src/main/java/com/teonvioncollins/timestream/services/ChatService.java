@@ -40,7 +40,6 @@ public class ChatService {
         return dto;
     }
 
-
     public void deleteChat(Long id) {
         chatRepo.deleteById(id);
     }

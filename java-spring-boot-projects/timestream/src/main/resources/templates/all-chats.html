@@ -26,13 +26,36 @@
     <img src="/images/envelope.png" style="background-color: white; border-radius: 10px;" class="envelope-icon">
     <span id="inviteBadge" class="invite-badge hidden">0</span>
 </div>
-<div id="inviteModal" class="invite-modal hidden">
-    <div class="invite-modal-content">
+<div id="inviteModal" class="delete-modal hidden">
+    <div class="delete-modal-content">
     <h2>Chat Invites</h2>
         <div id="inviteList"></div>
         <button id="closeInviteBtn">×</button>
     </div>
 </div>
+    <div id="deleteModal" class="delete-modal hidden">
+        <div class="delete-modal-content">
+            <h2>Delete Chat?</h2>
+            <p>
+                This will permanently remove the chat and its messages. This action cannot be undone.
+            </p>
+            <div class="delete-actions">
+                <button id="cancelDeleteBtn">Cancel</button>
+                <button id="deleteDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+    <div id="inviteSentModal" class="delete-modal hidden">
+        <div class="delete-modal-content">
+            <h2>Invite Sent!</h2>
+            <p>
+                Your invitation has been sent. Waiting for acceptance.
+            </p>
+            <div class="delete-actions">
+                <button id="inviteOkBtn">Ok</button>
+            </div>
+        </div>
+    </div>
 <div class="chat-box">
     <input type="hidden" id="activeChatId" value="">
         <div class="invite-bar">
@@ -44,105 +67,158 @@
     <div id="searchResults" class="search-results" style="background-color: white; margin: 20px auto; width: 53%;"></div>
 </div>
 <div id="chatPreviewContainer" class="chat-preview-container"></div>
-<script th:inline="javascript">
-    window.addEventListener("DOMContentLoaded", () => {
+    <script th:inline="javascript">
+        window.CURRENT_USER = /*[[${session.loggedInUser.username}]]*/ "";
+    </script>
+    <script th:inline="javascript">
+    let pendingDeleteChatId = null;
+   window.addEventListener("DOMContentLoaded", () => {
 
-    window.addOrUpdateChatPreview = function (id, displayNames) {
-    const box = document.getElementById("chatPreviewContainer");
-    let preview = document.querySelector(`.chat-preview[data-id="${id}"]`);
 
-    if (!preview) {
-    preview = document.createElement("div");
-    preview.classList.add("chat-preview");
-    preview.dataset.id = id;
+   window.addOrUpdateChatPreview = function (id, displayNames) {
+   const box = document.getElementById("chatPreviewContainer");
+   let preview = document.querySelector(`.chat-preview[data-id="${id}"]`);
 
-    preview.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">
-    <div class="chat-names" style="
-      font-weight: bold;
-      color: #ffffff;
-      text-transform: uppercase;
-      font-family: 'Russo One', sans-serif;
-    ">
-    </div>`;
+   if (!preview) {
+   preview = document.createElement("div");
+   preview.classList.add("chat-preview");
+   preview.dataset.id = id;
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-chat-btn");
-    deleteBtn.textContent = "X";
-    deleteBtn.style = "font-weight: bold; color: red; border-color: white; background: white; cursor: pointer;";
+   preview.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">
+   <div class="chat-names" style="
+     font-weight: bold;
+     color: #ffffff;
+     text-transform: uppercase;
+     font-family: 'Russo One', sans-serif;
+   ">
+   </div>`;
 
-    deleteBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (!confirm("Are you sure you want to delete this chat?")) return;
-    deleteChat(id);
-    });
+   const deleteBtn = document.createElement("button");
+   deleteBtn.classList.add("delete-chat-btn");
+   deleteBtn.textContent = "X";
+   deleteBtn.style = "font-weight: bold; color: red; border-color: white; background: white; cursor: pointer;";
 
-    preview.addEventListener("click", () => {
-        window.location.href = `/chatroom?sessionId=${id}`;
-    });
+   deleteBtn.addEventListener("click", (e) => {
+ e.preventDefault();
+ e.stopPropagation();
 
-    preview.appendChild(deleteBtn);
-    box.appendChild(preview);
+     pendingDeleteChatId = id;
+     document.getElementById("deleteModal").classList.remove("hidden");
+   });
+
+   preview.addEventListener("click", () => {
+       window.location.href = `/chatroom?sessionId=${id}`;
+   });
+
+   preview.appendChild(deleteBtn);
+   box.appendChild(preview);
 }
 
-    preview.querySelector(".chat-names").textContent =
-    displayNames || "YOU";
+   preview.querySelector(".chat-names").textContent =
+   displayNames || "YOU";
 
-    }
+   }
 
-        const chats = /*[[${chats}]]*/ [];
-        const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
+       const chats = /*[[${chats}]]*/ [];
+       const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
 
-        chats.forEach(chat => {
-    const participants = Array.isArray(chat.participants) ? chat.participants : [];
+       chats.forEach(chat => {
+   const participants = Array.isArray(chat.participants) ? chat.participants : [];
 
-    if (participants.length <= 1) return;
+   if (participants.length <= 1) return;
 
-    const displayNames = participants
-      .filter(u => u && u !== currentUser)
-      .join(" • ");
+   const displayNames = participants
+     .filter(u => u && u !== currentUser)
+     .join(" • ");
 
-      addOrUpdateChatPreview(chat.id, displayNames);
+     addOrUpdateChatPreview(chat.id, displayNames);
 
+   });
+
+   async function refreshChatPreviews() {
+ try {
+   const res = await fetch("/chat-previews");
+   const chats = await res.json();
+
+   const container = document.getElementById("chatPreviewContainer");
+    const currentChatIds = chats.map(c => c.id.toString());
+
+    document.querySelectorAll('.chat-preview').forEach(el => {
+      if (!currentChatIds.includes(el.dataset.id)) {
+        el.remove();
+      }
     });
 
-    async function refreshChatPreviews() {
-  try {
-    const res = await fetch("/chat-previews");
-    const chats = await res.json();
+   const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
 
-    const currentUser = /*[[${session.loggedInUser.username}]]*/ "";
+   chats.forEach(chat => {
+     const participants = Array.isArray(chat.participants)
+       ? chat.participants
+       : [];
 
-    chats.forEach(chat => {
-      const participants = Array.isArray(chat.participants)
-        ? chat.participants
-        : [];
+     if (participants.length <= 1) return;
 
-      if (participants.length <= 1) return;
+     const displayNames = participants
+       .filter(u => u && u !== currentUser)
+       .join(" • ");
 
-      const displayNames = participants
-        .filter(u => u && u !== currentUser)
-        .join(" • ");
+     addOrUpdateChatPreview(chat.id, displayNames);
+   });
 
-      addOrUpdateChatPreview(chat.id, displayNames);
-    });
+ } catch (err) {
+   console.error("Failed to refresh chat previews:", err);
+ }
+}
+   refreshChatPreviews();
+   setInterval(refreshChatPreviews, 3000);
 
-  } catch (err) {
-    console.error("Failed to refresh chat previews:", err);
+   });
+
+const deleteModal = document.getElementById("deleteModal");
+const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+const deleteDeleteBtn = document.getElementById("deleteDeleteBtn");
+
+cancelDeleteBtn.addEventListener("click", () => {
+ pendingDeleteChatId = null;
+ deleteModal.classList.add("hidden");
+});
+
+deleteDeleteBtn.addEventListener("click", () => {
+ if (!pendingDeleteChatId) return;
+
+ deleteChat(pendingDeleteChatId);
+ pendingDeleteChatId = null;
+ deleteModal.classList.add("hidden");
+});
+
+deleteModal.addEventListener("click", (e) => {
+ if (e.target === deleteModal) {
+   pendingDeleteChatId = null;
+   deleteModal.classList.add("hidden");
+ }
+});
+
+const inviteSentModal = document.getElementById("inviteSentModal");
+const inviteOkBtn = document.getElementById("inviteOkBtn");
+
+inviteOkBtn.addEventListener("click", () => {
+  inviteSentModal.classList.add("hidden");
+});
+
+inviteSentModal.addEventListener("click", (e) => {
+  if (e.target === inviteSentModal) {
+    inviteSentModal.classList.add("hidden");
   }
-}
-    refreshChatPreviews();
-    setInterval(refreshChatPreviews, 3000);
+});
 
-    });
 
 function deleteChat(id) {
-    fetch(`/delete-chat-session/${id}`, {
-        method: "POST"
-    }).then(() => {
-        document.querySelector(`[data-id="${id}"]`)?.remove();
-    });
-    }
+   fetch(`/delete-chat-session/${id}`, {
+       method: "POST"
+   }).then(() => {
+       document.querySelector(`[data-id="${id}"]`)?.remove();
+   });
+   }
 
 </script>
 <script src="/search.js"></script>
