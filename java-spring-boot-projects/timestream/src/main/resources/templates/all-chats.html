@@ -22,10 +22,12 @@
 <a href="/index">
   <img src="images/logo.png" alt="website logo" class="logo">
 </a>
-<div class="mail-container" style="display: flex; justify-content: center; align-items: center;" id="inviteEnvelope">
-    <img src="/images/envelope.png" style="background-color: white; border-radius: 10px;" class="envelope-icon">
+    <div class="invite-envelope-center">
+<div class="mail-container big" id="inviteEnvelope">
+    <img src="/images/envelope.png" class="envelope-icon">
     <span id="inviteBadge" class="invite-badge hidden">0</span>
 </div>
+    </div>
 <div id="inviteModal" class="delete-modal hidden">
     <div class="delete-modal-content">
     <h2>Chat Invites</h2>
@@ -51,13 +53,25 @@
             <p>
                 Your invitation has been sent. Waiting for acceptance.
             </p>
-            <div class="delete-actions">
-                <button id="inviteOkBtn">Ok</button>
+            <label style="display:block; margin-top:10px;">
+                Name this Timeline (optional)
+            </label>
+            <br>
+            <input
+                    type="text"
+                    id="finalChatNameInput"
+                    placeholder="Leave blank to use member names"
+                    style="width:100%; padding:8px; border-radius:8px;"
+            />
+
+            <div class="delete-actions" style="margin-top:15px;">
+                <button id="inviteConfirmBtn">Create</button>
             </div>
         </div>
     </div>
 <div class="chat-box">
     <input type="hidden" id="activeChatId" value="">
+
         <div class="invite-bar">
             <div id="chipInput" class="chip-input">
             <input type="text"  id="userSearch" autocomplete="off" placeholder="Invite companions...">
@@ -75,7 +89,7 @@
    window.addEventListener("DOMContentLoaded", () => {
 
 
-   window.addOrUpdateChatPreview = function (id, displayNames) {
+   window.addOrUpdateChatPreview = function (id, displayNames, customRoomName) {
    const box = document.getElementById("chatPreviewContainer");
    let preview = document.querySelector(`.chat-preview[data-id="${id}"]`);
 
@@ -83,15 +97,19 @@
    preview = document.createElement("div");
    preview.classList.add("chat-preview");
    preview.dataset.id = id;
+   box.appendChild(preview);
+   }
 
-   preview.innerHTML = `<img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">
-   <div class="chat-names" style="
-     font-weight: bold;
-     color: #ffffff;
-     text-transform: uppercase;
-     font-family: 'Russo One', sans-serif;
-   ">
-   </div>`;
+   preview.innerHTML = `
+   <div class="participant-corner">${displayNames}</div>
+   <img src="images/tardis.png" class="chat-tardis" style="width: 60px; height: 60px;">
+   <div class="chat-display-name">
+        ${customRoomName || displayNames}
+    </div>
+   `;
+   preview.onclick = () => {
+    window.location.href = `/chatroom?sessionId=${id}`;
+  };
 
    const deleteBtn = document.createElement("button");
    deleteBtn.classList.add("delete-chat-btn");
@@ -99,24 +117,14 @@
    deleteBtn.style = "font-weight: bold; color: red; border-color: white; background: white; cursor: pointer;";
 
    deleteBtn.addEventListener("click", (e) => {
- e.preventDefault();
- e.stopPropagation();
+   e.preventDefault();
+   e.stopPropagation();
 
      pendingDeleteChatId = id;
      document.getElementById("deleteModal").classList.remove("hidden");
    });
 
-   preview.addEventListener("click", () => {
-       window.location.href = `/chatroom?sessionId=${id}`;
-   });
-
    preview.appendChild(deleteBtn);
-   box.appendChild(preview);
-}
-
-   preview.querySelector(".chat-names").textContent =
-   displayNames || "YOU";
-
    }
 
        const chats = /*[[${chats}]]*/ [];
@@ -131,7 +139,7 @@
      .filter(u => u && u !== currentUser)
      .join(" • ");
 
-     addOrUpdateChatPreview(chat.id, displayNames);
+     addOrUpdateChatPreview(chat.id, displayNames, chat.customRoomName);
 
    });
 
@@ -162,7 +170,7 @@
        .filter(u => u && u !== currentUser)
        .join(" • ");
 
-     addOrUpdateChatPreview(chat.id, displayNames);
+     addOrUpdateChatPreview(chat.id, displayNames, chat.customRoomName);
    });
 
  } catch (err) {
@@ -199,18 +207,12 @@ deleteModal.addEventListener("click", (e) => {
 });
 
 const inviteSentModal = document.getElementById("inviteSentModal");
-const inviteOkBtn = document.getElementById("inviteOkBtn");
-
-inviteOkBtn.addEventListener("click", () => {
-  inviteSentModal.classList.add("hidden");
-});
 
 inviteSentModal.addEventListener("click", (e) => {
   if (e.target === inviteSentModal) {
     inviteSentModal.classList.add("hidden");
   }
 });
-
 
 function deleteChat(id) {
    fetch(`/delete-chat-session/${id}`, {

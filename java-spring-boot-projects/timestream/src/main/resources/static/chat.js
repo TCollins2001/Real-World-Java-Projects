@@ -1,3 +1,5 @@
+window.CURRENT_CHAT_USERS = new Set();
+
 const sendBtn = document.getElementById("send-btn");
 const input = document.getElementById("messageInput");
 const chatMessages = document.getElementById("messages");
@@ -129,17 +131,27 @@ async function loadParticipants() {
 
     participantsList.innerHTML = "";
 
+    window.CURRENT_CHAT_USERS.clear();
+
     users.forEach(u => {
+      if (u.active) {
+          window.CURRENT_CHAT_USERS.add(u.username);
+        }
+
       const li = document.createElement("li");
       li.className = "participant";
+
       if (!u.active) {
         li.innerHTML = `<s>${u.username}</s> <span class="left-label">(left)</span>`;
         li.classList.add("left");
       } else {
-        li.textContent = u.username === username ? `${u.username} (You)` : u.username;
+        li.textContent =
+          u.username === username ? `${u.username} (You)` : u.username;
       }
+
       participantsList.appendChild(li);
     });
+
   } catch (err) {
     console.warn("Participant refresh failed:", err);
   }
@@ -259,3 +271,12 @@ leaveModal.onclick = (e) => {
         leaveModal.classList.add("hidden");
     }
 };
+
+function openInviteModalForExistingChat() {
+  window.EXISTING_CHAT_ID = sessionId;
+  document.getElementById("inviteModal")?.classList.remove("hidden");
+}
+
+document.getElementById("addUserBtn").addEventListener("click", () => {
+  openInviteModalForExistingChat();
+});

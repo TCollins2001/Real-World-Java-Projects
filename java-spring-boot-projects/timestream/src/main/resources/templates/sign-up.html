@@ -5,7 +5,7 @@
     <title>SIGN UP | TIMESTREAM</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
-<body style="padding-bottom: 20px;">
+<body class="default-bg" style="padding-bottom: 20px;">
 <div class="transition-div">
 <nav>
     <a href="/index">HOME</a>
@@ -38,6 +38,10 @@
 
         <label for="email">Email</label>
         <input type="text" name="email" id="email" placeholder="Enter Email" required>
+            <div th:if="${errors != null and errors.containsKey('email')}" style="color: #ff5c5c; font-size: 14px;">
+                <p th:text="${errors['email']}"></p>
+            </div>
+
         <label for="password">Password</label>
         <input type="password" name="password" id="password" placeholder="Enter Password" required>
 
@@ -53,6 +57,9 @@
         <div class="username-form">
             <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="Enter Username" required>
+            <div th:if="${errors != null and errors.containsKey('username')}" class="error-text" style="color: #ff5c5c; font-size: 14px;">
+                <p th:text="${errors['username']}"></p>
+            </div>
             <div class="button-row">
                 <button type="button" class="back-btn">BACK</button>
             <button type="submit" class="submit-btn">SUBMIT</button>
@@ -72,15 +79,37 @@
 const backBtn = document.querySelector('.back-btn');
 const mainForm = document.querySelector('.main-form');
 const usernameForm = document.querySelector('.username-form');
+const mainInputs = mainForm.querySelectorAll('input');
 
 nextBtn.addEventListener('click', () => {
-  mainForm.classList.add('hidden');
-  usernameForm.classList.add('active');
+  let isValid = true;
+
+  mainInputs.forEach(input => {
+    if (!input.checkValidity()) {
+      input.reportValidity();
+      isValid = false;
+    }
+  });
+
+  if (isValid) {
+    mainForm.classList.add('hidden');
+    usernameForm.classList.add('active');
+    mainInputs.forEach(input => input.required = false);
+  }
 });
 
 backBtn.addEventListener('click', () => {
   usernameForm.classList.remove('active');
   mainForm.classList.remove('hidden');
+});
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const usernameError = document.querySelector('.username-form .error-text');
+    if (usernameError && usernameError.innerText.trim() !== "") {
+        mainForm.classList.add('hidden');
+        usernameForm.classList.add('active');
+        mainInputs.forEach(input => input.required = false);
+    }
 });
 </script>
 </div>

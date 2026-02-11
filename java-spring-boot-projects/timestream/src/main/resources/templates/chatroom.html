@@ -19,7 +19,20 @@
     <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
 </span>
 </nav>
-<a href="/index">
+    <div class="nav-envelope-wrap" th:if="${session.loggedInUser != null}">
+        <div class="mail-container small" id="inviteEnvelope">
+            <img src="/images/envelope.png" class="envelope-icon small" alt="invites">
+            <span id="inviteBadge" class="invite-badge hidden">0</span>
+        </div>
+    </div>
+    <div id="inviteModal" class="delete-modal hidden">
+        <div class="delete-modal-content invite-modal-content">
+            <h2>Chat Invites</h2>
+            <div id="inviteList"></div>
+            <button id="closeInviteBtn">×</button>
+        </div>
+    </div>
+    <a href="/index">
     <img src="images/logo.png" alt="website logo" class="logo">
 </a>
 <div class="chatroom-container">
@@ -41,6 +54,40 @@
             <h3>All Chats</h3>
             <div id="chatPreviewList" class="chat-preview-list"></div>
         </div>
+        <div id="inviteModal" class="delete-modal hidden">
+            <div class="invite-modal-content">
+                <h2>Add User To Chat</h2>
+                <div class="invite-bar">
+                    <div id="chipInput" class="chip-input">
+                        <input
+                                type="text"
+                                id="userSearch"
+                                autocomplete="off"
+                                placeholder="Search users..."
+                        />
+                    </div>
+                    <button id="inviteBtn" class="invite-btn invite-center">Invite</button>
+                </div>
+
+                <div id="searchResults" class="search-results"></div>
+
+                <button id="closeInviteBtn">×</button>
+            </div>
+        </div>
+        <div id="inviteSentModal" class="delete-modal hidden">
+            <div class="delete-modal-content">
+                <h2>Invite Sent!</h2>
+                <p>
+                    Your invitation has been sent. Waiting for acceptance.
+                </p>
+                <div class="delete-actions" style="margin-top:15px;">
+                    <button id="okBtn">OK</button>
+                </div>
+            </div>
+        </div>
+        <button id="addUserBtn" class="invite-btn">
+            Add New User
+        </button>
         <button id="leaveChatBtn" class="leave-chat-btn">
             Leave Chat
         </button>
@@ -61,7 +108,12 @@
 <input type="text" id="messageInput" placeholder="Type Your Message Here..." style="border: 3px solid black;">
 <button type="submit" id="send-btn">SEND</button>
 </div>
-<script src="/chat.js"></script>
 </div>
+<script th:inline="javascript">
+    window.CURRENT_USER = /*[[${session.loggedInUser != null ? session.loggedInUser.username : ''}]]*/ "";
+</script>
+<script src="/search.js"></script>
+<script src="/chat.js"></script>
+<script src="/invite.js"></script>
 </body>
 </html>

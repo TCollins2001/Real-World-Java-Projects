@@ -30,6 +30,9 @@ public class User {
     private String cover_pic;
     private String profile_pic;
 
+    @Column(name = "regen_theme")
+    private String regenTheme;
+
     public User() {}
 
     public User(String first_name, String last_name, String email, String password, String username, LocalDateTime createdAt, String cover_pic, String profile_pic) {
@@ -121,5 +124,13 @@ public class User {
 
     public void setProfilePic(String profile_pic) {
         this.profile_pic = profile_pic;
+    }
+
+    public String getRegenTheme() {
+        return regenTheme;
+    }
+
+    public void setRegenTheme(String regenTheme) {
+        this.regenTheme = regenTheme;
     }
 }

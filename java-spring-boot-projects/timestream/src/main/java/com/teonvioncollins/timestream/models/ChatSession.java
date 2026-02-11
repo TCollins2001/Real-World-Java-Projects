@@ -12,12 +12,18 @@ public class ChatSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(nullable = false)
     private String createdBy;
 
+    @Column(nullable = true)
+    private String customRoomName;
 
     public ChatSession() {}
 
@@ -43,5 +49,13 @@ public class ChatSession {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public String getCustomRoomName() {
+        return customRoomName;
+    }
+
+    public void setCustomRoomName(String customRoomName) {
+        this.customRoomName = customRoomName;
     }
 }

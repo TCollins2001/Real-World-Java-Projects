@@ -1,7 +1,12 @@
+document.addEventListener("DOMContentLoaded", () => {
 const searchInput = document.getElementById("userSearch");
 const resultsBox = document.getElementById("searchResults");
 const chipInput = document.getElementById("chipInput");
 const inviteBtn = document.getElementById("inviteBtn");
+
+if (!searchInput || !resultsBox || !chipInput) {
+    return;
+  }
 
 const currentUser = window.CURRENT_USER;
 
@@ -23,9 +28,16 @@ searchInput.addEventListener("input", async () => {
 
   users.forEach(u => {
 
-    if (u === currentUser) return;
+   if (u === currentUser) return;
+   if (selectedUsers.has(u)) return;
 
-    if (selectedUsers.has(u)) return;
+   if (
+     window.EXISTING_CHAT_ID &&
+     window.CURRENT_CHAT_USERS &&
+     window.CURRENT_CHAT_USERS.has(u)
+   ) {
+     return;
+   }
 
     const div = document.createElement("div");
     div.textContent = u;
@@ -46,8 +58,17 @@ searchInput.addEventListener("input", async () => {
 
 
 function addChip(username) {
-if (username === currentUser) return;
+  if (username === currentUser) return;
   if (selectedUsers.has(username)) return;
+
+  if (
+    window.EXISTING_CHAT_ID &&
+    window.CURRENT_CHAT_USERS &&
+    window.CURRENT_CHAT_USERS.has(username)
+  ) {
+    alert(`${username} is already in this chat.`);
+    return;
+  }
   selectedUsers.add(username);
 
   const chip = document.createElement("div");
@@ -65,28 +86,5 @@ if (username === currentUser) return;
 
   chipInput.insertBefore(chip, searchInput);
 }
-
-inviteBtn.addEventListener("click", async () => {
-  let chatId = document.getElementById("activeChatId").value;
-
-  if (selectedUsers.size === 0) return;
-  if (!chatId) {
-    const res = await fetch("/create-chat", { method: "POST" });
-    chatId = await res.json();
-    document.getElementById("activeChatId").value = chatId;
-  }
-
-  for (const user of selectedUsers) {
-    await fetch("/invite-chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `chatId=${chatId}&username=${encodeURIComponent(user)}`
-    });
-  }
-
-  inviteSentModal.classList.remove("hidden");
-  selectedUsers.clear();
-  document.querySelectorAll(".user-chip").forEach(c => c.remove());
 });
-
 

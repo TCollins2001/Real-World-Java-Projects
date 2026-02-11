@@ -19,7 +19,20 @@
     <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
 </span>
 </nav>
-<div class="welcome-message">
+    <div class="nav-envelope-wrap" th:if="${session.loggedInUser != null}">
+        <div class="mail-container small" id="inviteEnvelope">
+            <img src="/images/envelope.png" class="envelope-icon small" alt="invites">
+            <span id="inviteBadge" class="invite-badge hidden">0</span>
+        </div>
+    </div>
+    <div id="inviteModal" class="delete-modal hidden">
+        <div class="delete-modal-content invite-modal-content">
+            <h2>Chat Invites</h2>
+            <div id="inviteList"></div>
+            <button id="closeInviteBtn">×</button>
+        </div>
+    </div>
+    <div class="welcome-message">
 <p class="sweetie">HELLO, SWEETIE...</p>
 <p class="welcome">WELCOME TO THE TIMESTREAM!</p>
 <p class="fan">Every Fan. Chat In Every Timeline.</p>
@@ -138,5 +151,9 @@
     </div>
 </section>
 </div>
+<script th:inline="javascript">
+    window.CURRENT_USER = /*[[${session.loggedInUser?.username}]]*/ "";
+</script>
+<script src="/invite.js"></script>
 </body>
 </html>

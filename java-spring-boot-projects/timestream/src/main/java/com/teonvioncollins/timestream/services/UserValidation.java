@@ -39,32 +39,33 @@ public class UserValidation {
 
         if (u.getEmail() == null || u.getEmail().trim().isEmpty()) {
             errors.put("email", "Email is required.");
-        }
-
-        if (u.getPassword() == null || u.getPassword().trim().isEmpty()) {
-            errors.put("password", "Password is required.");
         } else if (!EMAIL_PATTERN.matcher(u.getEmail()).matches()) {
             errors.put("email", "Invalid email format.");
-        } else if (userExists(u.getUsername())) {
-            errors.put("username", "Username already registered.");
+        } else if (userRepository.findByEmail(u.getEmail()).isPresent()) {
+            errors.put("email", "This email is already in use.");
+        }
+
+        if (u.getUsername() == null || u.getUsername().trim().isEmpty()) {
+            errors.put("username", "Username is required.");
+        } else if (u.getUsername().length() < 3) {
+            errors.put("username", "Username must be at least 3 characters long.");
+        } else if (userRepository.findByUsername(u.getUsername()).isPresent()) {
+            errors.put("username", "That username has already been claimed by another traveler.");
         }
 
         if (u.getPassword() == null || u.getPassword().trim().isEmpty()) {
             errors.put("password", "Password is required.");
-        } else if (u.getConfirmPassword() == null || u.getConfirmPassword().trim().isEmpty()) {
+        } else if (!PASSWORD_PATTERN.matcher(u.getPassword()).matches()) {
+            errors.put("password", "Password must be at least 6 characters and contain 1 uppercase letter.");
+        }
+
+        if (u.getConfirmPassword() == null || u.getConfirmPassword().trim().isEmpty()) {
             errors.put("confirmPassword", "Please confirm your password.");
         } else if (!u.getPassword().equals(u.getConfirmPassword())) {
             errors.put("confirmPassword", "Passwords do not match.");
         }
+
         logger.info("Password: {}, Confirm: {}", u.getPassword(), u.getConfirmPassword());
-
-        if (u.getPassword() != null && !PASSWORD_PATTERN.matcher(u.getPassword()).matches()) {
-            errors.put("password", "Password must be at least 6 characters and contain 1 uppercase letter.");
-        }
-
-        if (u.getUsername() != null && u.getUsername().length() < 3) {
-            errors.put("username", "Username must be at least 3 characters long.");
-        }
 
         if (errors.isEmpty()) {
             logger.info("User validation passed for email: {}", u.getEmail());

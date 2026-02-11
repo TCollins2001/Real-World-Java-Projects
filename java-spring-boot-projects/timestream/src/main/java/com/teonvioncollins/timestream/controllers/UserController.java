@@ -1,8 +1,12 @@
 package com.teonvioncollins.timestream.controllers;
 
+import com.teonvioncollins.timestream.models.LoginHistory;
 import com.teonvioncollins.timestream.models.User;
+import com.teonvioncollins.timestream.repositories.LoginRepo;
+import com.teonvioncollins.timestream.repositories.UserRepo;
 import com.teonvioncollins.timestream.services.UserService;
 import com.teonvioncollins.timestream.services.UserValidation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LoginRepo loginRepo;
+
+    @Autowired
+    private UserRepo userRepo;
+
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user, Model model, HttpSession session) {
         Map<String, String> errors = userValidation.validateRegistration(user);
@@ -46,16 +56,40 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute User user, Model model, HttpSession session) {
+    public String loginUser(@ModelAttribute User user, Model model, HttpSession session, HttpServletRequest request) {
         Map<String, String> errors = userValidation.validateLogin(user);
 
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip != null && ip.contains(",")) {
+            ip = ip.split(",")[0].trim();
+        }
+        if (ip == null || ip.isEmpty()) {
+            ip = request.getRemoteAddr();
+        }
+
         if (!errors.isEmpty()) {
+            LoginHistory failed = new LoginHistory();
+            failed.setUser(userValidation.findByUsername(user.getUsername()));
+            failed.setIpAddress(ip);
+            failed.setUserAgent(request.getHeader("User-Agent"));
+            failed.setSuccess(false);
+
+            loginRepo.save(failed);
+
             model.addAttribute("errors", errors);
             return "sign-in";
         }
 
-        User dbUser = userValidation.findByUsername(user.getUsername());
+        User dbUser = userRepo.findByUsername(user.getUsername()).orElseThrow();
         session.setAttribute("loggedInUser", dbUser);
+
+        LoginHistory entry = new LoginHistory();
+        entry.setUser(dbUser);
+        entry.setIpAddress(ip);
+        entry.setUserAgent(request.getHeader("User-Agent"));
+        entry.setSuccess(true);
+
+        loginRepo.save(entry);
 
         return "redirect:/all-chats";
     }

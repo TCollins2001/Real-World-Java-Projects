@@ -18,33 +18,46 @@
  --border-regeneration: #062a64;
 }
 
-body.profile-body {
-    background-color: var(--bg-regeneration) !important;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background:
-    radial-gradient(
-      circle at center,
-      rgba(80, 140, 255, 0.15),
-      rgba(0, 0, 40, 0.85) 70%
-    );
-  z-index: -1;
+:root {
+  --regen-accent: #062a64;
 }
 
 body {
-margin: 0;
-padding: 0;
-min-height: 100vh;
-background: url("images/doctor-who-bg.jpg") no-repeat center center fixed;
-background-size: cover;
-font-family: 'Russo One', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Russo One', sans-serif;
 }
 
+
+body.default-bg {
+  background: url("images/doctor-who-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+body.profile-body {
+  background-color: var(--bg-base, #000);
+  background-image: var(--bg-pattern);
+  background-repeat: repeat;
+  background-size: auto;
+  background-attachment: fixed;
+}
+
+body.default-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(80, 140, 255, 0.15),
+    rgba(0, 0, 40, 0.85) 70%
+  );
+  z-index: -1;
+}
+
+
 .transition-div {
+position: relative;
   animation: contentFade 0.25s ease;
 }
 
@@ -125,12 +138,10 @@ left: 10px;
 }
 
 .envelope-icon {
-position: relative;
-top: 150px;
-width: 200px;
-height: 150px;
-cursor: pointer;
+  position: relative;
+  cursor: pointer;
 }
+
 
 .envelope-icon {
   transition:
@@ -151,10 +162,24 @@ cursor: pointer;
 }
 
 #closeInviteBtn {
-     cursor: pointer;
-     color: white;
-     font-weight: bold;
-          background-color: #042844;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: white;
+  color: #042844;
+
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+
+  z-index: 10;
 }
 
 .chip-input {
@@ -186,6 +211,7 @@ cursor: pointer;
   border: 3px solid black;
   border-radius: 999px;
   font-weight: bold;
+  color: #042844;
 }
 
 .user-chip button {
@@ -208,7 +234,22 @@ cursor: pointer;
                       0 10px 14px rgba(0,0,0,0.25);
 }
 
-.sign-up-wrapper, .sign-in-wrapper {
+#addUserBtn {
+   margin-top: auto;
+   margin-bottom: 12px;
+
+   padding: 10px;
+   border-radius: 10px;
+
+   border: 2px solid #82b1ff;
+   background: rgba(130,177,255,0.15);
+   color: white;
+
+   font-weight: bold;
+   cursor: pointer;
+ }
+
+.sign-in-wrapper, .sign-up-wrapper {
   display:flex;
   height: 100%;
   align-items:center;
@@ -325,9 +366,16 @@ transform: translateX(40px);
 pointer-events: none;
 }
 
+.main-form.hidden, .username-form:not(.active) {
+    display: none;
+}
+
 .button-row {
-display: flex;
-gap: 10px;
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+    width: 100%;
 }
 
 
@@ -469,6 +517,50 @@ background: rgba(255, 255, 255, 0.9);
   font-size: 14px;
 }
 
+.invite-center {
+  align-self: center;
+  margin-top: 10px;
+  padding: 10px 26px;
+  font-size: 16px;
+}
+
+.search-results {
+  background: #ffffff;
+  border-radius: 6px;
+  margin-top: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.user-result {
+  padding: 10px 14px;
+  color: #042844;
+  cursor: pointer;
+}
+
+.user-result:hover {
+  background: #e6f0ff;
+}
+
+.add-user-btn {
+  margin-top: auto;
+  margin-bottom: 12px;
+
+  padding: 10px;
+  border-radius: 10px;
+
+  border: 2px solid #82b1ff;
+  background: rgba(130,177,255,0.15);
+  color: white;
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.add-user-btn:hover {
+  background: rgba(130,177,255,0.3);
+}
+
 .leave-chat-btn {
   margin-top: auto;
   padding: 10px;
@@ -603,7 +695,7 @@ font-size: 30px;
   text-align: center;
 }
 
-.contact-extra{
+.contact-extra {
   margin-top: 22px;
   background: rgba(0,0,0,0.45);
   border-radius: 16px;
@@ -834,11 +926,11 @@ color: #82b1ff;
 
 .cover-container {
 position: absolute;
-top: 90px;
+top: 80px;
 width: 100%;
 height: 300px;
 z-index: 1;
-border: 10px solid var(--border-regeneration);
+border: 20px solid var(--border-regeneration);
 border-right: none;
 border-left: none;
 }
@@ -854,7 +946,14 @@ border-left: none;
     overflow: hidden;
     cursor: pointer;
     z-index: 3;
-    background-color: #062a64;
+}
+
+.avatar-container {
+  background-color: var(--regen-accent);
+}
+
+.avatar-container {
+  border: 4px solid var(--regen-accent);
 }
 
 .avatar-overlay {
@@ -967,15 +1066,11 @@ position: absolute;
     background-color: #062a64;
         border-radius: 10px;
         padding: 8px;
-        background-color: var(--ui-bg);
-            border: 2px solid var(--ui-border);
-            color: var(--ui-text);
+        background-color: var(--regen-accent);
+          border: 2px solid var(--regen-accent);
 }
 
 .open-chat-count {
-    background-color: var(--ui-bg);
-    border: 2px solid var(--ui-border);
-    color: var(--ui-text);
     position: absolute;
     top: 337px;
     left: 50%;
@@ -985,37 +1080,89 @@ position: absolute;
     font-weight: bold;
     border-radius: 10px;
     padding: 8px;
+    background-color: var(--regen-accent);
+      border: 2px solid var(--regen-accent);
+      color: white;
 }
 
 .open-chat-count a {
 color: white;
 }
 
-.invite-badge {
+.mail-container.big {
+   display: inline-flex;
+   width: fit-content;
+   justify-content: center;
+   align-items: center;
   position: relative;
-  top: 75px;
-  right: 10px;
+    top: 140px;
+}
 
-  width: 18px;
-  height: 18px;
+.invite-envelope-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
 
+.envelope-icon {
+  background-color: white;
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.invite-badge {
+  width: 10px;
+  height: 10px;
   background: red;
   color: white;
-
   border-radius: 50%;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-size: 11px;
   font-weight: bold;
-
   box-shadow: 0 0 6px rgba(255,0,0,0.7);
+  cursor: pointer;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 999px;
+    z-index: 1300;
+}
 
+.nav-envelope-wrap {
+  position: fixed;
+  top: 22px;
+  right: 550px;
+  z-index: 1200;
+}
+
+.mail-container.small {
+  width: 40px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
+.envelope-icon.small {
+  width: 40px;
+  padding: 4px;
+  background-color: white;
+}
+
+body.all-chat-body .envelope-icon {
+  width: 150px;
+  padding: 8px;
+  top: 4px;
+  right: 4px;
+}
 
 .invite-badge {
   animation: pulse 1.4s infinite;
@@ -1048,6 +1195,8 @@ color: white;
   padding: 25px;
   border-radius: 12px;
   text-align: center;
+  position: relative;
+    z-index: 1;
 }
 
 .invite-item {
@@ -1118,9 +1267,17 @@ border: 2px solid white;
     width: 300px;
     height: 60px;
     padding: 20px;
-    border: 2px solid white;
-    background-color: var(--ui-bg);
-    color: var(--ui-text);
+    background-color: var(--regen-accent);
+      border: 2px solid var(--regen-accent);
+      color: white;
+}
+
+.member-since-info,
+.user-profile-name,
+.open-chat-count {
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--regen-accent) 70%, black),
+    inset 0 0 6px rgba(255,255,255,0.15);
 }
 
 @keyframes regenPulse {
@@ -1149,10 +1306,45 @@ border: 2px solid white;
     color: var(--regen-text);
     font-weight: bold;
     font-size: 16px;
+    margin-bottom: 8px;
 }
 
+.edit-input,
+.password-edit,
+.password-fields input {
+  background: color-mix(in srgb, var(--regen-accent) 18%, white);
 
+  color: #111;
 
+  border: 1px solid color-mix(in srgb, var(--regen-accent) 45%, black);
+
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--regen-accent) 60%, black),
+    inset 0 0 6px rgba(255,255,255,0.25);
+
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.edit-input.editing,
+.edit-input:focus,
+.password-fields input:focus {
+  background: color-mix(in srgb, var(--regen-accent) 28%, white);
+
+  border-color: var(--regen-accent);
+
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--regen-accent) 80%, black),
+    inset 0 0 8px rgba(255,255,255,0.3);
+
+  outline: none;
+}
+
+.edit-input.readonly {
+  background: color-mix(in srgb, var(--regen-accent) 12%, white);
+}
 
 
 /* all-chats page */
@@ -1174,7 +1366,7 @@ cursor: pointer;
 width: 800px;
 height: 200px;
 position: relative;
-    top: 250px;
+    top: -290px;
     left: 50%;
     transform: translate(-50%, -50%);
     margin-bottom: 20px;
@@ -1193,19 +1385,50 @@ background: rgba(0,0,0,0.65);
   box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
+.participant-corner {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    max-width: 60%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chat-display-name {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: 'Russo One', sans-serif;
+    margin-top: 10px;
+}
+
+.edit-name-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 40px;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
+
 .chat-preview-container {
     width: 60%;
     margin: 40px auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    height: auto;
-    margin-top: -600px;
 }
 .chat-preview {
   position: relative;
-  overflow: hidden;        /* clips sweep to card */
-  border-radius: 20px;     /* match your card radius */
+  overflow: hidden;
+  border-radius: 20px;
 }
 
 .chat-preview::after {
@@ -1243,7 +1466,7 @@ background: rgba(0,0,0,0.65);
 .delete-chat-btn {
   position: absolute;
   top: 16px;
-  right: 16px;        
+  right: 16px;
   transform: none;
   z-index: 2;
 }
@@ -1259,7 +1482,7 @@ background: rgba(0,0,0,0.65);
   z-index: 3000;
 }
 
-.delete-modal-content {
+.delete-modal-content, .invite-modal-content {
   width: 420px;
   padding: 28px;
   border-radius: 18px;
@@ -1478,8 +1701,14 @@ display: block;
 position: relative;
 top: 200px;
 float: right;
-right: 12px;
+right: 50px;
 margin-top: 5px;
+cursor: pointer;
+font-family: 'Russo One', sans-serif;
+background-color: white;
+padding: 20px;
+border-radius: 20px;
+color: white;
 }
 
 select {
@@ -1493,11 +1722,312 @@ select {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    font-family: 'Russo One', sans-serif;
 }
 
 select option {
     background-color: #062a64;
     color: white;
     font-weight: bold;
+    cursor: pointer;
 }
+
+.profile-main {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.personal-info {
+margin-top: 200px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 16px;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+background-color: white;
+border-radius: 10px;
+padding: 20px;
+width: 800px;
+height: auto;
+}
+
+.security-info {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 16px;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+background-color: white;
+border-radius: 10px;
+padding: 20px;
+width: 800px;
+height: auto;
+}
+
+.info-row {
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.info-row label {
+margin-bottom: 8px;
+font-size: 20px;
+}
+
+.field {
+  width: 600px;
+}
+
+.input-wrap {
+  gap: 8px;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  font-family: inherit;
+  transition: border 0.2s, background 0.2s;
+}
+
+.edit-input.readonly {
+  background: color-mix(in srgb, var(--regen-accent) 12%, white);
+  color: #222;
+  border-color: color-mix(in srgb, var(--regen-accent) 35%, black);
+  cursor: default;
+}
+
+.edit-input.editing {
+  background: color-mix(in srgb, var(--regen-accent) 28%, white);
+  border-color: var(--regen-accent);
+  cursor: text;
+}
+
+.personal-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.7;
+  font-size: 16px;
+}
+
+.personal-edit-btn:hover {
+  opacity: 1;
+}
+
+.personal-save-btn {
+  background: #0b3d91;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.personal-save-btn:hover {
+  filter: brightness(1.1);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.password-edit {
+  background: color-mix(in srgb, var(--regen-accent) 12%, white);
+  color: #333;
+  cursor: default;
+  font-size: 20px;
+  width: 600px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--regen-accent) 35%, black);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--regen-accent) 60%, black),
+    inset 0 0 6px rgba(255,255,255,0.25);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+#changePasswordBtn {
+margin-top: 8px;
+background: #0b3d91;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.password-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.password-fields input {
+font-size: 15px;
+      width: 300px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      background: color-mix(in srgb, var(--regen-accent) 18%, white);
+      border: 1px solid color-mix(in srgb, var(--regen-accent) 40%, black);
+      color: #111;
+      box-shadow:
+      0 0 10px color-mix(in srgb, var(--regen-accent) 55%, black),
+      inset 0 0 6px rgba(255,255,255,0.25);
+}
+
+.password-fields input:focus {
+  background: color-mix(in srgb, var(--regen-accent) 28%, white);
+  border-color: var(--regen-accent);
+
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--regen-accent) 80%, black),
+    inset 0 0 8px rgba(255,255,255,0.3);
+
+  outline: none;
+}
+
+.password-fields input:last-child {
+margin-bottom: 20px;
+}
+
+.info-row:last-child {
+margin-top: 45px;
+}
+
+.login-history-list {
+    width: 180%;
+    max-width: 600px;
+    max-height: 220px;
+    overflow-y: auto;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    padding: 8px;
+    margin-top: 6px;
+}
+
+.login-entry {
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.login-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.login-date {
+    font-weight: bold;
+}
+
+.login-status.success {
+    color: #4CAF50;
+}
+
+.login-status.fail {
+    color: #E53935;
+}
+
+.login-meta {
+    margin-top: 4px;
+    font-size: 12px;
+    opacity: 0.85;
+}
+
+.login-agent {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.personal-info,
+.security-info,
+.login-history {
+  border-radius: 12px;
+  padding: 20px;
+  background-clip: padding-box;
+}
+
+.doctor-appearance {
+  position: absolute;
+  top: calc(300px + 290px);
+  right: 50px;
+  width: 260px;
+  height: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 900;
+  opacity: 0;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.doctor-appearance img {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+}
+
+.doctor-appearance.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.doctor-appearance.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.doctor-appearance.fade-out {
+  opacity: 0;
+  right: -340px;
+}
+
+.doctor-appearance::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at center,
+    rgba(255,255,255,0.25),
+    transparent 60%
+  );
+  opacity: 0.35;
+}
+
+.delete-account-btn {
+font-size: 20px;
+border-radius: 10px;
+width: 600px;
+background-color: red;
+color: white;
+cursor: pointer;
+padding: 10px;
+border: 2px solid white;
+margin-bottom: 20px;
+}
+
 

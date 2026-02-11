@@ -111,6 +111,34 @@ public class ChatController {
         chatInviteService.sendInvite(chatId, from.getUsername(), username);
     }
 
+    @PostMapping("/send-invite")
+    @ResponseBody
+    @Transactional
+    public Long sendInvite(@RequestBody InviteRequest request, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) {
+            throw new RuntimeException("Not logged in");
+        }
+
+        List<String> invitees = request.getInvitees();
+
+        ChatSession chat = new ChatSession();
+        chat.setCreatedBy(user.getUsername());
+        chat.setCustomRoomName(null);
+        chatRepo.save(chat);
+
+        participantRepo.save(new ChatParticipants(chat.getId(), user.getUsername()));
+
+        for (String invitee : invitees) {
+            try {
+                chatInviteService.sendInvite(chat.getId(), user.getUsername(), invitee);
+            } catch (Exception e) {
+                System.err.println("Invite failed for " + invitee + ": " + e.getMessage());
+            }
+        }
+
+        return chat.getId();
+    }
 
     @GetMapping("/pending-invites")
     @ResponseBody
@@ -135,8 +163,21 @@ public class ChatController {
 
         ChatInvite invite = chatInviteService.acceptInvite(inviteId);
 
-        if (!participantRepo.existsByChatIdAndUsernameAndActiveTrue(invite.getChatId(), current.getUsername())) {
+        boolean wasActive = participantRepo
+                .existsByChatIdAndUsernameAndActiveTrue(invite.getChatId(), current.getUsername());
+
+        if (!wasActive) {
             participantRepo.save(new ChatParticipants(invite.getChatId(), current.getUsername()));
+
+            MessageModel systemMsg = new MessageModel(
+                    invite.getChatId(),
+                    "System",
+                    current.getUsername() + " joined the chat"
+            );
+            systemMsg.setSystem(true);
+
+            messageRepo.save(systemMsg);
+            chatWebSocketHandler.broadcastSystemMessage(invite.getChatId(), systemMsg);
         }
 
         ChatSession chat = chatRepo.findById(invite.getChatId())
@@ -144,6 +185,20 @@ public class ChatController {
 
         return chatService.getChatPreview(chat);
     }
+
+    @PostMapping("/rename-chat")
+    @ResponseBody
+    public void renameChat(
+            @RequestParam Long chatId,
+            @RequestParam(required = false) String name,
+            HttpSession session
+    ) {
+        User user = (User) session.getAttribute("loggedInUser");
+        if (user == null) throw new RuntimeException("Not logged in");
+
+        chatService.updateChatroomName(chatId, name);
+    }
+
 
     @GetMapping("/chat-participants")
     @ResponseBody

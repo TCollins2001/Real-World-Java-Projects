@@ -27,4 +27,6 @@ public interface ParticipantRepo extends JpaRepository<ChatParticipants, Long> {
 
     @Transactional
     void deleteByChatIdAndUsername(Long chatId, String username);
+
+    void deleteByUsername(String username);
 }

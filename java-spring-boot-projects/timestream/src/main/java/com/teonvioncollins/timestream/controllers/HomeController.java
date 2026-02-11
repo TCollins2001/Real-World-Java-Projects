@@ -1,7 +1,10 @@
 package com.teonvioncollins.timestream.controllers;
 
+import com.teonvioncollins.timestream.models.ChatParticipants;
 import com.teonvioncollins.timestream.models.ChatSession;
 import com.teonvioncollins.timestream.models.User;
+import com.teonvioncollins.timestream.repositories.LoginRepo;
+import com.teonvioncollins.timestream.repositories.ParticipantRepo;
 import com.teonvioncollins.timestream.services.ChatService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +21,12 @@ public class HomeController {
 
     @Autowired
     private ChatService chatService;
+
+    @Autowired
+    private ParticipantRepo participantRepo;
+
+    @Autowired
+    private LoginRepo loginRepo;
 
     @GetMapping("/index")
     public String index() {
@@ -47,10 +56,15 @@ public class HomeController {
             return "redirect:/sign-in";
         }
 
-        int chatCount = chatService.getChatsForUser(user.getUsername())
-                .size();
-
+        long chatCount =
+                chatService.countOpenChatsForUser(user.getUsername());
         model.addAttribute("openChats", chatCount);
+
+
+        model.addAttribute(
+                "loginHistory",
+                loginRepo.findTop10ByUserOrderByLoginTimeDesc(user));
+
         return "profile";
     }
 

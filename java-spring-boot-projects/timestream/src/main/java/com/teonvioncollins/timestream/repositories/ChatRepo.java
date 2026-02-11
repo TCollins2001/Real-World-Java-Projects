@@ -1,6 +1,7 @@
 package com.teonvioncollins.timestream.repositories;
 
 import com.teonvioncollins.timestream.models.ChatSession;
+import com.teonvioncollins.timestream.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,7 @@ public interface ChatRepo extends JpaRepository<ChatSession, Long> {
   where cp.chatId = :chatId
 """)
     List<String> findParticipants(Long chatId);
+
+
+    void deleteByOwner(User owner);
 }
