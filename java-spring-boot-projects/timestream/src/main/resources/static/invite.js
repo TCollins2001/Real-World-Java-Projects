@@ -1,21 +1,31 @@
+const isChatroomPage = document.getElementById("addUserModal") !== null;
+
 let inviteInterval;
 
 function openInviteModal() {
   console.log("OPEN fired");
+  if (document.getElementById("addUserModal")) {
+    document.getElementById("addUserModal").classList.remove("hidden");
+    return;
+  }
   clearInterval(inviteInterval);
   loadInvites();
   document.getElementById("inviteModal")?.classList.remove("hidden");
 }
 
+
 function closeInviteModal() {
   console.log("CLOSE fired");
-  document.getElementById("inviteModal")?.classList.add("hidden");
-  window.EXISTING_CHAT_ID = null;
 
-  const searchInput = document.getElementById("userSearch");
-  if (searchInput) {
-    searchInput.value = "";
+  if (isChatroomPage) {
+    document.getElementById("addUserModal")?.classList.add("hidden");
+  } else {
+    document.getElementById("inviteModal")?.classList.add("hidden");
   }
+  window.EXISTING_CHAT_ID = null;
+  const searchInput = document.getElementById("userSearch");
+  if (searchInput) searchInput.value = "";
+
   document.querySelectorAll(".user-chip").forEach(c => c.remove());
 }
 
@@ -154,12 +164,12 @@ if (modal) {
       });
     }
 
-  if (closeBtn) {
-    closeBtn.addEventListener("click", (e) => {
+  document.querySelectorAll("#closeInviteBtn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
       e.stopPropagation();
       closeInviteModal();
     });
-  }
+  });
 
 
 let lastCreatedChatId = null;

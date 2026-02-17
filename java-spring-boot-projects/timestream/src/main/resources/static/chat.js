@@ -274,7 +274,7 @@ leaveModal.onclick = (e) => {
 
 function openInviteModalForExistingChat() {
   window.EXISTING_CHAT_ID = sessionId;
-  document.getElementById("inviteModal")?.classList.remove("hidden");
+  openInviteModal();
 }
 
 document.getElementById("addUserBtn").addEventListener("click", () => {

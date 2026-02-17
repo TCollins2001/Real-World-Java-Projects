@@ -2,23 +2,33 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALL CHATS | TIMESTREAM</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="all-chat-body" style="background: none; background: linear-gradient(135deg, #001133, #002966); padding-bottom: 100px;">
 <div class="transition-div">
-<nav>
-    <a href="/index">HOME</a>
-    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
-    <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
-    <a href="/about">ABOUT</a>
-    <a href="/contact">CONTACT</a>
-    <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
-    <span th:if="${session.loggedInUser != null}" class="welcome-user">
+    <nav>
+        <div class="hamburger" id="hamburgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="/index">HOME</a>
+            <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
+            <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
+            <a href="/about">ABOUT</a>
+            <a href="/contact">CONTACT</a>
+
+            <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+        </div>
+
+        <span th:if="${session.loggedInUser != null}" class="welcome-user">
   Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
     <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
 </span>
-</nav>
+    </nav>
 <a href="/index">
   <img src="images/logo.png" alt="website logo" class="logo">
 </a>
@@ -225,6 +235,7 @@ function deleteChat(id) {
 </script>
 <script src="/search.js"></script>
 <script src="/invite.js"></script>
+<script src="/hamburger.js"></script>
 </div>
 </body>
 </html>

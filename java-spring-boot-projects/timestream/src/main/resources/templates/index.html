@@ -2,18 +2,28 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME | TIMESTREAM</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="index-bg" style="background: url('images/index-bg.png') no-repeat; background-size: cover;">
 <div class="transition-div">
 <nav>
+    <div class="hamburger" id="hamburgerBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
     <a href="/index">HOME</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
     <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
     <a href="/about">ABOUT</a>
     <a href="/contact">CONTACT</a>
+
     <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    </div>
+
     <span th:if="${session.loggedInUser != null}" class="welcome-user">
   Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
     <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
@@ -155,5 +165,6 @@
     window.CURRENT_USER = /*[[${session.loggedInUser?.username}]]*/ "";
 </script>
 <script src="/invite.js"></script>
+<script src="/hamburger.js"></script>
 </body>
 </html>

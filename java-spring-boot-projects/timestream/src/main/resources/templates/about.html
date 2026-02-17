@@ -2,23 +2,33 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ABOUT | TIMESTREAM</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: cover;">
+<body class="chat-body" style="background: url('images/chat-bg.jpg'); background-size: 120%;">
 <div class="transition-div">
-<nav>
-  <a href="/index">HOME</a>
-  <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
-  <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
-  <a href="/about">ABOUT</a>
-  <a href="/contact">CONTACT</a>
-  <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
-  <span th:if="${session.loggedInUser != null}" class="welcome-user">
+  <nav>
+    <div class="hamburger" id="hamburgerBtn">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="/index">HOME</a>
+      <a th:href="${session.loggedInUser == null ? '/sign-up' : '/profile'}">PROFILE</a>
+      <a th:href="${session.loggedInUser == null ? '/sign-up' : '/all-chats'}">CHAT</a>
+      <a href="/about">ABOUT</a>
+      <a href="/contact">CONTACT</a>
+
+      <a th:if="${session.loggedInUser == null}" href="/sign-up" class="login-link">SIGN-UP/LOGIN</a>
+    </div>
+
+    <span th:if="${session.loggedInUser != null}" class="welcome-user">
   Welcome,<strong th:text="${session.loggedInUser.username}"></strong>!
     <a href="/logout" class="logout-link" style="color: #042844;">LOG OUT</a>
 </span>
-</nav>
+  </nav>
   <div class="nav-envelope-wrap" th:if="${session.loggedInUser != null}">
     <div class="mail-container small" id="inviteEnvelope">
       <img src="/images/envelope.png" class="envelope-icon small" alt="invites">
@@ -95,5 +105,6 @@
   window.CURRENT_USER = /*[[${session.loggedInUser?.username}]]*/ "";
 </script>
 <script src="/invite.js"></script>
+<script src="/hamburger.js"></script>
 </body>
 </html>
