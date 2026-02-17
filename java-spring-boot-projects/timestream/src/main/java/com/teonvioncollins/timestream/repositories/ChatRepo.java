@@ -26,4 +26,6 @@ public interface ChatRepo extends JpaRepository<ChatSession, Long> {
 
 
     void deleteByOwner(User owner);
+
+    List<ChatSession> findByOwner(User user);
 }

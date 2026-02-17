@@ -1,11 +1,8 @@
 package com.teonvioncollins.timestream.services;
-
-import com.teonvioncollins.timestream.models.ChatParticipants;
+import com.teonvioncollins.timestream.models.ChatSession;
 import com.teonvioncollins.timestream.models.User;
-import com.teonvioncollins.timestream.repositories.ChatRepo;
-import com.teonvioncollins.timestream.repositories.LoginRepo;
-import com.teonvioncollins.timestream.repositories.ParticipantRepo;
-import com.teonvioncollins.timestream.repositories.UserRepo;
+import com.teonvioncollins.timestream.repositories.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,12 @@ public class UserService {
     @Autowired
     private ParticipantRepo participantRepo;
 
+    @Autowired
+    private MessageRepo messageRepo;
+
+    @Autowired
+    private ChatInviteRepo chatInviteRepo;
+
     public List<User> searchAllUsers(String query) {
         return userRepo.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
     }
@@ -42,12 +45,29 @@ public class UserService {
         userRepo.save(user);
     }
 
+    @Transactional
     public void deleteUserById(Long userId) {
         User user = userRepo.findById(userId).orElseThrow();
+        String username = user.getUsername();
+
+        List<ChatSession> ownedChats = chatRepo.findByOwner(user);
+        List<Long> ownedChatIds = ownedChats.stream()
+                .map(ChatSession::getId)
+                .toList();
+
+        if (!ownedChatIds.isEmpty()) {
+            messageRepo.deleteByChatIdIn(ownedChatIds);
+        }
+        messageRepo.deleteByUsername(username);
+
+        chatInviteRepo.deleteByFromUser(username);
+        chatInviteRepo.deleteByToUser(username);
+
+        participantRepo.deleteByUsername(username);
+
+        chatRepo.deleteByOwner(user);
 
         loginRepo.deleteByUser(user);
-        participantRepo.deleteByUsername(user.getUsername());
-        chatRepo.deleteByOwner(user);
 
         userRepo.delete(user);
     }

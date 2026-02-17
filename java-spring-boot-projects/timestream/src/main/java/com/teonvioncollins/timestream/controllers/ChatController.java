@@ -49,10 +49,7 @@ public class ChatController {
         if (user == null) {
             throw new RuntimeException("Not logged in");
         }
-        ChatSession chat = new ChatSession();
-        chat.setCreatedBy(user.getUsername());
-        chatRepo.save(chat);
-
+        ChatSession chat = chatService.createChat(user);
         participantRepo.save(new ChatParticipants(chat.getId(), user.getUsername()));
 
         return chat.getId();
@@ -122,11 +119,7 @@ public class ChatController {
 
         List<String> invitees = request.getInvitees();
 
-        ChatSession chat = new ChatSession();
-        chat.setCreatedBy(user.getUsername());
-        chat.setCustomRoomName(null);
-        chatRepo.save(chat);
-
+        ChatSession chat = chatService.createChat(user);
         participantRepo.save(new ChatParticipants(chat.getId(), user.getUsername()));
 
         for (String invitee : invitees) {

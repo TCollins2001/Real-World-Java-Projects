@@ -5,12 +5,15 @@ import com.teonvioncollins.timestream.models.ChatSession;
 import com.teonvioncollins.timestream.models.MessageModel;
 import com.teonvioncollins.timestream.repositories.ChatRepo;
 import com.teonvioncollins.timestream.repositories.ParticipantRepo;
+import com.teonvioncollins.timestream.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static org.springframework.data.jpa.domain.AbstractAuditable_.createdBy;
 
 @Service
 public class ChatService {
@@ -24,9 +27,10 @@ public class ChatService {
     private static final Logger logger =
             LoggerFactory.getLogger(ChatService.class);
 
-    public ChatSession createChat(String createdBy) {
+    public ChatSession createChat(User owner) {
         ChatSession chat = new ChatSession();
-        chat.setCreatedBy(createdBy);
+        chat.setOwner(owner);
+        chat.setCreatedBy(owner.getUsername());
         return chatRepo.save(chat);
     }
 

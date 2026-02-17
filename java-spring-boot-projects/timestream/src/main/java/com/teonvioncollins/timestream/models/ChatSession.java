@@ -58,4 +58,12 @@ public class ChatSession {
     public void setCustomRoomName(String customRoomName) {
         this.customRoomName = customRoomName;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

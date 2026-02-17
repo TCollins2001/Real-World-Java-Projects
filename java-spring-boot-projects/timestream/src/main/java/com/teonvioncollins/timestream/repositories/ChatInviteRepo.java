@@ -27,4 +27,7 @@ public interface ChatInviteRepo extends JpaRepository<ChatInvite, Long> {
             String toUser,
             InviteStatus status
     );
-    }
+
+    void deleteByFromUser(String username);
+    void deleteByToUser(String username);
+}
