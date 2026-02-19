@@ -20,11 +20,37 @@ const protocol = location.protocol === "https:" ? "wss" : "ws";
 let socket;
 
 function connectSocket() {
-  if (socket) socket.close();
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    return; // already connected ✅
+  }
 
   socket = new WebSocket(
     `${protocol}://${location.host}/chat?sessionId=${sessionId}&username=${encodeURIComponent(username)}`
   );
+
+  let heartbeat;
+
+  socket.onopen = () => {
+    console.log("WebSocket connected");
+
+    heartbeat = setInterval(() => {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: "ping" }));
+      }
+    }, 30000);
+  };
+
+  socket.onclose = () => {
+    console.warn("WebSocket closed. Reconnecting...");
+    clearInterval(heartbeat);
+    socket = null;
+    setTimeout(connectSocket, 1000);
+  };
+
+  socket.onerror = (err) => {
+    console.warn("WebSocket error:", err);
+    socket.close();
+  };
 
   socket.onmessage = (event) => {
     const msgData = JSON.parse(event.data);
@@ -98,6 +124,12 @@ function generateRandomGradient(seed) {
 
 function sendMessage() {
   if (!input.value.trim()) return;
+
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    console.warn("Socket not open. Reconnecting...");
+    connectSocket();
+    return;
+  }
 
   socket.send(JSON.stringify({
     username,
