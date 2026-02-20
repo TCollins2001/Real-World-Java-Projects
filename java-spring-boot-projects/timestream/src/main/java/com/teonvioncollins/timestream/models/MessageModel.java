@@ -1,9 +1,11 @@
 package com.teonvioncollins.timestream.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "message_model")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageModel {
 
     @Id
