@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LIST | T.C TODO</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="add-task-container">
+  <form action="/add-task" method="post" class="add-form">
+    <label>ADD TASKS</label>
+    <input type="text" name="taskName" placeholder="Enter Task">
+    <button type="submit" class="add-btn">ADD</button>
+  </form>
+</div>
+<div class="list-container">
+  <div th:each="item, stat : ${items}" class="task-row">
+    <h3 th:text="${stat.count + '. ' + item.taskName}"></h3>
+    <form action="/delete-task" method="post" class="delete-form">
+      <input type="hidden" name="id" th:value="${item.id}">
+      <button type="submit" class="delete-btn">DELETE</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
