@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Library Book Manager</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background: #f6f7fb;
+    }
+
+    .card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+        box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+
+    h1 {
+        margin: 0 0 8px;
+    }
+
+    .muted {
+        color: #666;
+        margin-top: 0;
+    }
+
+    .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+    }
+
+    input, button, select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+    }
+
+    input, select {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    button {
+        cursor: pointer;
+        border: none;
+        background: #1f6feb;
+        color: white;
+        padding: 10px 14px;
+    }
+
+    .danger {
+        background: #e11d48;
+    }
+
+    .secondary {
+        background: #444;
+    }
+
+    .success {
+        background: #16a34a;
+    }
+
+    .summary {
+        display: flex;
+        gap: 12px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+    }
+
+    .pill {
+        background: #eef2ff;
+        padding: 10px 12px;
+        border-radius: 999px;
+        font-weight: 600;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 12px 10px;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        color: #444;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .status-available {
+        color: #16a34a;
+        font-weight: 700;
+    }
+
+    .status-borrowed {
+        color: #e11d48;
+        font-weight: 700;
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    form.inline {
+        display: inline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Library Book Manager</h1>
+  <p class="muted">Add books, track availability, and manage borrowing records.</p>
+
+  <h3>Add Book</h3>
+  <form action="/add-book" method="post" class="row">
+    <input type="text" name="title" placeholder="Book Title" required>
+    <input type="text" name="author" placeholder="Author" required>
+    <button type="submit">Add Book</button>
+  </form>
+  <div class="summary">
+    <div class="pill" th:text="'Total Books: ' + ${totals}"></div>
+  </div>
+  <h3 style="margin-top: 24px;">Book Collection</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Status</th>
+      <th class="right">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td th:text="${book.title}"></td>
+      <td th:text="${book.author}"></td>
+
+      <td>
+        <span th:if="${book.available}" class="status-available">Available</span>
+        <span th:unless="${book.available}" class="status-borrowed">Borrowed</span>
+      </td>
+
+      <td class="right">
+        <div class="actions">
+          <form action="/delete-book" method="post" class="inline">
+            <input type="hidden" name="id" th:value="${book.id}">
+            <button type="submit" class="danger">Delete</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

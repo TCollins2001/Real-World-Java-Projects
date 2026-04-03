@@ -7,21 +7,60 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-<div class="add-task-container">
-  <form action="/add-task" method="post" class="add-form">
-    <label>ADD TASKS</label>
-    <input type="text" name="taskName" placeholder="Enter Task">
-    <button type="submit" class="add-btn">ADD</button>
-  </form>
-</div>
-<div class="list-container">
-  <div th:each="item, stat : ${items}" class="task-row">
-    <h3 th:text="${stat.count + '. ' + item.taskName}"></h3>
-    <form action="/delete-task" method="post" class="delete-form">
-      <input type="hidden" name="id" th:value="${item.id}">
-      <button type="submit" class="delete-btn">DELETE</button>
-    </form>
-  </div>
-</div>
+<form action="/add-task" method="post">
+  <input type="text" name="taskName" placeholder="Task name" required>
+
+  <select name="priority">
+    <option value="LOW">Low</option>
+    <option value="MEDIUM">Medium</option>
+    <option value="HIGH">High</option>
+  </select>
+
+  <input type="date" name="dueDate" required>
+  <button>Add Task</button>
+</form>
+
+<hr>
+
+
+<table>
+  <tr>
+    <th>Task</th>
+    <th>Priority</th>
+    <th>Status</th>
+    <th>Due Date</th>
+  </tr>
+
+  <tr th:each="task : ${tasks}">
+    <td th:text="${task.taskName}"></td>
+    <td th:text="${task.priority}"></td>
+    <td th:text="${task.status}"></td>
+    <td th:text="${task.dueDate}"></td>
+
+    <td>
+
+      <form action="/complete-task" method="post">
+        <input type="hidden" name="id" th:value="${task.id}">
+        <button>Complete</button>
+      </form>
+
+    </td>
+
+    <td>
+      <a th:href="@{'/edit-task/' + ${task.id}}"><img src="/images/edit-task-btn.png" style="width: 30px; height: 30px;"></a>
+    </td>
+
+    <td>
+
+      <form action="/delete-task" method="post">
+        <input type="hidden" name="id" th:value="${task.id}">
+        <button type="submit">Delete</button>
+      </form>
+    </td>
+
+  </tr>
+
+</table>
+
 </body>
 </html>
