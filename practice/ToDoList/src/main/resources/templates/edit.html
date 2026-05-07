@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <title>Edit Task</title>
+</head>
+<body>
+
+<h2>Edit Task</h2>
+
+<form action="/update-task" method="post">
+
+    <input type="hidden" name="id" th:value="${task.id}">
+
+    <input type="text" name="taskName" th:value="${task.taskName}" required>
+
+    <select name="priority">
+        <option value="LOW" th:selected="${task.priority == 'LOW'}">Low</option>
+        <option value="MEDIUM" th:selected="${task.priority == 'MEDIUM'}">Medium</option>
+        <option value="HIGH" th:selected="${task.priority == 'HIGH'}">High</option>
+    </select>
+
+    <input type="date" name="dueDate" th:value="${task.dueDate}" required>
+
+    <button type="submit">Update Task</button>
+</form>
+
+</body>
+</html>
