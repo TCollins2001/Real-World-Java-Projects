@@ -22,6 +22,22 @@
 
 <hr>
 
+<form action="/list" method="get">
+  <select name="priority">
+    <option value="">All Priorities</option>
+    <option value="LOW">Low</option>
+    <option value="MEDIUM">Medium</option>
+    <option value="HIGH">High</option>
+  </select>
+
+  <select name="status">
+    <option value="">All Statuses</option>
+    <option value="IN_PROGRESS">In Progress</option>
+    <option value="COMPLETE">Complete</option>
+  </select>
+
+  <button type="submit">Apply Filter</button>
+</form>
 
 <table>
   <tr>
@@ -38,6 +54,12 @@
     <td th:text="${task.dueDate}"></td>
 
     <td>
+      <a th:href="@{'/edit-task/' + ${task.id}}"><img src="/images/edit-task-btn.png" style="width: 30px; height: 30px;"></a>
+    </td>
+
+    <td>
+
+    <td>
 
       <form action="/complete-task" method="post">
         <input type="hidden" name="id" th:value="${task.id}">
@@ -47,11 +69,6 @@
     </td>
 
     <td>
-      <a th:href="@{'/edit-task/' + ${task.id}}"><img src="/images/edit-task-btn.png" style="width: 30px; height: 30px;"></a>
-    </td>
-
-    <td>
-
       <form action="/delete-task" method="post">
         <input type="hidden" name="id" th:value="${task.id}">
         <button type="submit">Delete</button>

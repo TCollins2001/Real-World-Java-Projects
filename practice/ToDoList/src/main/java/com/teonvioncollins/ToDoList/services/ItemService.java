@@ -23,22 +23,12 @@ public class ItemService {
         itemRepo.save(new ListModel(taskName, dueDate, priority));
     }
 
-    public List<ListModel> getAllTasks() {
-       return itemRepo.findAll();
+    public void deleteTask(Long id) {
+        itemRepo.deleteById(id);
     }
 
     public ListModel getTaskById(Long id) {
         return itemRepo.findById(id).orElseThrow();
-    }
-
-    public void updateTask(Long id, String taskName, LocalDate dueDate, Priority priority) {
-        ListModel task = itemRepo.findById(id).orElseThrow();
-
-        task.setTaskName(taskName);
-        task.setDueDate(dueDate);
-        task.setPriority(priority);
-
-        itemRepo.save(task);
     }
 
     public void completeTask(Long id) {
@@ -47,7 +37,29 @@ public class ItemService {
         itemRepo.save(listModel);
     }
 
-    public void deleteTask(Long id) {
-        itemRepo.deleteById(id);
+    public void updateTask(Long id, String taskName, LocalDate dueDate, Priority priority) {
+
+        ListModel task = itemRepo.findById(id).orElseThrow();
+        task.setTaskName(taskName);
+        task.setDueDate(dueDate);
+        task.setPriority(priority);
+
+        itemRepo.save(task);
+    }
+
+    public List<ListModel> getTasksByPriorityAndStatus(Priority priority, Status status) {
+        return itemRepo.findByPriorityAndStatus(priority, status);
+    }
+
+    public List<ListModel> getTasksByPriority(Priority priority) {
+        return itemRepo.findByPriority(priority);
+    }
+
+    public List<ListModel> getTasksByStatus(Status status) {
+        return itemRepo.findByStatus(status);
+    }
+
+    public List<ListModel> getAllTasks() {
+        return itemRepo.findAll();
     }
 }

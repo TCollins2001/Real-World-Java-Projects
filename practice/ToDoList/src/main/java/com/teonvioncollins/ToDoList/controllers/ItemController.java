@@ -1,13 +1,9 @@
 package com.teonvioncollins.ToDoList.controllers;
 
-import com.teonvioncollins.ToDoList.models.ListModel;
 import com.teonvioncollins.ToDoList.models.Priority;
 import com.teonvioncollins.ToDoList.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,15 +27,15 @@ public class ItemController {
         return "redirect:/list";
     }
 
-    @PostMapping("/update-task")
-    public String updateTask(@RequestParam Long id, @RequestParam String taskName, @RequestParam LocalDate dueDate, @RequestParam Priority priority) {
-        itemService.updateTask(id, taskName, dueDate, priority);
-        return "redirect:/list";
-    }
-
     @PostMapping("/complete-task")
     public String completeTask(@RequestParam Long id) {
         itemService.completeTask(id);
+        return "redirect:/list";
+    }
+
+    @PostMapping("/update-task")
+    public String updateTask(@RequestParam Long id, @RequestParam String taskName, @RequestParam LocalDate dueDate, @RequestParam Priority priority) {
+        itemService.updateTask(id, taskName, dueDate, priority);
         return "redirect:/list";
     }
 }

@@ -8,6 +8,12 @@ import java.time.LocalDate;
 @Table(name = "todo_db")
 public class ListModel {
 
+    @Enumerated(EnumType.STRING)
+    private Priority priority;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,12 +21,6 @@ public class ListModel {
     private String taskName;
 
     private LocalDate dueDate;
-
-    @Enumerated(EnumType.STRING)
-    private Priority priority;
-
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     public ListModel() {
     }
@@ -38,6 +38,7 @@ public class ListModel {
         this.dueDate = dueDate;
         this.priority = priority;
         this.status = Status.IN_PROGRESS;
+        /* options user set initially, so no status in parameter */
     }
 
     public Long getId() {
